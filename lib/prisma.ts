@@ -5,7 +5,8 @@
 // const prisma = new PrismaClient();
 // export default prisma;
 
-import { PrismaClient } from "@prisma/client";
+// import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@/generated/prisma";
 
 // globalThis: NodeJS global objesi
 // TypeScript için tip belirtiyoruz
