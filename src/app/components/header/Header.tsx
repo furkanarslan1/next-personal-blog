@@ -48,10 +48,10 @@ export default function Header() {
 
       <section id="login" className="hidden md:block">
         <ul className="flex items-center gap-2">
-          <li className="border-r-3 pr-2">
+          <li className=" px-4 py-2 rounded-md bg-white/20  hover:bg-white hover:text-orange-500 transition-all duration-300 cursor-pointer">
             <Link href="sign-up">sign up</Link>
           </li>
-          <li>
+          <li className="px-4 py-2 bg-orange-500 rounded-md hover:bg-white/20 transition-all duration-300 cursor-pointer">
             <Link href="login">sign in</Link>
           </li>
         </ul>
