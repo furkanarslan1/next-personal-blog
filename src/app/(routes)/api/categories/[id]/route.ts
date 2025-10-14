@@ -8,8 +8,11 @@ interface Params {
 
 //********************************* */ only single category get*************************************
 
-export async function GET(request: Request, { params }: Params) {
-  const { id } = params;
+export async function GET(
+  request: Request,
+  context: { params: Promise<{ id: string }> }
+) {
+  const { id } = await context.params;
   try {
     const category = await prisma.category.findUnique({
       where: { id },
@@ -36,8 +39,11 @@ export async function GET(request: Request, { params }: Params) {
 
 //**************************CATEGORY UPDATE*****************************************************
 
-export async function PUT(request: Request, { params }: Params) {
-  const { id } = params;
+export async function PUT(
+  request: Request,
+  context: { params: Promise<{ id: string }> }
+) {
+  const { id } = await context.params;
   try {
     const body = await request.json();
     const { name } = body;
@@ -89,8 +95,11 @@ export async function PUT(request: Request, { params }: Params) {
 
 //************************* DELETE CATEGORY **********************************************************/
 
-export async function DELETE(request: Request, { params }: Params) {
-  const { id } = params;
+export async function DELETE(
+  request: Request,
+  context: { params: Promise<{ id: string }> }
+) {
+  const { id } = await context.params;
   try {
     await prisma.category.delete({
       where: { id },
