@@ -30,7 +30,11 @@ export async function POST(request: Request) {
     }
 
     // for slug create
-    const generateSlug = slugify(name, { lower: true, strict: true });
+    const generateSlug = slugify(name, {
+      lower: true,
+      strict: true,
+      locale: "tr",
+    });
 
     // do control is uniqe in database ?
 
