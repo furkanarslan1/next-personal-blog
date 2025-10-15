@@ -1,8 +1,8 @@
 "use client";
 import { addCategoryAction } from "@/actions/categories";
 
-import React, { useEffect, useRef } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import React, { useActionState, useEffect, useRef } from "react";
+import { useFormStatus } from "react-dom";
 import toast from "react-hot-toast";
 
 //form add button situation
@@ -32,7 +32,7 @@ const initialState = {
 };
 
 export default function CategoryForm() {
-  const [state, formAction] = useFormState(addCategoryAction, initialState);
+  const [state, formAction] = useActionState(addCategoryAction, initialState);
   const formRef = useRef<HTMLFormElement>(null);
 
   // if successful clear the input

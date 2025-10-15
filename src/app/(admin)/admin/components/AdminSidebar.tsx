@@ -12,9 +12,9 @@ import Link from "next/link";
 
 export default function AdminSidebar() {
   return (
-    <div>
+    <div className=" rounded-md text-center  text-slate-800">
       <Sheet defaultOpen>
-        <SheetTrigger className="px-4 py-2 bg-orange-500 text-slate-800 rounded-md font-bold cursor-pointer">
+        <SheetTrigger className="px-4 py-2 bg-slate-800 text-white rounded-md font-bold cursor-pointer border-2 border-slate-800">
           Admin Panel
         </SheetTrigger>
         <SheetContent

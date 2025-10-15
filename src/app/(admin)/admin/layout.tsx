@@ -7,8 +7,8 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen">
-      <aside className="p-4">
+    <div className="flex flex-col md:flex-row h-screen">
+      <aside className="p-4 bg-orange-500">
         <AdminSidebar />
       </aside>
       <main className="flex-1">{children}</main>

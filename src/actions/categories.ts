@@ -100,3 +100,59 @@ export async function deleteCategoryAction(slug: string): Promise<FormState> {
 }
 
 /***************************CATEGORY UPDATE ***********************************************************************************/
+
+export async function updateCategoryAction(
+  prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const slug = formData.get("slug") as string;
+  const newName = formData.get("newName") as string;
+
+  if (!slug || !newName || newName.trim() === "") {
+    return { message: "Need a new name", success: false };
+  }
+
+  const trimmedNewName = newName.trim();
+  const newSlug = slugify(trimmedNewName, {
+    lower: true,
+    strict: true,
+    locale: "tr",
+  });
+
+  try {
+    //slug control
+    const existingCategory = await prisma.category.findFirst({
+      where: {
+        OR: [{ name: trimmedNewName }, { slug: newSlug }],
+        NOT: { slug: slug },
+      },
+    });
+
+    if (existingCategory) {
+      return {
+        message: "This name or slug  is used by another category",
+        success: false,
+      };
+    }
+
+    await prisma.category.update({
+      where: { slug: slug },
+      data: {
+        name: trimmedNewName,
+        slug: newSlug,
+      },
+    });
+
+    revalidatePath("/admin/categories");
+    return {
+      message: "Category updated successfully!",
+      success: true,
+    };
+  } catch (error) {
+    console.error("An error occurred while category the updating ", error);
+    return {
+      message: "An error occurred while category the updating ",
+      success: false,
+    };
+  }
+}

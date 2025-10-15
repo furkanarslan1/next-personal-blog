@@ -6,6 +6,7 @@ import { prisma } from "@lib/prisma";
 import { Category } from "@/generated/prisma";
 import CategoryForm from "./components/CategoryForm";
 import DeleteButton from "./components/DeleteButton";
+import EditButton from "./components/EditButton";
 
 async function getCategories(): Promise<Category[]> {
   const categories = await prisma.category.findMany({
@@ -28,13 +29,12 @@ export default async function CategoriesPage() {
             categories.map((cat) => (
               <div
                 key={cat.slug}
-                className="flex flex-col items-center gap-6 border-2 border-orange-500 rounded-md bg-slate-800 text-white p-6 "
+                className="relative flex flex-col items-center gap-6 border-2 border-orange-500 rounded-md bg-slate-800 text-white p-6 "
               >
                 <p>{cat.name}</p>
-                <div className="flex items-center justify-between w-full font-bold text-lg md:text-2xl">
-                  <button className="hover:scale-125 transition-all cursor-pointer duration-300 hover:text-orange-500">
-                    <FaEdit />
-                  </button>
+                <div className="flex items-center justify-between w-full ">
+                  <EditButton name={cat.name} slug={cat.slug} />
+
                   <DeleteButton slug={cat.slug} />
                 </div>
               </div>
