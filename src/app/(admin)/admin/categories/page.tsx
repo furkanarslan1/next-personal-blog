@@ -4,6 +4,7 @@ import { FaEdit } from "react-icons/fa";
 
 import { prisma } from "@lib/prisma";
 import { Category } from "@/generated/prisma";
+import CategoryForm from "./components/CategoryForm";
 
 async function getCategories(): Promise<Category[]> {
   const categories = await prisma.category.findMany({
@@ -20,19 +21,8 @@ export default async function CategoriesPage() {
         <h1 className="text-center border-b-4 border-orange-500 text-2xl font-bold pb-2 mb-12">
           Categories
         </h1>
-        <div className="flex flex-col gap-4 items-center p-4 border-2 rounded-md w-full max-w-sm  border-orange-500 ">
-          <h2 className="border-b-2 ">Add Category</h2>
-          <input
-            type="text"
-            placeholder="add a category"
-            maxLength={20}
-            className="placeholder-gray-500 border-2 border-slate-500 rounded-md px-2 py-1 outline-none w-full placeholder:py-2"
-          />
-          <button className="bg-orange-500 px-4 py-1 w-full rounded-md hover:bg-white hover:text-orange-500 transition-all duration-500 cursor-pointer">
-            Send
-          </button>
-        </div>
-        <section className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <CategoryForm />
+        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 w-full max-w-6xl mx-auto">
           {categories && categories.length > 0 ? (
             categories.map((cat) => (
               <div
