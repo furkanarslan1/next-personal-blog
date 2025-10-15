@@ -15,25 +15,130 @@ datasource db {
 }
 
 
-model User {
-  id String @id @default(cuid())
-  name String 
-  surname String
-  email String @unique
-  password String
-  createdAt DateTime @default(now())
+// model User {
+//   id String @id @default(cuid())
+//   name String 
+//   surname String
+//   email String @unique
+//   password String
+//   createdAt DateTime @default(now())
 
-}
+// }
 
-model Category {
+// model Category {
 
-  id        String   @id @default(cuid()) 
+//   id        String   @id @default(cuid()) 
 
-  name      String   @unique
-  slug      String   @unique
+//   name      String   @unique
+//   slug      String   @unique
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
   
 
+// }
+
+
+
+
+
+model User {
+  id        String    @id @default(cuid())
+  name      String
+  surname   String
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  
+  // Blog yazılarıyla ilişkiler
+  posts     Post[]   // Kullanıcının yazdığı blog yazıları
+  comments  Comment[] // Kullanıcının yaptığı yorumlar
+  likes     Like[]    // Kullanıcının beğendiği yazılar (yeni Like modeli ile)
+}
+
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  slug      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  
+  posts     Post[] // Bu kategoriye ait blog yazıları
+}
+
+// --- Yeni ve Güncellenmiş Post Modeli ---
+model Post {
+  id               String      @id @default(cuid()) // ID tipini String/cuid yapalım
+  title            String
+  content          String      // Blog yazısının ana içeriği
+  excerpt          String?     // Yazının kısa özeti/açıklaması (Home page veya liste görünümleri için)
+  imageUrl         String?     // Kapak görseli
+  slug             String      @unique // URL dostu, benzersiz isim
+  isPublished      Boolean     @default(false) // Yayınlanma durumu
+  viewCount        Int         @default(0)  // Görüntülenme sayısı
+  
+  // SEO Alanları
+  tags             String?     // Etiketler, virgülle ayrılmış bir String olarak tutulabilir.
+  keywords         String?     // SEO anahtar kelimeler
+  metaDescription  String?
+
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  publishedAt      DateTime?   // İlk yayınlanma tarihi
+
+  // İlişkiler
+  // 1. Yazar (Post, User)
+  author           User        @relation(fields: [authorId], references: [id])
+  authorId         String      // Yazarın ID'si
+
+  // 2. Kategori (Post, Category)
+  category         Category?   @relation(fields: [categoryId], references: [id])
+  categoryId       String?     // Kategori ID'si (Category modelinin ID tipi ile uyumlu olmalı)
+  
+  // 3. Yorumlar (Post, Comment)
+  comments         Comment[]
+  
+  // 4. Beğeniler (Post, Like - Yeni ara tablo)
+  likes            Like[]
+}
+
+// --- Yeni İlişki Modelleri: Yorumlar ve Beğeniler ---
+
+// Blog yazısı ile kullanıcı arasındaki 'beğenme' eylemi için ara model
+model Like {
+  id        String   @id @default(cuid())
+  
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+  
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  
+  createdAt DateTime @default(now())
+  
+  // Bir kullanıcının aynı yazıyı birden fazla beğenmesini engellemek için
+  @@unique([postId, userId]) 
+}
+
+// Yorum Modeli
+model Comment {
+  id        String    @id @default(cuid())
+  content   String    
+  
+  // Yorumun hangi yazıya ait olduğu
+  post      Post      @relation(fields: [postId], references: [id])
+  postId    String
+  
+  // Yorumu yapan kullanıcı (Anonim yorumlara izin vermek için opsiyonel olabilir)
+  author    User?     @relation(fields: [authorId], references: [id])
+  authorId  String? 
+  
+  // Yanıtlama sistemi (kendi kendine referans)
+  parent    Comment?  @relation("Reply", fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String?
+  replies   Comment[] @relation("Reply") // Bu yoruma yapılan yanıtlar
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
