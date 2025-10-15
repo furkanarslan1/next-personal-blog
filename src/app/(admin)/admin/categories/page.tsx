@@ -1,10 +1,11 @@
 import React from "react";
-import { FaTrashCan } from "react-icons/fa6";
+
 import { FaEdit } from "react-icons/fa";
 
 import { prisma } from "@lib/prisma";
 import { Category } from "@/generated/prisma";
 import CategoryForm from "./components/CategoryForm";
+import DeleteButton from "./components/DeleteButton";
 
 async function getCategories(): Promise<Category[]> {
   const categories = await prisma.category.findMany({
@@ -34,9 +35,7 @@ export default async function CategoriesPage() {
                   <button className="hover:scale-125 transition-all cursor-pointer duration-300 hover:text-orange-500">
                     <FaEdit />
                   </button>
-                  <button className="hover:scale-110 transition-all cursor-pointer duration-300 hover:text-orange-500">
-                    <FaTrashCan />
-                  </button>
+                  <DeleteButton slug={cat.slug} />
                 </div>
               </div>
             ))

@@ -8,7 +8,7 @@ interface FormState {
   message: string | null;
   success: boolean;
 }
-
+/***************************CATEGORY ADD ***********************************************************************************/
 // get server event and add
 export async function addCategoryAction(
   prevState: FormState,
@@ -69,3 +69,34 @@ export async function addCategoryAction(
     };
   }
 }
+
+/***************************CATEGORY DELETE ***********************************************************************************/
+
+export async function deleteCategoryAction(slug: string): Promise<FormState> {
+  if (!slug) {
+    return {
+      message: "Need a valid slug",
+      success: false,
+    };
+  }
+
+  try {
+    await prisma.category.delete({ where: { slug: slug } });
+
+    //clean the cache and refresh the page
+    revalidatePath("/admin/categories");
+
+    return {
+      message: `Category: ${slug} deleted successfully`,
+      success: true,
+    };
+  } catch (error) {
+    console.error(`Category: ${slug} not deleted`, error);
+    return {
+      message: "An error occurred while deleting the category",
+      success: false,
+    };
+  }
+}
+
+/***************************CATEGORY UPDATE ***********************************************************************************/

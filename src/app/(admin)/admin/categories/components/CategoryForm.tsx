@@ -3,6 +3,7 @@ import { addCategoryAction } from "@/actions/categories";
 
 import React, { useEffect, useRef } from "react";
 import { useFormState, useFormStatus } from "react-dom";
+import toast from "react-hot-toast";
 
 //form add button situation
 const SubmitButton = () => {
@@ -38,11 +39,14 @@ export default function CategoryForm() {
   useEffect(() => {
     if (state.success) {
       formRef.current?.reset();
+      toast.success(state.message || "Category added successfully!");
+    } else if (state.message) {
+      toast.error(state.message);
     }
-  }, [state.success]);
+  }, [state.message]);
 
   //set message color
-  const messageColor = state.success ? "text-green-400" : "text-red-400";
+  // const messageColor = state.success ? "text-green-400" : "text-red-400";
 
   return (
     <div className="flex flex-col gap-4 items-center p-4 border-2 rounded-md w-full max-w-sm border-orange-500">
@@ -62,9 +66,10 @@ export default function CategoryForm() {
         />
         <SubmitButton />
       </form>
-      {state.message && (
-        <p className={`${messageColor} mt-2 text-center`}>{state.message}</p>
-      )}
+      {/* {state.message && (
+        // <p className={`${messageColor} mt-2 text-center`}>{state.message}</p>
+        <p className="mt-2 text-center"> {state.message}</p>
+      )} */}
     </div>
   );
 }
