@@ -1,5 +1,16 @@
-import React from "react";
+import { Category } from "@/generated/prisma";
+import { prisma } from "@lib/prisma";
+import CreateForm from "./components/CreateForm";
 
-export default function page() {
-  return <div>page</div>;
+async function getCategories(): Promise<Category[]> {
+  const categories = await prisma.category.findMany({
+    orderBy: { name: "asc" },
+  });
+  return categories;
+}
+
+export default async function AdminCreatePage() {
+  const categories = await getCategories();
+
+  return <CreateForm categories={categories} />;
 }

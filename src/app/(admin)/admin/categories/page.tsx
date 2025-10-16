@@ -1,7 +1,5 @@
 import React from "react";
 
-import { FaEdit } from "react-icons/fa";
-
 import { prisma } from "@lib/prisma";
 import { Category } from "@/generated/prisma";
 import CategoryForm from "./components/CategoryForm";

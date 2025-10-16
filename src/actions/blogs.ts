@@ -1,5 +1,5 @@
 "use server";
-
+import { blogFormSchema, type BlogFormInputs } from "@/schemas/blogFormSchema";
 import { Prisma, PrismaClient } from "@/generated/prisma";
 import slugify from "slugify";
 
@@ -30,40 +30,74 @@ export async function addBlogAction(
   prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
-  // 1. Veri Alma ve Tip Dönüşümü
-  const data: BlogFormData = {
-    title: formData.get("title") as string, // Form alan adınızı "title" olarak değiştirin
-    content: formData.get("content") as string,
-    excerpt: formData.get("excerpt") as string,
-    imageUrl: formData.get("imageUrl") as string,
-    categoryId: formData.get("categoryId") as string,
-    authorId: admin_cont, // Güvenli yazar ID'si
-    isPublished: formData.get("isPublished") === "on" ? "on" : undefined,
-    tags: formData.get("tags") as string,
-    keywords: formData.get("keywords") as string,
-    metaDescription: formData.get("metaDescription") as string,
-  };
+  // Capturing and validating FormData with Zod
+  const rawData = Object.fromEntries(formData.entries());
 
-  if (!data.title || data.title.trim() === "") {
+  const validatedFields = blogFormSchema.safeParse(rawData);
+
+  //If Verification Fails (Error Messages Come from Zod)
+  if (!validatedFields.success) {
+    const fieldErrors = validatedFields.error.flatten().fieldErrors;
+
+    //
+    const firstErrorKey = Object.keys(
+      fieldErrors
+    )[0] as keyof typeof fieldErrors;
+    const firstErrorMessage = fieldErrors[firstErrorKey]
+      ? fieldErrors[firstErrorKey][0]
+      : "Invalid data.";
+
     return {
-      message: "Title field cannot be left blank ",
+      message: firstErrorMessage || "Validation failed.",
       success: false,
     };
   }
 
-  if (!data.content || data.content.trim() === "") {
-    return {
-      message: "Content field cannot be left blank",
-      success: false,
-    };
-  }
+  // Get Verified and Type Safe Data
+  const data = validatedFields.data;
 
-  if (!data.authorId || data.authorId.trim() === "") {
-    return {
-      message: "Author information is missing. Please log in",
-      success: false,
-    };
-  }
+  //
+  //
+  //   if (!data.authorId || data.authorId.trim() === "") {
+  //     return {
+  //       message: "Author information is missing. Please log in",
+  //       success: false,
+  //     };
+  //   }
+
+  //   const data: BlogFormData = {
+  //     title: formData.get("title") as string, // Form alan adınızı "title" olarak değiştirin
+  //     content: formData.get("content") as string,
+  //     excerpt: formData.get("excerpt") as string,
+  //     imageUrl: formData.get("imageUrl") as string,
+  //     categoryId: formData.get("categoryId") as string,
+  //     authorId: admin_cont, // Güvenli yazar ID'si
+  //     isPublished: formData.get("isPublished") === "on" ? "on" : undefined,
+  //     tags: formData.get("tags") as string,
+  //     keywords: formData.get("keywords") as string,
+  //     metaDescription: formData.get("metaDescription") as string,
+  //   };
+
+  //   if (!data.title || data.title.trim() === "") {
+  //     return {
+  //       message: "Title field cannot be left blank ",
+  //       success: false,
+  //     };
+  //   }
+
+  //   if (!data.content || data.content.trim() === "") {
+  //     return {
+  //       message: "Content field cannot be left blank",
+  //       success: false,
+  //     };
+  //   }
+
+  //   if (!data.authorId || data.authorId.trim() === "") {
+  //     return {
+  //       message: "Author information is missing. Please log in",
+  //       success: false,
+  //     };
+  //   }
 
   //create slug
   const newSlug = slugify(data.title, {
@@ -95,7 +129,7 @@ export async function addBlogAction(
         keywords: data.keywords || null,
         metaDescription: data.metaDescription || null,
         publishedAt: publishedAt,
-        author: { connect: { id: data.authorId } },
+        author: { connect: { id: admin_cont } },
         category: categoryConnect,
       },
     });
