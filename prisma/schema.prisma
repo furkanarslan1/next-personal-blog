@@ -15,31 +15,10 @@ datasource db {
 }
 
 
-// model User {
-//   id String @id @default(cuid())
-//   name String 
-//   surname String
-//   email String @unique
-//   password String
-//   createdAt DateTime @default(now())
-
-// }
-
-// model Category {
-
-//   id        String   @id @default(cuid()) 
-
-//   name      String   @unique
-//   slug      String   @unique
-
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-  
-
-// }
-
-
-
+enum Role {
+  USER     
+  ADMIN
+}
 
 
 model User {
@@ -47,14 +26,18 @@ model User {
   name      String
   surname   String
   email     String    @unique
-  password  String
+  hashedPassword String @map("password") // Veritabanında 'password' olarak kalsın, modelde 'hashedPassword' olsun.
+  // Yeni Rol Alanı
+  role      Role      @default(USER) // Varsayılan olarak USER olarak ayarlanır
   createdAt DateTime  @default(now())
-  
   // Blog yazılarıyla ilişkiler
-  posts     Post[]   // Kullanıcının yazdığı blog yazıları
-  comments  Comment[] // Kullanıcının yaptığı yorumlar
-  likes     Like[]    // Kullanıcının beğendiği yazılar (yeni Like modeli ile)
+  posts     Post[]    
+  comments  Comment[]
+  likes     Like[]
 }
+
+
+
 
 
 model Category {
