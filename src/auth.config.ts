@@ -60,7 +60,7 @@ export default {
   },
   pages: {
     signIn: "/login",
-    signOut: "/logout",
+    signOut: "/",
     error: "/login",
     // signIn: "auth/signin",
     // signOut: "auth/signout",

@@ -6,26 +6,19 @@ import Link from "next/link";
 import { RiGridFill } from "react-icons/ri";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-// import { auth } from "@/auth";
-// import { prisma } from "@lib/prisma";
+import { signOut } from "next-auth/react";
 
-// const session = await auth();
-// const user = await prisma.user.findMany({
-//   select: {
-//     id: true,
-//     name: true,
-//     email: true,
-//   },
-// });
-
-export default function Header() {
+export default function Header({ session }: { session: any }) {
   const pathname = usePathname();
   return (
     <nav className="flex items-center justify-around gap-4 px-6 h-16 bg-transparent text-white border-b-1 border-slate-400">
       <section id="brand">
         <div className="flex items-center gap-12">
-          <Link href="/" className="font-bold text-xl md:text-2xl ">
-            Personal-Blog
+          <Link
+            href="/"
+            className="font-bold text-transparent bg-gradient-to-r bg-clip-text from-orange-500  to-slate-300 text-xl md:text-2xl "
+          >
+            Personal Blog
           </Link>
 
           <div>
@@ -59,13 +52,25 @@ export default function Header() {
 
       <section id="login" className="hidden md:block">
         <ul className="flex items-center gap-2">
-          {/* {session ? (
-            <div>
-              <p>{session.user?.name}</p>
-              <Link href="/logout">Sing Out</Link>
+          {session ? (
+            <div className="flex items-center gap-4">
+              <Link
+                href={`/account/${session.id}`}
+                className="bg-white/10 px-4 py-3 rounded-md text-sm"
+              >
+                {session.user.name.length > 10
+                  ? session.user.name.slice(0, 10) + "..."
+                  : session.user.name}
+              </Link>
+              <button
+                onClick={() => signOut()}
+                className="px-4 py-2 bg-orange-500 rounded-md hover:bg-white/20 transition-all duration-300 cursor-pointer"
+              >
+                Sing Out
+              </button>
             </div>
           ) : (
-            <div>
+            <div className="flex items-center gap-2">
               <li className=" px-4 py-2 rounded-md bg-white/20  hover:bg-white hover:text-orange-500 transition-all duration-300 cursor-pointer">
                 <Link href="/register">sign up</Link>
               </li>
@@ -73,14 +78,7 @@ export default function Header() {
                 <Link href="/login">sign in</Link>
               </li>
             </div>
-          )} */}
-
-          <li className=" px-4 py-2 rounded-md bg-white/20  hover:bg-white hover:text-orange-500 transition-all duration-300 cursor-pointer">
-            <Link href="/register">sign up</Link>
-          </li>
-          <li className="px-4 py-2 bg-orange-500 rounded-md hover:bg-white/20 transition-all duration-300 cursor-pointer">
-            <Link href="/login">sign in</Link>
-          </li>
+          )}
         </ul>
       </section>
     </nav>
