@@ -1,7 +1,7 @@
 import React from "react";
 
 import { prisma } from "@lib/prisma";
-import { Category } from "@/generated/prisma";
+import type { Category } from "@prisma/client";
 import CategoryForm from "./components/CategoryForm";
 import DeleteButton from "./components/DeleteButton";
 import EditButton from "./components/EditButton";

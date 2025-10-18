@@ -1,6 +1,6 @@
 "use server";
 import { blogFormSchema, type BlogFormInputs } from "@/schemas/blogFormSchema";
-// import { Prisma } from "@/generated/prisma";
+
 import slugify from "slugify";
 import { Prisma, PrismaClient } from "@prisma/client";
 

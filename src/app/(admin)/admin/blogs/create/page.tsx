@@ -1,4 +1,4 @@
-import { Category } from "@/generated/prisma";
+import type { Category } from "@prisma/client";
 import { prisma } from "@lib/prisma";
 import CreateForm from "./components/CreateForm";
 
