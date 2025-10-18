@@ -193,7 +193,7 @@ export default function CreateForm({ categories }: { categories: Category[] }) {
         {/*Tags Area */}
         <div className="flex flex-col items-start gap-1">
           <label htmlFor="tags" className="font-semibold">
-            Tags (Split with ',''):
+            Tags (Split with ,):
           </label>
           <input
             id="tags"

@@ -2,10 +2,6 @@ import { prisma } from "@lib/prisma";
 import { NextResponse } from "next/server";
 import slugify from "slugify";
 
-interface Params {
-  params: { id: string }; //for cat id
-}
-
 //********************************* */ only single category get*************************************
 
 export async function GET(

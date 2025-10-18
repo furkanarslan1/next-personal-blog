@@ -43,7 +43,7 @@ export default function CategoryForm() {
     } else if (state.message) {
       toast.error(state.message);
     }
-  }, [state.message]);
+  }, [state.success, state.message]);
 
   //set message color
   // const messageColor = state.success ? "text-green-400" : "text-red-400";

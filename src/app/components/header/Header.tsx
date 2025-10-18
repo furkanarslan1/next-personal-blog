@@ -7,8 +7,9 @@ import { RiGridFill } from "react-icons/ri";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import { signOut } from "next-auth/react";
+import { Session } from "next-auth";
 
-export default function Header({ session }: { session: any }) {
+export default function Header({ session }: { session: Session | null }) {
   const pathname = usePathname();
   return (
     <nav className="flex items-center justify-around gap-4 px-6 h-16 bg-transparent text-white border-b-1 border-slate-400">
@@ -55,12 +56,17 @@ export default function Header({ session }: { session: any }) {
           {session ? (
             <div className="flex items-center gap-4">
               <Link
-                href={`/account/${session.id}`}
+                href={`/account/${session.user?.id}`}
                 className="bg-white/10 px-4 py-3 rounded-md text-sm"
               >
-                {session.user.name.length > 10
+                {/* {session.user.name.length > 10
                   ? session.user.name.slice(0, 10) + "..."
-                  : session.user.name}
+                  : session.user.name} */}
+                {session?.user?.name
+                  ? session.user.name.length > 10
+                    ? session.user.name.slice(0, 10) + "..."
+                    : session.user.name
+                  : "User"}
               </Link>
               <button
                 onClick={() => signOut()}
