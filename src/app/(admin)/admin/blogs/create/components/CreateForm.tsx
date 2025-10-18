@@ -5,7 +5,7 @@ import React, { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
 
 import { addBlogAction } from "@/actions/blogs";
-import { Category } from "@/generated/prisma";
+import type { Category } from "@prisma/client";
 
 import {
   Select,
