@@ -1,7 +1,8 @@
 "use server";
 import { blogFormSchema, type BlogFormInputs } from "@/schemas/blogFormSchema";
-import { Prisma, PrismaClient } from "@/generated/prisma";
+import { Prisma } from "@/generated/prisma";
 import slugify from "slugify";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
