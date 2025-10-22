@@ -31,7 +31,7 @@ export default {
           throw new Error("Email and password are required");
         }
 
-        // Kullanıcıyı bul
+        // find user
         const user = await prisma.user.findUnique({
           where: { email: credentials.email as string },
         });
@@ -40,7 +40,7 @@ export default {
           throw new Error("User not found");
         }
 
-        // Şifre kontrolü
+        // password check
         const isValid = await compare(
           credentials.password as string,
           user.password as string
@@ -50,7 +50,7 @@ export default {
           throw new Error("Invalid password");
         }
 
-        return user; // giriş başarılı
+        return user; //login successfull
       },
     }),
   ],
@@ -68,4 +68,22 @@ export default {
     // verifyRequest: "/auth/verify-request",
     // newUser: null,
   },
+
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.role = user.role; // put the role in the JWT
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id as string;
+        session.user.role = token.role; // Also add it to session.user
+      }
+      return session;
+    },
+  },
+  secret: process.env.AUTH_SECRET, //Must match getToken()
 } satisfies NextAuthConfig;

@@ -3,6 +3,8 @@ import { blogFormSchema, type BlogFormInputs } from "@/schemas/blogFormSchema";
 
 import slugify from "slugify";
 import { Prisma, PrismaClient } from "@prisma/client";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 const prisma = new PrismaClient();
 
@@ -24,13 +26,22 @@ interface BlogFormData {
   metaDescription?: string;
 }
 
-const admin_cont = "2";
 // *************************** BLOG ADD *****************************************************************
 
 export async function addBlogAction(
   prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
+  const session = await auth();
+  const user = session?.user;
+
+  if (!user || !user.id) {
+    return {
+      message: "You must be logged in to add a blog.",
+      success: false,
+    };
+  }
+
   // Capturing and validating FormData with Zod
   const rawData = Object.fromEntries(formData.entries());
 
@@ -56,49 +67,6 @@ export async function addBlogAction(
 
   // Get Verified and Type Safe Data
   const data = validatedFields.data;
-
-  //
-  //
-  //   if (!data.authorId || data.authorId.trim() === "") {
-  //     return {
-  //       message: "Author information is missing. Please log in",
-  //       success: false,
-  //     };
-  //   }
-
-  //   const data: BlogFormData = {
-  //     title: formData.get("title") as string, // Form alan adınızı "title" olarak değiştirin
-  //     content: formData.get("content") as string,
-  //     excerpt: formData.get("excerpt") as string,
-  //     imageUrl: formData.get("imageUrl") as string,
-  //     categoryId: formData.get("categoryId") as string,
-  //     authorId: admin_cont, // Güvenli yazar ID'si
-  //     isPublished: formData.get("isPublished") === "on" ? "on" : undefined,
-  //     tags: formData.get("tags") as string,
-  //     keywords: formData.get("keywords") as string,
-  //     metaDescription: formData.get("metaDescription") as string,
-  //   };
-
-  //   if (!data.title || data.title.trim() === "") {
-  //     return {
-  //       message: "Title field cannot be left blank ",
-  //       success: false,
-  //     };
-  //   }
-
-  //   if (!data.content || data.content.trim() === "") {
-  //     return {
-  //       message: "Content field cannot be left blank",
-  //       success: false,
-  //     };
-  //   }
-
-  //   if (!data.authorId || data.authorId.trim() === "") {
-  //     return {
-  //       message: "Author information is missing. Please log in",
-  //       success: false,
-  //     };
-  //   }
 
   //create slug
   const newSlug = slugify(data.title, {
@@ -130,12 +98,13 @@ export async function addBlogAction(
         keywords: data.keywords || null,
         metaDescription: data.metaDescription || null,
         publishedAt: publishedAt,
-        author: { connect: { id: admin_cont } },
+        author: { connect: { id: user.id } },
         category: categoryConnect,
       },
     });
 
     //successfully answer
+
     return {
       message: `Blog post successfully added ${newPost.title}`,
       success: true,
@@ -164,4 +133,70 @@ export async function addBlogAction(
     message: "Something went wrong",
     success: false,
   };
+}
+
+// ************************************************BLOG DELETE***************************************************************************************************
+
+export async function deleteBlogAction(blogId: string): Promise<FormState> {
+  const session = await auth();
+  const user = session?.user;
+
+  if (!user || !user.id) {
+    return {
+      message: "You must be logged in to delete a blog",
+      success: false,
+    };
+  }
+
+  //get blog id from come FormData
+
+  // const blogId = formData.get("blogId") as string;
+
+  if (!blogId) {
+    return {
+      message: "Blog ID is missing",
+      success: false,
+    };
+  }
+
+  try {
+    //is blog exiting realy check
+    const existingBlog = await prisma.post.findUnique({
+      where: { id: blogId },
+      select: { id: true, authorId: true, title: true },
+    });
+
+    if (!existingBlog) {
+      return {
+        message: "Blog not found",
+        success: false,
+      };
+    }
+
+    //delete blog
+    await prisma.post.delete({ where: { id: blogId } });
+
+    return {
+      message: `Blog "${existingBlog.title}" has been successfully deleted.`,
+      success: true,
+    };
+  } catch (error) {
+    console.error("An error occured while deleting the blog", error);
+
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2025"
+    ) {
+      // P2025: Record to delete does not exist
+      return {
+        message: "This blog could not be found.",
+        success: false,
+      };
+    }
+
+    return {
+      message: "Something went wrong while deleting the blog.",
+      success: false,
+    };
+  }
 }

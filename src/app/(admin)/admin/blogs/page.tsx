@@ -24,7 +24,7 @@ export default function AdminBlogs() {
           </Link>
 
           <Link
-            href="/"
+            href="/admin/blogs/delete"
             className="h-22 w-full border-2 flex items-center justify-center font-bold hover:bg-orange-500 transition-all duration-300"
           >
             Delete Blog

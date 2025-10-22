@@ -173,12 +173,12 @@ export default function CreateForm({ categories }: { categories: Category[] }) {
           value={selectedCategoryId}
           onValueChange={setSelectedCategoryId}
         >
-          <SelectTrigger className="w-[180px]  bg-white border-2 border-orange-500 font-bold">
+          <SelectTrigger className="w-[180px]  bg-black border-2 border-orange-500 font-bold">
             <SelectValue placeholder="Choose category" />
           </SelectTrigger>
           <SelectContent className="">
             {categories?.map((cat) => (
-              <SelectItem key={cat.id} value={cat.id}>
+              <SelectItem key={cat.id} value={cat.id} className="">
                 {cat.name}
               </SelectItem>
             ))}
