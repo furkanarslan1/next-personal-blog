@@ -11,7 +11,7 @@ export default async function AdminLayout({
       <aside className="p-4 bg-orange-500">
         <AdminSidebar />
       </aside>
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 ">{children}</main>
     </div>
   );
 }

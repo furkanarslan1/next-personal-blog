@@ -4,7 +4,6 @@ import { blogFormSchema, type BlogFormInputs } from "@/schemas/blogFormSchema";
 import slugify from "slugify";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { auth } from "@/auth";
-import { redirect } from "next/navigation";
 
 const prisma = new PrismaClient();
 
