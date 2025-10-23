@@ -184,11 +184,7 @@ export default function CreateForm({ categories }: { categories: Category[] }) {
             ))}
           </SelectContent>
         </Select>
-        <input
-          type="hidden"
-          name="categoryId" // Zorunlu: Backend'in FormData'da bu isimle görmesi için
-          value={selectedCategoryId} // State'ten güncel değeri al
-        />
+        <input type="hidden" name="categoryId" value={selectedCategoryId} />
 
         {/*Tags Area */}
         <div className="flex flex-col items-start gap-1">

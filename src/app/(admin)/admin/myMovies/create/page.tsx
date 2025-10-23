@@ -178,7 +178,20 @@ export default function CreateMovie() {
         <SelectMultiple
           id="genres"
           name="genres"
-          options={["Action", "Drama", "Comedy", "Sci-Fi", "Romance"]}
+          options={[
+            "Action",
+            "Drama",
+            "Comedy",
+            "Sci-Fi",
+            "Romance",
+            "Horror",
+            "Thriller",
+            "Adventure",
+            "Fantasy",
+            "Mystery",
+            "Animation",
+            "Documentary",
+          ]}
           placeholder="Select genres"
         />
 
