@@ -110,3 +110,68 @@ export async function addMovieAction(
     success: false,
   };
 }
+
+// **************************** ADD MOVİE********************************************************************
+
+export async function deleteMovieAction(moveId: string): Promise<FormState> {
+  const session = await auth();
+  const user = session?.user;
+
+  if (!user || !user.id) {
+    return {
+      message: "You must be logged in to delete a blog",
+      success: false,
+    };
+  }
+
+  if (!moveId) {
+    return {
+      message: "Movie ID is missing",
+      success: false,
+    };
+  }
+
+  try {
+    //is movie exiting realy check
+    const existingMovie = await prisma.movie.findUnique({
+      where: { id: moveId },
+      select: {
+        id: true,
+        authorId: true,
+        title: true,
+      },
+    });
+
+    if (!existingMovie) {
+      return {
+        message: "Blog not found",
+        success: false,
+      };
+    }
+
+    //delete movie
+    await prisma.movie.delete({ where: { id: moveId } });
+
+    return {
+      message: `Movie "${existingMovie.title}" has been successfully deleted.`,
+      success: true,
+    };
+  } catch (error) {
+    console.error("An error occured while deleting the movie", error);
+
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2025"
+    ) {
+      return {
+        message: "This movie could not be found",
+        success: false,
+      };
+    }
+
+    return {
+      message: "Something went wrong while deleting the movie",
+      success: false,
+    };
+  }
+}
