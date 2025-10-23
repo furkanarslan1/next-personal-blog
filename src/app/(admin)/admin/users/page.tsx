@@ -1,5 +1,6 @@
 import { prisma } from "@lib/prisma";
 import React from "react";
+import DeleteUserButton from "./components/DeleteUserButton";
 
 interface allUserType {
   id: string;
@@ -26,7 +27,7 @@ export default async function UserPage() {
           {users?.map((user) => (
             <li
               key={user.id}
-              className="flex flex-col gap-2 p-4 bg-orange-500 w-fit rounded-md"
+              className="flex flex-col items-center gap-4 p-4 bg-orange-500 w-fit rounded-md"
             >
               <p className="flex items-center gap-1">
                 <span className="font-bold">Name: </span>
@@ -36,6 +37,9 @@ export default async function UserPage() {
                 <span className="font-bold">E-mail: </span>
                 {user.email}
               </p>
+              <div className="">
+                <DeleteUserButton id={user.id} />
+              </div>
             </li>
           ))}
         </ul>
