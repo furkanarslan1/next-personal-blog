@@ -1,0 +1,96 @@
+"use client";
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import { FaStar } from "react-icons/fa";
+import Image from "next/image";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+
+interface MovieType {
+  id: string;
+  title: string;
+  posterUrl: string | null;
+  rating: number | null;
+  status: "WATCHED" | "PLAN_TO_WATCH";
+  genre?: string | null;
+}
+
+interface MovieCardProps {
+  movies: MovieType[];
+  filter?: string;
+}
+
+export default function MovieCard({ movies, filter = "ALL" }: MovieCardProps) {
+  const normalizedFilter = filter.toLowerCase();
+
+  const filteredMovies = movies.filter((movie) => {
+    if (normalizedFilter === "all") return true;
+    if (normalizedFilter === "watched") return movie.status === "WATCHED";
+    if (normalizedFilter === "plan_to_watch")
+      return movie.status === "PLAN_TO_WATCH";
+    if (movie.genre) return movie.genre.toLowerCase() === normalizedFilter;
+    return false;
+  });
+  return (
+    <div className="relative">
+      {/* custom navigation menu for pc */}
+      {/* for left arrow */}
+      <div className="hidden md:flex absolute top-1/2 -translate-y-1/2 left-2 z-10">
+        <button className="swiper-button-prev bg-orange-500 hober:bg-white p-2 rounded-full shadow-md transition">
+          <IoIosArrowBack className="w-5 h-5 text-gray-800" />
+        </button>
+      </div>
+      {/* for right arrow */}
+      <div className="hidden md:flex absolute top-1/2 -translate-y-1/2 right-2 z-10">
+        <button className="swiper-button-next bg-orange-500  hover:bg-white p-2 rounded-full shadow-md transition">
+          <IoIosArrowForward className="w-5 h-5 text-gray-800" />
+        </button>
+      </div>
+
+      <Swiper
+        modules={[Navigation]}
+        navigation={{
+          nextEl: ".swiper-button-next", //to go forwad
+          prevEl: ".swiper-button-prev", //to come back
+        }}
+        spaceBetween={16} //for card spacing
+        slidesPerView={"auto"} //It allows multiple cards to be visible at the same time.
+        grabCursor={true} //for mouse effect
+        className="overflow-hidden"
+      >
+        {filteredMovies?.map((movie, index) => (
+          <SwiperSlide
+            key={index}
+            className="!w-[240px] sm:!w-[280px] md:!w-[320px]" //I have to set the width; unless I set the width, you can’t see the other posts.
+          >
+            <div className=" relative  h-80 w-full rounded-xl overflow-hidden group cursor-pointer ">
+              <Image
+                src={movie.posterUrl || "/personal-blog-hero.jpg"}
+                alt={movie.title || "post image"}
+                fill
+                className="object-cover object-center group-hover:scale-105 transition-transform duration-600"
+              />
+              <span className=" group-hover:absolute bottom-0 left-0 h-full w-full bg-gradient-to-t from-black/60 to-transparent"></span>
+
+              <div className="group-hover:absolute bottom-0 p-4 text-orange-500 w-full transition-all duration-300">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-bold ">
+                    {movie.title && movie.title.length > 20
+                      ? movie.title.slice(0, 20)
+                      : movie.title}
+                  </h3>
+                  <div className="flex items-center gap-1 text-yellow-300">
+                    <p>{movie.rating}</p>
+                    <FaStar />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
+  );
+}

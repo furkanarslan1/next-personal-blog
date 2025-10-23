@@ -191,6 +191,14 @@ export default function CreateMovie() {
             "Mystery",
             "Animation",
             "Documentary",
+            "History",
+            "War",
+            "Crime",
+            "Anime",
+            "Family",
+            "Tragedy",
+            "Epic",
+            "Biography",
           ]}
           placeholder="Select genres"
         />
