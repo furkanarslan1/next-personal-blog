@@ -8,21 +8,32 @@ interface allMoviesType {
   posterUrl: string | null;
   rating: number | null;
   status: "WATCHED" | "PLAN_TO_WATCH";
-  genre?: string | null;
+  genres: string[];
 }
 
+type FilterPrefix = "watched" | "plan";
+const NEON_TITLE_CLASS =
+  "text-orange-500 font-extrabold text-2xl md:text-3xl drop-shadow-[0_0_8px_rgba(251,146,60,0.8)] transition duration-300";
+
 async function getMovies(): Promise<allMoviesType[]> {
-  const allMovies = await prisma.movie.findMany({
-    select: {
-      id: true,
-      title: true,
-      posterUrl: true,
-      rating: true,
-      status: true,
-    },
-    orderBy: { createdAt: "desc" },
-  });
-  return allMovies;
+  try {
+    const allMovies = await prisma.movie.findMany({
+      select: {
+        id: true,
+        title: true,
+        posterUrl: true,
+        rating: true,
+        status: true,
+        genres: true,
+      },
+      orderBy: { createdAt: "desc" },
+    });
+    return allMovies;
+  } catch (error) {
+    console.error("Failed to fetch movies:", error);
+
+    return [];
+  }
 }
 
 export default async function HomeMovies() {
@@ -31,16 +42,12 @@ export default async function HomeMovies() {
     <div className="bg-black p-4">
       <section className="space-y-12">
         <div>
-          <h5 className="text-orange-500 mb-4 font-bold text-2xl">
-            I Watched Movies
-          </h5>
-          <MovieCard movies={movies} filter="WATCHED" />
+          <h5 className={`mb-4 ${NEON_TITLE_CLASS}`}>I Watched Movies</h5>
+          <MovieCard movies={movies} filter="WATCHED" navPrefix="watched" />
         </div>
         <div>
-          <h5 className="text-orange-500 mb-4 font-bold text-2xl">
-            Movies to Watch
-          </h5>
-          <MovieCard movies={movies} filter="PLAN_TO_WATCH" />
+          <h5 className={`mb-4 ${NEON_TITLE_CLASS}`}>Movies to Watch</h5>
+          <MovieCard movies={movies} filter="PLAN_TO_WATCH" navPrefix="plan" />
         </div>
       </section>
     </div>
