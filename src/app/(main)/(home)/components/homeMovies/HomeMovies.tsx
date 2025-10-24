@@ -9,6 +9,7 @@ interface allMoviesType {
   rating: number | null;
   status: "WATCHED" | "PLAN_TO_WATCH";
   genres: string[];
+  slug: string;
 }
 
 type FilterPrefix = "watched" | "plan";
@@ -25,6 +26,7 @@ async function getMovies(): Promise<allMoviesType[]> {
         rating: true,
         status: true,
         genres: true,
+        slug: true,
       },
       orderBy: { createdAt: "desc" },
     });

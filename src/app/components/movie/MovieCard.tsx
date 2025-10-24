@@ -7,6 +7,7 @@ import "swiper/css/navigation";
 import { FaStar } from "react-icons/fa";
 import Image from "next/image";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import Link from "next/link";
 
 interface MovieType {
   id: string;
@@ -15,6 +16,7 @@ interface MovieType {
   rating: number | null;
   status: "WATCHED" | "PLAN_TO_WATCH";
   genres: string[];
+  slug: string;
 }
 
 interface MovieCardProps {
@@ -95,7 +97,10 @@ export default function MovieCard({
             key={movie.id}
             className="!w-[240px] sm:!w-[280px] md:!w-[320px]" //I have to set the width; unless I set the width, you can’t see the other posts.
           >
-            <div className=" relative  h-80 w-full rounded-xl overflow-hidden group cursor-pointer ">
+            <Link
+              href={`/movies/${movie.slug}`}
+              className=" relative  h-80 w-full rounded-xl overflow-hidden group cursor-pointer "
+            >
               <Image
                 src={movie.posterUrl || "/personal-blog-hero.jpg"}
                 alt={movie.title || "post image"}
@@ -117,7 +122,7 @@ export default function MovieCard({
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>
