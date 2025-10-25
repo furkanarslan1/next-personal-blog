@@ -47,7 +47,10 @@ export default function TrailerModal({
             Watch Trailer
           </button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[800px] p-0 border-none bg-transparent">
+        <DialogContent className="sm:max-w-[1000px] p-0 border-none bg-transparent">
+          <DialogHeader className="sr-only">
+            <DialogTitle>{movieTitle} Trailer</DialogTitle>
+          </DialogHeader>
           <div
             className="relative w-full"
             style={{ paddingTop: "56.25%" /* 16:9 Aspect Ratio */ }}
