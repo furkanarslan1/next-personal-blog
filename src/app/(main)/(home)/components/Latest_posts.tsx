@@ -50,10 +50,10 @@ const slider_item: HorizontalSliderItem[] = [
 export default function Latest_posts() {
   return (
     <div className="p-4 ">
-      <h5 className="text-2xl text-slate-800 font-extrabold mb-6">
+      <h5 className="text-2xl text-slate-800 font-extrabold mb-2">
         My Latest Posts
       </h5>
-      <div className="p-4">
+      <div className="">
         <HorizontalSlider sliderItem={slider_item} />
       </div>
     </div>

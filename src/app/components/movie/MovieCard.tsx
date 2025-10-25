@@ -17,7 +17,6 @@ interface MovieType {
   status: "WATCHED" | "PLAN_TO_WATCH";
   genres: string[];
   slug: string;
-  categorySlug: string;
 }
 
 interface MovieCardProps {
@@ -98,7 +97,13 @@ export default function MovieCard({
             key={movie.id}
             className="!w-[240px] sm:!w-[280px] md:!w-[320px]" //I have to set the width; unless I set the width, you can’t see the other posts.
           >
-            <Link href={`/movies/${movie.categorySlug}/${movie.slug}`}>
+            <Link
+              href={`/movies/${
+                movie.genres.length > 0
+                  ? movie.genres[0].toLowerCase()
+                  : "uncategorized"
+              }/${movie.slug}`}
+            >
               <div className=" relative  h-80 w-full rounded-xl overflow-hidden group cursor-pointer ">
                 <Image
                   src={movie.posterUrl || "/personal-blog-hero.jpg"}

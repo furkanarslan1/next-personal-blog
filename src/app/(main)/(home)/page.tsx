@@ -7,7 +7,6 @@ export default async function Home() {
   return (
     <div className="">
       <Hero />
-      <HeroInfo />
       <Latest_posts />
       <HomeMovies />
     </div>
