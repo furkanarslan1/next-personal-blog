@@ -17,6 +17,7 @@ interface MovieType {
   status: "WATCHED" | "PLAN_TO_WATCH";
   genres: string[];
   slug: string;
+  categorySlug: string;
 }
 
 interface MovieCardProps {
@@ -97,28 +98,27 @@ export default function MovieCard({
             key={movie.id}
             className="!w-[240px] sm:!w-[280px] md:!w-[320px]" //I have to set the width; unless I set the width, you can’t see the other posts.
           >
-            <Link
-              href={`/movies/${movie.slug}`}
-              className=" relative  h-80 w-full rounded-xl overflow-hidden group cursor-pointer "
-            >
-              <Image
-                src={movie.posterUrl || "/personal-blog-hero.jpg"}
-                alt={movie.title || "post image"}
-                fill
-                className="object-cover object-center group-hover:scale-105 transition-transform duration-600"
-              />
-              <span className=" group-hover:absolute bottom-0 left-0 h-full w-full bg-gradient-to-t from-black/60 to-transparent"></span>
+            <Link href={`/movies/${movie.categorySlug}/${movie.slug}`}>
+              <div className=" relative  h-80 w-full rounded-xl overflow-hidden group cursor-pointer ">
+                <Image
+                  src={movie.posterUrl || "/personal-blog-hero.jpg"}
+                  alt={movie.title || "post image"}
+                  fill
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-600"
+                />
+                <span className=" group-hover:absolute bottom-0 left-0 h-full w-full bg-gradient-to-t from-black/60 to-transparent"></span>
 
-              <div className="group-hover:absolute bottom-0 p-4 text-orange-500 w-full transition-all duration-300">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold ">
-                    {movie.title && movie.title.length > 20
-                      ? movie.title.slice(0, 20)
-                      : movie.title}
-                  </h3>
-                  <div className="flex items-center gap-1 text-yellow-300">
-                    <p>{movie.rating}</p>
-                    <FaStar />
+                <div className="group-hover:absolute bottom-0 p-4 text-orange-500 w-full transition-all duration-300">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-bold ">
+                      {movie.title && movie.title.length > 20
+                        ? movie.title.slice(0, 20)
+                        : movie.title}
+                    </h3>
+                    <div className="flex items-center gap-1 text-yellow-300">
+                      <p>{movie.rating}</p>
+                      <FaStar />
+                    </div>
                   </div>
                 </div>
               </div>
