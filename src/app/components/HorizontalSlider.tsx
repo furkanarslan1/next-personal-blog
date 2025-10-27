@@ -7,6 +7,7 @@ import "swiper/css/navigation";
 import { HorizontalSliderProps } from "@/types/horizontalSlider_type";
 import Image from "next/image";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import Link from "next/link";
 
 export default function HorizontalSlider({
   sliderItem,
@@ -43,16 +44,21 @@ export default function HorizontalSlider({
             key={index}
             className="!w-[240px] sm:!w-[280px] md:!w-[320px]" //I have to set the width; unless I set the width, you can’t see the other posts.
           >
-            <div className="flex flex-col items-start justify-center gap-2 border-4 border-orange-500 rounded-md bg-slate-800 text-white ">
+            {/* <Link
+              href={`/blogs/${slider.category?.slug || "general"}/${
+                slider.slug
+              }`}
+              className="flex flex-col items-start justify-center gap-2 border-4 border-orange-500 rounded-md bg-slate-800 text-white "
+            >
               <div className="relative h-48 w-full  ">
                 <Image
-                  src={slider.image}
+                  src={slider.imageUrl || "/personal-blog-hero.jpg"}
                   alt={slider.title || "post image"}
                   fill
                   className="object-cover object-center rounded-md"
                 />
                 <span className="absolute bottom-2 right-4 bg-orange-500 text-white rounded-2xl text-sm px-2">
-                  {slider.category}
+                  {slider.category?.name || "General"}
                 </span>
               </div>
               <div className="p-4 ">
@@ -61,13 +67,33 @@ export default function HorizontalSlider({
                     ? slider.title.slice(0, 20)
                     : slider.title}
                 </h3>
-                {/* <p className="text-sm">
-                  {slider.description && slider.description.length > 40
-                    ? `${slider.description?.slice(0, 40)}...`
-                    : slider.description}
-                </p> */}
               </div>
-            </div>
+            </Link> */}
+
+            <Link
+              href={`/blogs/${slider.category?.slug || "general"}/${
+                slider.slug
+              }`}
+              className="relative h-56 flex flex-col justify-end gap-2 border-4 border-orange-500 rounded-md bg-slate-800 text-white"
+            >
+              <Image
+                src={slider.imageUrl || "/personal-blog-hero.jpg"}
+                alt={slider.title || "post image"}
+                fill
+                className="object-cover object-top "
+              />
+              <span className="absolute top-2 right-4 bg-orange-500 text-white rounded-2xl text-sm px-2">
+                {slider.category?.name || "General"}
+              </span>
+
+              <div className=" bg-black/60 text-orange-500 z-20 p-4">
+                <h3 className="font-bold ">
+                  {slider.title && slider.title.length > 20
+                    ? slider.title.slice(0, 20)
+                    : slider.title}
+                </h3>
+              </div>
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>

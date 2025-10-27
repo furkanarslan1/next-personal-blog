@@ -1,6 +1,4 @@
 "use client";
-
-import MovieCard from "@/app/components/movie/MovieCard";
 import React, { useState } from "react";
 import MoviesGenresCard from "./MoviesGenresCard";
 import GenreSlider from "@/app/components/movie/GenreSlider";
@@ -56,7 +54,7 @@ export default function MoviesByCategory({
             <MoviesGenresCard movies={filteredMovies} />
           ) : (
             <p className="text-gray-400 h-96 w-96">
-              There are no movies in the "{selectedGenre}" category yet.
+              There are no movies in the {selectedGenre} category yet.
             </p>
           )}
         </div>

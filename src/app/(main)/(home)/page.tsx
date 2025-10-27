@@ -1,5 +1,4 @@
 import Hero from "./components/Hero";
-import HeroInfo from "./components/HeroInfo";
 import HomeBanner from "./components/HomeBanner";
 import HomeMovies from "./components/homeMovies/HomeMovies";
 import Latest_posts from "./components/Latest_posts";

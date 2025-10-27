@@ -1,60 +1,39 @@
 import HorizontalSlider from "@/app/components/HorizontalSlider";
 import { HorizontalSliderItem } from "@/types/horizontalSlider_type";
+import { prisma } from "@lib/prisma";
 import React from "react";
 
-const slider_item: HorizontalSliderItem[] = [
-  {
-    title: "Hello There!",
-    image: "/personal-blog-hero.jpg",
-    description:
-      "   Lorem ipsum dolor sit amet consectetur adipisicing elit. Non laborum neque explicabo veritatis atque corporis porro sapiente at nam quam?",
-    category: "Travel",
-  },
-  {
-    title: "Hello There!",
-    image: "/personal-blog-hero.jpg",
-    description:
-      "   Lorem ipsum dolor sit amet consectetur adipisicing elit. Non laborum neque explicabo veritatis atque corporis porro sapiente at nam quam?",
-    category: "Travel",
-  },
-  {
-    title: "Hello There!",
-    image: "/personal-blog-hero.jpg",
-    description:
-      "   Lorem ipsum dolor sit amet consectetur adipisicing elit. Non laborum neque explicabo veritatis atque corporis porro sapiente at nam quam?",
-    category: "Travel",
-  },
-  {
-    title: "Hello There!",
-    image: "/personal-blog-hero.jpg",
-    description:
-      "   Lorem ipsum dolor sit amet consectetur adipisicing elit. Non laborum neque explicabo veritatis atque corporis porro sapiente at nam quam?",
-    category: "Travel",
-  },
-  {
-    title: "Hello There!",
-    image: "/personal-blog-hero.jpg",
-    description:
-      "   Lorem ipsum dolor sit amet consectetur adipisicing elit. Non laborum neque explicabo veritatis atque corporis porro sapiente at nam quam?",
-    category: "Travel",
-  },
-  {
-    title: "Hello There!",
-    image: "/personal-blog-hero.jpg",
-    description:
-      "   Lorem ipsum dolor sit amet consectetur adipisicing elit. Non laborum neque explicabo veritatis atque corporis porro sapiente at nam quam?",
-    category: "Travel",
-  },
-];
+async function getLatestPost(): Promise<HorizontalSliderItem[]> {
+  try {
+    const latestPosts = await prisma.post.findMany({
+      select: {
+        id: true,
+        title: true,
+        imageUrl: true,
+        slug: true,
+        category: {
+          select: { name: true, slug: true },
+        },
+      },
+      take: 10,
+      orderBy: { createdAt: "desc" },
+    });
+    return latestPosts as HorizontalSliderItem[];
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
 
-export default function Latest_posts() {
+export default async function Latest_posts() {
+  const latestPost = await getLatestPost();
   return (
     <div className="p-4 ">
       <h5 className="text-2xl text-slate-800 font-extrabold mb-2">
         My Latest Posts
       </h5>
       <div className="">
-        <HorizontalSlider sliderItem={slider_item} />
+        <HorizontalSlider sliderItem={latestPost} />
       </div>
     </div>
   );
