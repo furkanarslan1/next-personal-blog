@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { movieCategories } from "@lib/constants/movieCategories";
 
 const initialState = {
   message: null,
@@ -178,28 +179,7 @@ export default function CreateMovie() {
         <SelectMultiple
           id="genres"
           name="genres"
-          options={[
-            "Action",
-            "Drama",
-            "Comedy",
-            "Sci-Fi",
-            "Romance",
-            "Horror",
-            "Thriller",
-            "Adventure",
-            "Fantasy",
-            "Mystery",
-            "Animation",
-            "Documentary",
-            "History",
-            "War",
-            "Crime",
-            "Anime",
-            "Family",
-            "Tragedy",
-            "Epic",
-            "Biography",
-          ]}
+          options={movieCategories}
           placeholder="Select genres"
         />
 

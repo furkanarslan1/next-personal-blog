@@ -10,8 +10,8 @@ export default function HomeBanner() {
         <div className="flex flex-col items-center md:items-start gap-14">
           <h3 className="text-orange-500 font-bold text-8xl">Follow Me</h3>
           <p className="text-white text-sm">
-            Make sure to follow me on social media so you don't miss any of my
-            posts
+            Make sure to follow me on social media so you don&apos;t miss any of
+            my posts
           </p>
           <ul className="flex items-center gap-8 text-sm  md:text-xl text-white">
             {socialLinks?.map((s) => (
