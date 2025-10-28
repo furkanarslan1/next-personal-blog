@@ -102,3 +102,66 @@ export async function addBookAction(
     };
   }
 }
+
+// ******************************* DELETE BOOK ****************************************************
+
+export async function deleteBookAction(bookId: string): Promise<FormState> {
+  const session = await auth();
+  const user = session?.user;
+
+  if (!user || !user.id) {
+    return {
+      message: "You must be logged in to delete a book",
+      success: false,
+    };
+  }
+
+  if (!bookId) {
+    return {
+      message: "Book ID is missing",
+      success: false,
+    };
+  }
+
+  try {
+    const exitingBook = await prisma.book.findUnique({
+      where: { id: bookId },
+      select: {
+        id: true,
+        authorId: true,
+        title: true,
+      },
+    });
+
+    if (!exitingBook) {
+      return {
+        message: "Book not found",
+        success: false,
+      };
+    }
+
+    await prisma.book.delete({ where: { id: bookId } });
+
+    return {
+      message: `Book "${exitingBook.title}" has been successfully deleted.`,
+      success: true,
+    };
+  } catch (error) {
+    console.error("An error occured while deleting the book", error);
+
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2025"
+    ) {
+      return {
+        message: "This book could not be found",
+        success: false,
+      };
+    }
+
+    return {
+      message: "Something went wrong while deleting the book",
+      success: false,
+    };
+  }
+}

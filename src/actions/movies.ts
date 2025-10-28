@@ -109,7 +109,7 @@ export async function deleteMovieAction(moveId: string): Promise<FormState> {
 
   if (!user || !user.id) {
     return {
-      message: "You must be logged in to delete a blog",
+      message: "You must be logged in to delete a book",
       success: false,
     };
   }
