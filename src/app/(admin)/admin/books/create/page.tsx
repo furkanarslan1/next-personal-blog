@@ -106,14 +106,6 @@ export default function BookCreatePage() {
           required
         />
 
-        {/* ISBN  */}
-        <InputField
-          id="isbn"
-          label="ISBN (Unique ID)"
-          name="isbn"
-          placeholder="978-605..."
-        />
-
         {/* Publisher */}
         <InputField
           id="publisher"

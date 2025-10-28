@@ -250,7 +250,6 @@ model Book {
   authorName      String?   // Kitabın yazarı
   coverImageUrl   String?   // Kitap kapağı görseli
   description     String?   // Kitap özeti / açıklaması
-  isbn            String?   @unique // ISBN numarası (isteğe bağlı ama faydalı)
   publisher       String?   // Yayınevi
   publishYear     Int?      // Yayın yılı
   pageCount       Int?      // Sayfa sayısı

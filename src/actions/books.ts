@@ -68,7 +68,6 @@ export async function addBookAction(
         slug: newSlug,
         genres: data.genres,
         status: data.status,
-        isbn: data.isbn,
         author: {
           connect: {
             id: user.id,

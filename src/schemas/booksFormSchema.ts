@@ -24,7 +24,7 @@ export const booksFormSchema = z.object({
     .min(2, "Publisher name required.")
     .optional()
     .or(z.literal("")),
-  isbn: z.string().optional().or(z.literal("")), // ISBN (Unique)
+
   pageCount: z
     .preprocess(
       toNumber,
