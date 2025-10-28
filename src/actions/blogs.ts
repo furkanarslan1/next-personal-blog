@@ -199,3 +199,24 @@ export async function deleteBlogAction(blogId: string): Promise<FormState> {
     };
   }
 }
+
+// **************************** GET BLOG **********************************************************************************************************
+
+export async function getBlogsByCategoryAction(categorySlug?: string) {
+  try {
+    const whereClause = categorySlug
+      ? { category: { slug: categorySlug } }
+      : {};
+
+    const blogs = await prisma.post.findMany({
+      where: whereClause,
+      orderBy: { createdAt: "desc" },
+      take: 10,
+      include: { category: true },
+    });
+    return blogs;
+  } catch (error) {
+    console.error("Blog fetch error:", error);
+    return [];
+  }
+}
