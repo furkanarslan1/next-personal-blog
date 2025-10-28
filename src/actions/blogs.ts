@@ -200,7 +200,7 @@ export async function deleteBlogAction(blogId: string): Promise<FormState> {
   }
 }
 
-// **************************** GET BLOG **********************************************************************************************************
+// **************************** GET BLOG HOME PAGE  **********************************************************************************************************
 
 export async function getBlogsByCategoryAction(categorySlug?: string) {
   try {
@@ -212,6 +212,27 @@ export async function getBlogsByCategoryAction(categorySlug?: string) {
       where: whereClause,
       orderBy: { createdAt: "desc" },
       take: 10,
+      include: { category: true },
+    });
+    return blogs;
+  } catch (error) {
+    console.error("Blog fetch error:", error);
+    return [];
+  }
+}
+
+// **************************** GET BLOG  PAGE  **********************************************************************************************************
+
+export async function getBlogsPageByCategoryAction(categorySlug?: string) {
+  try {
+    const whereClause = categorySlug
+      ? { category: { slug: categorySlug } }
+      : {};
+
+    const blogs = await prisma.post.findMany({
+      where: whereClause,
+      orderBy: { createdAt: "desc" },
+      take: 20,
       include: { category: true },
     });
     return blogs;
