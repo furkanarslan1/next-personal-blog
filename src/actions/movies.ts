@@ -3,7 +3,7 @@
 import { auth } from "@/auth";
 import { movieFormSchema } from "@/schemas/movieFormSchema";
 import { Prisma, PrismaClient } from "@prisma/client";
-import { redirect } from "next/navigation";
+
 import slugify from "slugify";
 
 const prisma = new PrismaClient();
@@ -24,7 +24,7 @@ export async function addMovieAction(
 
   if (!user || !user.id) {
     return {
-      message: "You must be logged in to add a blog",
+      message: "You must be logged in to add a movie",
       success: false,
     };
   }
@@ -82,16 +82,6 @@ export async function addMovieAction(
       success: true,
     };
   } catch (error) {
-    // if (
-    //   typeof error === "object" &&
-    //   error !== null &&
-    //   "digest" in error &&
-    //   typeof error.digest === "string" &&
-    //   error.digest.includes("NEXT_REDIRECT")
-    // ) {
-    //   throw error;
-    // }
-
     console.error("An error occurred while adding the movie", error);
 
     if (
@@ -111,7 +101,7 @@ export async function addMovieAction(
   };
 }
 
-// **************************** ADD MOVİE********************************************************************
+// **************************** DELETE MOVİE********************************************************************
 
 export async function deleteMovieAction(moveId: string): Promise<FormState> {
   const session = await auth();
