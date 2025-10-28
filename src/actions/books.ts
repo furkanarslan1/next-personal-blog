@@ -9,6 +9,7 @@ import { auth } from "@/auth";
 import { booksFormSchema } from "@/schemas/booksFormSchema";
 import { prisma } from "@lib/prisma";
 import { Prisma } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 import slugify from "slugify";
 
 export async function addBookAction(
@@ -76,7 +77,6 @@ export async function addBookAction(
       },
     });
 
-    const { revalidatePath } = require("next/cache");
     revalidatePath("/admin/books/create");
 
     return {

@@ -6,6 +6,7 @@ import Latest_posts from "./components/Latest_posts";
 
 import HomeBlogs from "./components/HomeBlogs";
 import CategoryClient from "@/app/components/CategoryClient";
+import HomeReadingBook from "./components/books/HomeReadingBook";
 
 export default async function Home({
   searchParams,
@@ -23,7 +24,7 @@ export default async function Home({
       <Latest_posts />
       <HomeMovies />
       <HomeBanner />
-
+      <HomeReadingBook />
       <CategoryClient categories={categories} />
       <HomeBlogs categorySlug={selectedCategory || undefined} />
     </div>
