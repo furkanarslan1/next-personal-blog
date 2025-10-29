@@ -13,6 +13,15 @@ const initialState: FormState = {
   success: false,
 };
 
+interface InputFieldProps {
+  id: string;
+  label: string;
+  name: string;
+  type?: string;
+  required?: boolean;
+  defaultValue?: string | number;
+}
+
 function InputField({
   id,
   label,
@@ -20,7 +29,7 @@ function InputField({
   type = "text",
   required = false,
   defaultValue,
-}: any) {
+}: InputFieldProps) {
   return (
     <div className="flex flex-col items-start gap-1">
       <label htmlFor={id} className="font-semibold text-white">

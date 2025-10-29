@@ -48,7 +48,9 @@ export const ProgressCircle: React.FC<ProgressCircleProps> = ({
         />
       </div>
 
-      <p className="mt-4 font-medium text-lg text-white">{label}</p>
+      <p className="mt-4 font-medium text-sm md:text-lg text-slate-800">
+        {label}
+      </p>
 
       {/* Overshoot Text */}
       {progress > 100 && (
