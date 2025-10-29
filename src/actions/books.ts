@@ -227,7 +227,7 @@ export async function getYearlyReadingStats(
   const readBooks = await prisma.book.findMany({
     where: {
       status: "READ",
-      authorId: statsAuthorId,
+
       finishedAt: {
         gte: startOfYear,
         lte: endOfYear,
