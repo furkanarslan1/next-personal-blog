@@ -7,6 +7,7 @@ import Latest_posts from "./components/Latest_posts";
 import HomeBlogs from "./components/HomeBlogs";
 import CategoryClient from "@/app/components/CategoryClient";
 import HomeReadingBook from "./components/books/HomeReadingBook";
+import ReadingStats from "@/app/components/ReadingStats";
 
 export default async function Home({
   searchParams,
@@ -19,12 +20,13 @@ export default async function Home({
   const { category } = await searchParams;
   const selectedCategory = category || null;
   return (
-    <div className="space-y-4">
+    <div className="">
       <Hero />
       <Latest_posts />
       <HomeMovies />
       <HomeBanner />
       <HomeReadingBook />
+      <ReadingStats />
       <CategoryClient categories={categories} />
       <HomeBlogs categorySlug={selectedCategory || undefined} />
     </div>
