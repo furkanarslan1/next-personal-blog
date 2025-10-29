@@ -165,3 +165,95 @@ export async function deleteBookAction(bookId: string): Promise<FormState> {
     };
   }
 }
+
+// *****************************READING GOAL ***********************************************************
+
+interface ReadingStats {
+  targetBookCount: number;
+  readBookCount: number;
+  bookProgress: number; // Yüzde (%)
+  targetPageCount: number;
+  readPageCount: number;
+  pageProgress: number; // Yüzde (%)
+  averageBookLength: number;
+}
+
+export async function getYearlyReadingStats(
+  year: number = new Date().getFullYear()
+): Promise<ReadingStats | null> {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return null;
+  }
+  //the target for that year
+  const goal = await prisma.readingGoal.findUnique({
+    where: {
+      year_authorId: {
+        year: year,
+        authorId: userId,
+      },
+    },
+  });
+
+  //if it hasn't a goal don't show statistics
+
+  if (!goal) {
+    return null;
+  }
+
+  //Calculate reading range
+
+  const startOfYear = new Date(year, 0, 1); // first day of year
+  const endOfYear = new Date(year, 11, 31, 23, 59, 59); //last day of year
+
+  //Find and collect the books read that year
+
+  const readBooks = await prisma.book.findMany({
+    where: {
+      authorId: userId,
+      status: "READ",
+      finishedAt: {
+        gte: startOfYear,
+        lte: endOfYear,
+      },
+    },
+    select: {
+      pageCount: true,
+      id: true,
+    },
+  });
+
+  const readBookCount = readBooks.length;
+
+  //Calculate the total number of pages read
+  const readPageCount = readBooks.reduce(
+    (sum, book) => sum + (book.pageCount ?? 0),
+    0
+  );
+
+  //Calculate average book length
+  const averageBookLength =
+    readBookCount > 0 ? Math.round(readPageCount / readBookCount) : 0;
+
+  //Calculate progress percentages
+  const bookProgress = Math.min(
+    100,
+    Math.round((readBookCount / goal.targetBookCount) * 100)
+  );
+  const pageProgress = Math.min(
+    100,
+    Math.round((readPageCount / goal.targetPageCount) * 100)
+  );
+
+  return {
+    targetBookCount: goal.targetBookCount,
+    readBookCount,
+    bookProgress,
+    targetPageCount: goal.targetPageCount,
+    readPageCount,
+    pageProgress,
+    averageBookLength,
+  };
+}
