@@ -12,18 +12,10 @@ interface FormState {
 //Retrieves the current reading goal for the specified year.
 
 export async function getReadingGoalForYear(year: number) {
-  const session = await auth();
-  const userId = session?.user?.id;
-
-  if (!userId) return { goal: null, message: "No login." };
-
   try {
     const goal = await prisma.readingGoal.findUnique({
       where: {
-        year_authorId: {
-          year: year,
-          authorId: userId,
-        },
+        year: year,
       },
       select: { year: true, targetBookCount: true, targetPageCount: true },
     });
@@ -45,10 +37,11 @@ export async function createOrUpdateReadingGoalAction(
 ): Promise<FormState> {
   const session = await auth();
   const userId = session?.user?.id;
+  const userRole = session?.user?.role;
 
-  if (!userId) {
+  if (!userId || userRole !== "ADMIN") {
     return {
-      message: "You must be logged in to perform this action.",
+      message: "Only the administrator (Admin) can perform this operation.",
       success: false,
     };
   }
@@ -86,10 +79,7 @@ export async function createOrUpdateReadingGoalAction(
   try {
     const goal = await prisma.readingGoal.upsert({
       where: {
-        year_authorId: {
-          year: year,
-          authorId: userId,
-        },
+        year: year,
       },
       update: {
         targetBookCount: goalData.targetBookCount,

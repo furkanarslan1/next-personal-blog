@@ -142,9 +142,9 @@ model Book {
 
 model ReadingGoal {
   id              String   @id @default(cuid())
-  year            Int      @unique // Hedefin ait olduğu yıl (örn: 2025)
-  targetBookCount Int      // Hedeflenen kitap sayısı (örn: 50)
-  targetPageCount Int      // Hedeflenen toplam sayfa sayısı (örn: 15000)
+  year            Int      
+  targetBookCount Int      
+  targetPageCount Int      
   
   // Hangi kullanıcı bu hedefi belirledi (sizin için)
   author          User     @relation(fields: [authorId], references: [id])
@@ -153,7 +153,7 @@ model ReadingGoal {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   
-  @@unique([year, authorId]) // Bir kullanıcı bir yıl için sadece bir hedef belirleyebilir.
+  @@unique([year]) // Bir kullanıcı bir yıl için sadece bir hedef belirleyebilir.
 }
 
 enum BookStatus {

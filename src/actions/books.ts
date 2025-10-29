@@ -49,6 +49,22 @@ export async function addBookAction(
 
   const data = validatedFields.data;
 
+  let finalFinishedDate: Date | null = null;
+
+  if (data.status === "READ") {
+    const inputYear = data.finishedYear ? parseInt(data.finishedYear, 10) : NaN;
+
+    let yearToUse: number;
+
+    if (!isNaN(inputYear) && inputYear > 1900) {
+      yearToUse = inputYear;
+    } else {
+      yearToUse = new Date().getFullYear();
+    }
+
+    finalFinishedDate = new Date(yearToUse, 0, 1);
+  }
+
   const newSlug = slugify(data.title, {
     lower: true,
     strict: true,
@@ -69,6 +85,7 @@ export async function addBookAction(
         slug: newSlug,
         genres: data.genres,
         status: data.status,
+        finishedAt: finalFinishedDate,
         author: {
           connect: {
             id: user.id,
@@ -181,19 +198,15 @@ interface ReadingStats {
 export async function getYearlyReadingStats(
   year: number = new Date().getFullYear()
 ): Promise<ReadingStats | null> {
-  const session = await auth();
-  const userId = session?.user?.id;
-
-  if (!userId) {
-    return null;
-  }
   //the target for that year
   const goal = await prisma.readingGoal.findUnique({
     where: {
-      year_authorId: {
-        year: year,
-        authorId: userId,
-      },
+      year: year,
+    },
+    select: {
+      targetBookCount: true,
+      targetPageCount: true,
+      authorId: true,
     },
   });
 
@@ -202,6 +215,7 @@ export async function getYearlyReadingStats(
   if (!goal) {
     return null;
   }
+  const statsAuthorId = goal.authorId;
 
   //Calculate reading range
 
@@ -212,8 +226,8 @@ export async function getYearlyReadingStats(
 
   const readBooks = await prisma.book.findMany({
     where: {
-      authorId: userId,
       status: "READ",
+      authorId: statsAuthorId,
       finishedAt: {
         gte: startOfYear,
         lte: endOfYear,

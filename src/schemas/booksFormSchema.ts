@@ -31,6 +31,7 @@ export const booksFormSchema = z.object({
       z.number().int().min(1, "Number of pages cannot be less than 1")
     )
     .optional(),
+  finishedYear: z.string().optional(),
 
   // Opsiyonel alanlar
   coverImageUrl: z

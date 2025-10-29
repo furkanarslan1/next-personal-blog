@@ -137,6 +137,14 @@ export default function BookCreatePage() {
           type="number"
           step="0.1"
         />
+        <InputField
+          id="finishedYear" //
+          label="Finished Year (Optional - for READ status)"
+          name="finishedYear"
+          type="number" //
+          placeholder={new Date().getFullYear().toString()}
+          required={false}
+        />
 
         {/* GENRE */}
         <SelectMultiple
