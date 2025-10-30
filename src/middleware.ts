@@ -27,15 +27,6 @@ export async function middleware(request: NextRequest) {
     secret: process.env.AUTH_SECRET,
   });
 
-  console.log("--- MIDDLEWARE DEBUG BAŞLANGIÇ ---");
-  console.log("URL:", request.url);
-  console.log("JWT TOKEN:", token); // Eğer null ise sorun burada
-  console.log(
-    "AUTH_SECRET OKUNUYOR MU? (Uzunluk):",
-    process.env.AUTH_SECRET?.length
-  );
-  console.log("--- MIDDLEWARE DEBUG BİTİŞ ---");
-
   // Not logged in user
   if (!token) {
     return NextResponse.redirect(new URL("/login", request.url));
