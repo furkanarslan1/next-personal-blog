@@ -96,6 +96,7 @@ export async function addBookAction(
 
     revalidatePath("/admin/books/create");
     revalidatePath("/");
+    revalidatePath("/books");
 
     return {
       message: `Book successfully added ${newBook.title}`,
