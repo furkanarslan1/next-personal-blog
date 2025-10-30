@@ -75,30 +75,25 @@
 // };
 
 // src/middleware.ts
+// src/middleware.ts - Vercel Edge Limitini Aşmak İçin Minimal Versiyon
+
+// src/middleware.ts - Vercel Edge Limitini Aşmak İçin Minimal Versiyon
 
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { auth } from "./auth"; // <-- Doğru import yolu
-
-export const config = {
-  matcher: ["/admin/:path*", "/login"],
-};
 
 export async function middleware(request: NextRequest) {
-  const session = await auth();
+  const sessionToken =
+    request.cookies.get("authjs.session-token") ||
+    request.cookies.get("__Secure-authjs.session-token");
 
   const isAdminRoute = request.nextUrl.pathname.startsWith("/admin");
-  const isLoginRoute = request.nextUrl.pathname === "/login";
 
-  if (!session && isAdminRoute) {
+  if (isAdminRoute && !sessionToken) {
     return NextResponse.redirect(new URL("/login", request.nextUrl.origin));
   }
 
-  if (session && session.user.role !== "ADMIN" && isAdminRoute) {
-    return NextResponse.redirect(new URL("/", request.nextUrl.origin));
-  }
-
-  if (session && isLoginRoute) {
+  if (request.nextUrl.pathname === "/login" && sessionToken) {
     return NextResponse.redirect(
       new URL("/admin/blogs", request.nextUrl.origin)
     );
@@ -106,3 +101,7 @@ export async function middleware(request: NextRequest) {
 
   return NextResponse.next();
 }
+
+export const config = {
+  matcher: ["/admin/:path*", "/login"],
+};
