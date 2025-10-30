@@ -62,7 +62,7 @@ export default async function Movies() {
 
         <div>
           <h5 className={`mb-4 ${NEON_TITLE_CLASS}`}>Movies by Genre</h5>
-          {/* Yeni bileşenimize tüm filmleri ve benzersiz kategorileri gönderiyoruz */}
+
           <MoviesByCategory movies={movies} uniqueGenres={uniqueGenres} />
         </div>
       </section>

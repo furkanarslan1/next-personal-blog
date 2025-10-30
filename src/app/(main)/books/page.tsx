@@ -3,6 +3,7 @@ import { bookCategories } from "@lib/constants/bookCategories";
 import { prisma } from "@lib/prisma";
 import React from "react";
 import BooksByCategories from "./components/BooksByCategories";
+import BookSliderCard from "./components/BookSliderCard";
 
 interface allBooksType {
   id: string;
@@ -44,6 +45,12 @@ export default async function BooksPage() {
       <div className="bg-slate-800 h-16 "></div>
       <div className="">
         <ReadingStats />
+        <div>
+          <h3 className="text-3xl px-4  font-bold text-slate-800 ">
+            I READ BOOK
+          </h3>
+          <BookSliderCard books={books} filter="READ" navPrefix="plan_read" />
+        </div>
         <BooksByCategories books={books} uniqueGenres={uniqueGenres} />
       </div>
     </div>
