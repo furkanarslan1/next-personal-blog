@@ -9,7 +9,7 @@ import { auth } from "@/auth";
 import { booksFormSchema } from "@/schemas/booksFormSchema";
 import { prisma } from "@lib/prisma";
 import { Prisma } from "@prisma/client";
-import { revalidatePath, unstable_noStore as noStore } from "next/cache";
+import { revalidatePath } from "next/cache";
 import slugify from "slugify";
 
 export async function addBookAction(
@@ -199,8 +199,6 @@ interface ReadingStats {
 export async function getYearlyReadingStats(
   year: number = new Date().getFullYear()
 ): Promise<ReadingStats | null> {
-  noStore();
-
   //the target for that year
   const goal = await prisma.readingGoal.findUnique({
     where: {
