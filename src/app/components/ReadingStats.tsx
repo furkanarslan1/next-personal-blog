@@ -2,6 +2,8 @@ import { getYearlyReadingStats } from "@/actions/books";
 import React from "react";
 import { ProgressCircle } from "./ProgressCircle";
 
+export const dynamic = "force-dynamic";
+
 export default async function ReadingStats({ year }: { year?: number }) {
   const currentYear = year || new Date().getFullYear();
   const stats = await getYearlyReadingStats(currentYear);
