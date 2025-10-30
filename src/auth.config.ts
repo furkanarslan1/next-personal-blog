@@ -85,5 +85,5 @@ export default {
       return session;
     },
   },
-  secret: process.env.AUTH_SECRET, //Must match getToken()
+  // secret: process.env.AUTH_SECRET, //Must match getToken()
 } satisfies NextAuthConfig;

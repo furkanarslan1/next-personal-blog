@@ -24,7 +24,7 @@ import { getToken } from "next-auth/jwt";
 export async function middleware(request: NextRequest) {
   const token = await getToken({
     req: request,
-    secret: process.env.AUTH_SECRET,
+    // secret: process.env.AUTH_SECRET,
   });
 
   // Not logged in user
