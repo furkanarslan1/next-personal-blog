@@ -3,6 +3,8 @@
 import { auth } from "@/auth";
 import { movieFormSchema } from "@/schemas/movieFormSchema";
 import { Prisma, PrismaClient } from "@prisma/client";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 import slugify from "slugify";
 
@@ -275,6 +277,101 @@ export async function updateMovieStatusAction(
     console.error("An error occurred while updating the movie status:", error);
     return {
       message: "An error occurred while updating the movie status.",
+      success: false,
+    };
+  }
+}
+
+// ********************************** EDIT MOVİE *******************************************************************
+
+export async function updateMovieAction(
+  movieId: string,
+  prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const session = await auth();
+  const user = session?.user;
+
+  if (!user || user.role !== "ADMIN") {
+    return {
+      message: "You must be logged in to update the movie.",
+      success: false,
+    };
+  }
+
+  if (!movieId) {
+    return {
+      message: "Movie ID  required.",
+      success: false,
+    };
+  }
+
+  const title = formData.get("title") as string;
+  const description = formData.get("description") as string;
+  const posterUrl = formData.get("posterUrl") as string | null;
+  const backgroundUrl = formData.get("backgroundUrl") as string | null;
+  const trailerUrl = formData.get("trailerUrl") as string | null;
+  const releaseYearStr = formData.get("releaseYear") as string;
+  const ratingStr = formData.get("rating") as string;
+  const genresJson = formData.get("genres") as string;
+  const status = formData.get("status") as "WATCHED" | "PLAN_TO_WATCH";
+
+  if (!title || !description || !movieId) {
+    return {
+      success: false,
+      message: "Title, Description and ID are required.",
+    };
+  }
+
+  const releaseYear = releaseYearStr ? parseInt(releaseYearStr) : null;
+  const rating = ratingStr ? parseFloat(ratingStr) : null;
+
+  let genresArray: string[] = [];
+  try {
+    if (genresJson) {
+      const parsedGenres = JSON.parse(genresJson);
+      if (Array.isArray(parsedGenres)) {
+        genresArray = parsedGenres.filter(
+          (g) => typeof g === "string" && g.trim().length > 0
+        );
+      }
+    }
+  } catch (e) {
+    return { success: false, message: "Genres format is invalid." };
+  }
+
+  try {
+    const updatedMovie = await prisma.movie.update({
+      where: { id: movieId },
+      data: {
+        title,
+        description,
+        posterUrl,
+        backgroundUrl,
+        trailerUrl,
+        releaseYear,
+        rating,
+        genres: genresArray,
+        status,
+        slug: slugify(title),
+      },
+    });
+
+    revalidatePath(`/admin/movies/edit/${movieId}`);
+    revalidatePath(
+      `/movies/${updatedMovie.genres[0]?.toLowerCase() || "all"}/${
+        updatedMovie.slug
+      }`
+    );
+
+    return {
+      message: `${updatedMovie.title} movie updated successfully.`,
+      success: true,
+    };
+  } catch (error) {
+    console.error("Update Error:", error);
+    return {
+      message: "A database error occurred during the update.",
       success: false,
     };
   }
