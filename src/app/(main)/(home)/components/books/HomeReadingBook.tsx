@@ -38,7 +38,7 @@ export default async function HomeReadingBook() {
       <h3 className="text-xl font-bold text-white mb-4 ">My Current Read</h3>
       <div className="flex items-center justify-center">
         <Link
-          href={`/books/${readingBook.genres}/${readingBook.slug}`}
+          href={`/books/${primaryGenreSlug}/${readingBook.slug}`}
           className=""
         >
           <div className="relative h-72 w-54">

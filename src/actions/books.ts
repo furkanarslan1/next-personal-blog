@@ -273,3 +273,56 @@ export async function getYearlyReadingStats(
     averageBookLength,
   };
 }
+
+// ***************** CHANGE BOOK STATUS ************************************************************************
+
+type BookStatus = "READ" | "READING" | "PLAN_TO_READ";
+export async function updateBookStatusAction(
+  bookId: string,
+  newStatus: BookStatus
+): Promise<FormState> {
+  const session = await auth();
+  const user = session?.user;
+
+  if (!user || user.role !== "ADMIN") {
+    return {
+      message: "You must be logged in to update the book.",
+      success: false,
+    };
+  }
+
+  if (!bookId || !newStatus) {
+    return {
+      message: "Book ID and new status required.",
+      success: false,
+    };
+  }
+
+  try {
+    const updatedBook = await prisma.book.update({
+      where: { id: bookId },
+      data: {
+        status: newStatus,
+      },
+      select: {
+        title: true,
+        status: true,
+      },
+    });
+
+    revalidatePath("/");
+    revalidatePath("/books");
+    revalidatePath("/admin/books/updateStatus");
+
+    return {
+      message: `${updatedBook.title} status of the book has been updated to '${updatedBook.status}'.`,
+      success: true,
+    };
+  } catch (error) {
+    console.error("An error occurred while updating the book status:", error);
+    return {
+      message: "An error occurred while updating the book status.",
+      success: false,
+    };
+  }
+}
