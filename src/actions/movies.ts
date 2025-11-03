@@ -230,3 +230,52 @@ export async function setWeeklyMovieAction(
     };
   }
 }
+
+// ***************** CHANGE MOVİE STATUS ************************************************************************
+
+type MovieStatus = "WATCHED" | "PLAN_TO_WATCH";
+export async function updateMovieStatusAction(
+  movieId: string,
+  newStatus: MovieStatus
+): Promise<FormState> {
+  const session = await auth();
+  const user = session?.user;
+
+  if (!user || user.role !== "ADMIN") {
+    return {
+      message: "You must be logged in to update the movie.",
+      success: false,
+    };
+  }
+
+  if (!movieId || !newStatus) {
+    return {
+      message: "Movie ID and new status required.",
+      success: false,
+    };
+  }
+
+  try {
+    const updatedMovie = await prisma.movie.update({
+      where: { id: movieId },
+      data: {
+        status: newStatus,
+      },
+      select: {
+        title: true,
+        status: true,
+      },
+    });
+
+    return {
+      message: `${updatedMovie.title} status of the movie has been updated to '${updatedMovie.status}'.`,
+      success: true,
+    };
+  } catch (error) {
+    console.error("An error occurred while updating the movie status:", error);
+    return {
+      message: "An error occurred while updating the movie status.",
+      success: false,
+    };
+  }
+}

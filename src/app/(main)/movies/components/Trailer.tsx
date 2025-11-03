@@ -27,7 +27,7 @@ export default function Trailer({ movie }: TrailerProps) {
     ? extractYouTubeId(movie.trailerUrl)
     : fallbackId;
   const title = movie?.title || "Movie of the week";
-
+  const description = "This week's recommended movie";
   const firstGenre = movie?.genres?.[0] ? movie.genres[0].toLowerCase() : "all";
 
   return (
@@ -49,7 +49,7 @@ export default function Trailer({ movie }: TrailerProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6 md:p-12">
           <h2 className="text-white text-3xl md:text-5xl font-bold">{title}</h2>
           <p className="text-gray-200 mt-2 text-sm md:text-base max-w-xl">
-            This week's recommended movie
+            {description}
           </p>
           <Link
             href={`/movies/${firstGenre}/${movie?.slug}`}
