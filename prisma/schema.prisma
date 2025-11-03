@@ -107,6 +107,17 @@ model Movie {
   likes       Like[]
 }
 
+model Setting {
+  id    String @id @default(cuid())
+  // Konfigürasyon adı (ör: 'weekly_movie_id')
+  key   String @unique
+  // Değer (ör: haftanın filminin id'si)
+  value String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum MovieStatus {
   WATCHED        // İzlendi
   PLAN_TO_WATCH  // İzlenecek

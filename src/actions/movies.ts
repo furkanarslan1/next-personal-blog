@@ -165,3 +165,68 @@ export async function deleteMovieAction(moveId: string): Promise<FormState> {
     };
   }
 }
+
+// *********************************** SET WEKKLY MOVİE ****************************************************
+
+export async function setWeeklyMovieAction(
+  movieId: string
+): Promise<FormState> {
+  const session = await auth();
+  const user = session?.user;
+
+  if (!user || !user.id || user.role !== "ADMIN") {
+    return {
+      message: "You must be logged in to delete a book",
+      success: false,
+    };
+  }
+
+  //movie ID control
+  if (!movieId) {
+    return {
+      message: "Movie ID is missing",
+      success: false,
+    };
+  }
+
+  // exist movie
+  try {
+    const movieExists = await prisma.movie.findUnique({
+      where: { id: movieId },
+      select: { title: true },
+    });
+
+    if (!movieExists) {
+      return {
+        message: "An error occurred with the specified ID.",
+        success: false,
+      };
+    }
+
+    //upsert fonc.
+    const updatedSetting = await prisma.setting.upsert({
+      where: { key: "weekly_movie_id" },
+      update: {
+        value: movieId,
+      },
+      create: {
+        key: "weekly_movie_id",
+        value: movieId,
+      },
+    });
+
+    return {
+      message: `Movie: "${movieExists.title}" set as movie of the week`,
+      success: true,
+    };
+  } catch (error) {
+    console.error(
+      "An error occurred while setting the movie of the week:",
+      error
+    );
+    return {
+      message: "An error occurred while setting up the movie of the week.",
+      success: false,
+    };
+  }
+}

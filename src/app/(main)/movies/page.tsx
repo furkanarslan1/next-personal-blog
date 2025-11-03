@@ -37,15 +37,36 @@ async function getMovies(): Promise<allMoviesType[]> {
   }
 }
 
+async function getWeeklyMovie() {
+  const weeklyMovieSetting = await prisma.setting.findUnique({
+    where: { key: "weekly_movie_id" },
+  });
+
+  if (!weeklyMovieSetting) return null;
+
+  const weeklyMovie = await prisma.movie.findUnique({
+    where: { id: weeklyMovieSetting.value },
+    select: {
+      title: true,
+      trailerUrl: true,
+      slug: true,
+      genres: true,
+    },
+  });
+
+  return weeklyMovie;
+}
+
 export default async function Movies() {
   const NEON_TITLE_CLASS =
     "text-orange-500 font-extrabold text-2xl md:text-3xl drop-shadow-[0_0_8px_rgba(251,146,60,0.8)] transition duration-300";
   const movies = await getMovies();
+  const weeklyMovieData = await getWeeklyMovie();
 
   const uniqueGenres = movieCategories;
   return (
     <div className="bg-black p-4">
-      <Trailer />
+      <Trailer movie={weeklyMovieData} />
       <section className="space-y-12">
         <div>
           <h5 className={`mb-4 ${NEON_TITLE_CLASS}`}>I Watched Movies</h5>
