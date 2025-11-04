@@ -25,7 +25,7 @@ export default async function HomeReadingBook() {
 
   if (!readingBook) {
     return (
-      <div className="bg-[url('/blog_bg.jpg')] bg-contain bg-center p-6 text-center text-white/80 h-64 flex flex-col justify-center items-start rounded-lg shadow-lg">
+      <div className="bg-[url('/blog_bg.jpg')] bg-contain bg-center p-6 text-center text-white/80 h-64 flex flex-col justify-center items-start rounded-lg shadow-lg max-w-7xl mx-auto">
         <p className="text-xl text-white font-semibold mb-2">
           Currently Reading
         </p>
@@ -34,22 +34,22 @@ export default async function HomeReadingBook() {
     );
   }
   return (
-    <div className="bg-[url('/blog_bg.jpg')] bg-contain bg-center  p-4 ">
+    <div className="bg-[url('/blog_bg.jpg')] bg-contain bg-center  p-4 max-w-7xl mx-auto  md:rounded-md">
       <h3 className="text-xl font-bold text-white mb-4 ">My Current Read</h3>
       <div className="flex items-center justify-center">
         <Link
           href={`/books/${primaryGenreSlug}/${readingBook.slug}`}
-          className=""
+          className="flex flex-col items-center"
         >
-          <div className="relative h-72 w-54">
+          <div className="relative h-52 md:h-72 w-54">
             <Image
               src={readingBook.coverImageUrl || "/personal-hero-blog.jpg"}
               alt={readingBook.title}
-              className="object-cover object-center"
+              className="object-contain object-center"
               fill
             />
           </div>
-          <div className="text-slate-300 space-y-2 mt-1">
+          <div className="text-slate-300 space-y-2 mt-1 flex flex-col items-center">
             <h1 className="font-bold">{readingBook.title}</h1>
             <div>
               <p className="text-sm">

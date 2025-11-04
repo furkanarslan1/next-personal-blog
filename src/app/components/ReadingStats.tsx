@@ -23,7 +23,7 @@ export default async function ReadingStats({ year }: { year?: number }) {
 
   return (
     <div
-      className={` bg-[url('/book_progress.jpg')] bg-contain p-6  shadow-2xl text-white mx-auto`}
+      className={` bg-[url('/book_progress.jpg')] bg-contain p-6  shadow-2xl text-white max-w-7xl mx-auto md:rounded-md `}
     >
       <h2 className="text-3xl font-extrabold mb-6 text-slate-800 border-b-2 border-slate-800 pb-2 text-center ">
         Reading Goals and Progress ({currentYear})
@@ -42,8 +42,8 @@ export default async function ReadingStats({ year }: { year?: number }) {
         </div>
 
         {/* Detailed Statistics Table */}
-        <div className="mt-6">
-          <h3 className="text-sm md:text-xl text-slate-800 font-semibold mb-3 border-b border-gray-600 pb-1">
+        <div className="mt-6 ">
+          <h3 className="text-sm md:text-xl text-slate-800 font-semibold mb-3 border-b border-gray-600 pb-1 ">
             Details
           </h3>
 

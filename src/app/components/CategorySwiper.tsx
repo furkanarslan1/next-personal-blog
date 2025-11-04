@@ -23,7 +23,7 @@ export default function CategorySwiper({
   const [active, setActive] = useState<string | null>(null);
 
   return (
-    <div className="relative md:px-12 bg-slate-800 py-2 text-sm -mb-2">
+    <div className="relative md:px-12 bg-slate-800 py-2 text-sm -mb-2 md:rounded-md">
       <div className="hidden md:flex absolute top-1/2 -translate-y-1/2 left-2 z-10">
         <button className="categorySwiper-button-prev bg-orange-500 hover:bg-white p-2 rounded-full shadow-md transition cursor-pointer z-10">
           <IoIosArrowBack className="w-5 h-5 text-gray-800" />

@@ -27,9 +27,11 @@ export default function CategoryClient({
   };
 
   return (
-    <CategorySwiper
-      categories={categories}
-      onCategorySelect={handleCategorySelect}
-    />
+    <div className="max-w-7xl mx-auto ">
+      <CategorySwiper
+        categories={categories}
+        onCategorySelect={handleCategorySelect}
+      />
+    </div>
   );
 }

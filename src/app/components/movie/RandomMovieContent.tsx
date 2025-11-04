@@ -17,7 +17,7 @@ function DiscoverButton({ children }: { children: React.ReactNode }) {
     <button
       type="submit"
       disabled={pending}
-      className="w-full px-4 py-2 bg-white/20 text-orange-500 font-bold rounded-lg shadow-md hover:text-white cursor-pointer hover:bg-orange-500 transition-colors disabled:bg-gray-500"
+      className="w-full px-4 py-2 bg-white/20 text-orange-500 font-bold rounded-lg shadow-md hover:text-white cursor-pointer hover:bg-orange-500 transition-colors disabled:bg-gray-500 max-w-7xl mx-auto"
     >
       {pending ? "Searching Movie..." : children}
     </button>
@@ -40,7 +40,7 @@ export default function RandomMovieContent({
 
   const detailUrl = `/movies/${currentMovie.categorySlug}/${currentMovie.movieSlug}`;
   return (
-    <div className="bg-[url('/random_movie_pattern.jpg')] h-full bg-contain bg-center">
+    <div className="bg-[url('/random_movie_pattern.jpg')] h-full bg-contain bg-center md:rounded-md">
       <div className="flex flex-col items-center p-4 bg-transparent backdrop-blur-lg  text-white max-w-sm mx-auto shadow-2xl">
         <h2 className="text-xl font-bold mb-4 text-center">
           Random Movie Discover

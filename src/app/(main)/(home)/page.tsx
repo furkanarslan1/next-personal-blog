@@ -21,7 +21,7 @@ export default async function Home({
   const { category } = await searchParams;
   const selectedCategory = category || null;
   return (
-    <div className="">
+    <div className="space-y-6">
       <Hero />
       <Latest_posts />
       <HomeMovies />

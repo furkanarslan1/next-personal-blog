@@ -28,7 +28,7 @@ async function getLatestPost(): Promise<HorizontalSliderItem[]> {
 export default async function Latest_posts() {
   const latestPost = await getLatestPost();
   return (
-    <div className="p-4 ">
+    <div className="p-4 md:py-4 md:px-0 max-w-7xl mx-auto">
       <h5 className="text-2xl text-slate-800 font-extrabold mb-2">
         My Latest Posts
       </h5>

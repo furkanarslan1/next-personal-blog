@@ -41,7 +41,7 @@ async function getMovies(): Promise<allMoviesType[]> {
 export default async function HomeMovies() {
   const movies = await getMovies();
   return (
-    <div className="bg-black p-4">
+    <div className="bg-gray-800 md:rounded-md p-4 max-w-7xl mx-auto">
       <section className="space-y-12">
         <div>
           <h5 className={`mb-4 ${NEON_TITLE_CLASS}`}>I Watched Movies</h5>
