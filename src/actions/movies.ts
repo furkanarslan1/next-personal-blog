@@ -376,3 +376,66 @@ export async function updateMovieAction(
     };
   }
 }
+
+// ********************************** RANDOM MOVİE *******************************************************************
+
+export interface RandomMovieData {
+  movieSlug: string;
+  categorySlug: string;
+  title: string;
+  posterUrl: string | null;
+  rating: number | null;
+}
+
+export async function getRandomMovieData(): Promise<RandomMovieData | null> {
+  const result = await prisma.$queryRaw<{ slug: string }[]>(
+    Prisma.sql`SELECT slug FROM "Movie" ORDER BY RANDOM() LIMIT 1`
+  ); // PostgreSQL: RANDOM()
+
+  const randomIdResult = await prisma.$queryRaw<{ id: string }[]>(
+    Prisma.sql`SELECT id FROM "Movie" ORDER BY RANDOM() LIMIT 1`
+  );
+
+  if (randomIdResult.length === 0) {
+    return null;
+  }
+
+  const randomMovieId = randomIdResult[0].id;
+
+  const randomMovie = await prisma.movie.findUnique({
+    where: { id: randomMovieId },
+    select: {
+      slug: true,
+      genres: true,
+      title: true,
+      posterUrl: true,
+      rating: true,
+    },
+  });
+
+  if (!randomMovie || !randomMovie.slug || randomMovie.genres.length === 0) {
+    return null;
+  }
+
+  const primaryGenreSlug = randomMovie.genres[0]
+    .toLowerCase()
+    .replace(/\s/g, "-");
+
+  return {
+    categorySlug: primaryGenreSlug,
+    movieSlug: randomMovie.slug,
+    posterUrl: randomMovie.posterUrl,
+    title: randomMovie.title,
+    rating: randomMovie.rating,
+  };
+}
+
+// export async function redirectToRandomMovie() {
+//   const slugs = await getRandomMovieSlugs();
+
+//   if (!slugs) {
+//     redirect("/movies");
+//   }
+
+//   redirect(`/movies/${slugs.categorySlug}/${slugs.movieSlug}`);
+// }

@@ -8,6 +8,7 @@ import HomeBlogs from "./components/HomeBlogs";
 import CategoryClient from "@/app/components/CategoryClient";
 import HomeReadingBook from "./components/books/HomeReadingBook";
 import ReadingStats from "@/app/components/ReadingStats";
+import RandomMovie from "@/app/components/movie/RandomMovie";
 
 export default async function Home({
   searchParams,
@@ -25,6 +26,7 @@ export default async function Home({
       <Latest_posts />
       <HomeMovies />
       <HomeBanner />
+      <RandomMovie />
       <HomeReadingBook />
       <ReadingStats />
       <CategoryClient categories={categories} />
