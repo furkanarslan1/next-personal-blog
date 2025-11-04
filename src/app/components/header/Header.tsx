@@ -1,20 +1,31 @@
 "use client";
 import React from "react";
 
-import { category } from "../../../../lib/constants/navigation";
 import Link from "next/link";
 import { RiGridFill } from "react-icons/ri";
 import { usePathname } from "next/navigation";
-import clsx from "clsx";
+
 import { signOut } from "next-auth/react";
 import { Session } from "next-auth";
+import { TiArrowSortedDown } from "react-icons/ti";
+import clsx from "clsx";
 
-export default function Header({ session }: { session: Session | null }) {
+interface CategoriesType {
+  slug: string;
+  name: string;
+}
+
+interface HeaderProps {
+  session: Session | null;
+  categories: CategoriesType[];
+}
+
+export default function Header({ session, categories }: HeaderProps) {
   const pathname = usePathname();
   return (
-    <nav className="flex items-center justify-around gap-4 px-6 h-16 bg-transparent text-white border-b-1 border-slate-400">
+    <nav className="flex items-center justify-between md:justify-around gap-4 px-6 h-16 bg-transparent text-white border-b-1 border-slate-400 overflow-hidden">
       <section id="brand">
-        <div className="flex items-center gap-12">
+        <div className="flex items-center gap-4 md:gap-12">
           <Link
             href="/"
             className="font-bold text-transparent bg-gradient-to-r bg-clip-text from-orange-500  to-slate-300 text-xl md:text-2xl "
@@ -22,37 +33,122 @@ export default function Header({ session }: { session: Session | null }) {
             Personal Blog
           </Link>
 
-          <div>
-            <ul className="flex items-center  gap-4">
-              <Link
-                href="/categories"
-                className="hover:scale-105 hover:rotate-180 transition-all duration-300 text-4xl"
-              >
-                <RiGridFill className="text-orange-500" size={34} />
+          <div className="relative group">
+            <div className="flex flex-col items-center  gap-4">
+              <Link href="/categories" className="flex items-center gap-2  ">
+                <RiGridFill className="text-orange-500 text-4xl" size={34} />
+                <div className="flex items-center gap-2">
+                  <p>Categories</p>{" "}
+                  <span>
+                    <TiArrowSortedDown />
+                  </span>
+                </div>
               </Link>
-              {category?.map((cat) => (
-                <li key={cat.slug} className="hidden md:block">
-                  <Link
-                    href={cat.href}
-                    className={clsx(
-                      "pb-1 transition-colors hover:text-orange-500  relative group",
-                      {
-                        "border-b-2  border-orange-500 ": pathname === cat.href,
-                      }
-                    )}
-                  >
-                    {cat.name}
-                    <span className="absolute left-1/2 bottom-0 h-[2px] w-0 bg-orange-500 group-hover:w-full group-hover:left-0 transition-all duration-500"></span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 hidden group-hover:block transition-all duration-300 ">
+                <ul className="flex items-center gap-3 w-[400px] flex-wrap p-4 rounded-md  bg-transparent  backdrop-blur-sm ">
+                  {categories?.map((cat) => (
+                    <li key={cat.slug} className="hidden md:block group">
+                      <Link
+                        href={cat.slug}
+                        className={
+                          "pb-1 transition-colors hover:text-orange-500  relative "
+                        }
+                      >
+                        {cat.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
+          <ul className="md:flex items-center gap-4 hidden  ">
+            <li>
+              <Link
+                href="/blogs"
+                // className="hover:text-orange-500 transition-colors duration-300"
+                className={clsx(
+                  "hover:text-orange-500 transition-colors duration-300",
+                  {
+                    "border-b-2 border-orange-500 text-orange-500":
+                      pathname === "/blogs",
+                  }
+                )}
+              >
+                Blogs
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/movies"
+                className={clsx(
+                  "hover:text-orange-500 transition-colors duration-300",
+                  {
+                    "border-b-2 border-orange-500 text-orange-500":
+                      pathname === "/movies",
+                  }
+                )}
+              >
+                Movies
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                href="/books"
+                className={clsx(
+                  "hover:text-orange-500 transition-colors duration-300",
+                  {
+                    "border-b-2 border-orange-500 text-orange-500":
+                      pathname === "/books",
+                  }
+                )}
+              >
+                Books
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/about"
+                className={clsx(
+                  "hover:text-orange-500 transition-colors duration-300",
+                  {
+                    "border-b-2 border-orange-500 text-orange-500":
+                      pathname === "/movies",
+                  }
+                )}
+              >
+                Who am I
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/contact"
+                className={clsx(
+                  "hover:text-orange-500 transition-colors duration-300 ",
+                  {
+                    "border-b-2 border-orange-500 text-orange-500":
+                      pathname === "/movies",
+                  }
+                )}
+              >
+                Contact Me
+              </Link>
+            </li>
+          </ul>
         </div>
       </section>
 
       <section id="login" className="hidden md:block">
         <ul className="flex items-center gap-2">
+          {session?.user.role === "ADMIN" && (
+            <Link
+              href="/admin"
+              className="hover:text-orange-500 transition-colors duration-300 bg-orange-500 rounded-md px-4 py-2"
+            >
+              Admin Panel
+            </Link>
+          )}
           {session ? (
             <div className="flex items-center gap-4">
               <Link

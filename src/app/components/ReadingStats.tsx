@@ -23,12 +23,12 @@ export default async function ReadingStats({ year }: { year?: number }) {
 
   return (
     <div
-      className={` bg-[url('/book_progress.jpg')] bg-contain p-6  shadow-2xl text-white max-w-7xl mx-auto md:rounded-md `}
+      className={` bg-[url('/reading_bg.jpg')] bg-contain p-6  shadow-2xl text-white max-w-7xl mx-auto md:rounded-md `}
     >
       <h2 className="text-3xl font-extrabold mb-6 text-slate-800 border-b-2 border-slate-800 pb-2 text-center ">
         Reading Goals and Progress ({currentYear})
       </h2>
-      <div className="max-w-3xl mx-auto bg-white/20 backdrop-blur-md p-4 rounded-md">
+      <div className="max-w-3xl mx-auto bg-white/30 backdrop-blur-md p-4 rounded-md">
         {/* İlerleme Çubukları */}
         <div className="flex justify-around items-start mb-16  gap-12">
           <ProgressCircle
@@ -53,7 +53,7 @@ export default async function ReadingStats({ year }: { year?: number }) {
               <span className="font-medium text-sm md:text-xl text-slate-800">
                 Book Read:
               </span>
-              <span className="text-sm md:text-lg font-bold text-green-400">
+              <span className="text-sm md:text-lg font-bold text-slate-800">
                 {stats.readBookCount} / {stats.targetBookCount}
               </span>
             </div>
@@ -63,7 +63,7 @@ export default async function ReadingStats({ year }: { year?: number }) {
               <span className="font-medium text-sm md:text-xl text-slate-800">
                 Total Pages Read:
               </span>
-              <span className="text-sm md:text-lg font-bold text-green-400">
+              <span className="text-sm md:text-lg font-bold text-slate-800">
                 {stats.readPageCount.toLocaleString()} /
                 {stats.targetPageCount.toLocaleString()}
               </span>
@@ -74,7 +74,7 @@ export default async function ReadingStats({ year }: { year?: number }) {
               <span className="font-medium text-sm md:text-xl text-slate-800">
                 Average Book Length:
               </span>
-              <span className="text-sm md:text-lg font-bold text-orange-400">
+              <span className="text-sm md:text-lg font-bold text-slate-800">
                 {stats.averageBookLength} Page
               </span>
             </div>
