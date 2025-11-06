@@ -22,8 +22,9 @@ interface HeaderProps {
 
 export default function Header({ session, categories }: HeaderProps) {
   const pathname = usePathname();
+  console.log("Header'a gelen kategoriler:", categories);
   return (
-    <nav className="flex items-center justify-between md:justify-around gap-4 px-6 h-16 bg-transparent text-white border-b-1 border-slate-400 overflow-hidden">
+    <nav className="flex items-center justify-between md:justify-around gap-4 px-6 h-16 bg-transparent text-white border-b-1 border-slate-400 ">
       <section id="brand">
         <div className="flex items-center gap-4 md:gap-12">
           <Link
@@ -44,10 +45,10 @@ export default function Header({ session, categories }: HeaderProps) {
                   </span>
                 </div>
               </Link>
-              <div className="absolute top-full left-1/2 -translate-x-1/2 hidden group-hover:block transition-all duration-300 ">
-                <ul className="flex items-center gap-3 w-[400px] flex-wrap p-4 rounded-md  bg-transparent  backdrop-blur-sm ">
+              <div className="absolute top-full left-1/2 -translate-x-1/2 hidden group-hover:block transition-all duration-300 z-50 ">
+                <ul className="flex items-center gap-3 w-[400px] flex-wrap p-4 rounded-md  bg-transparent  backdrop-blur-lg ">
                   {categories?.map((cat) => (
-                    <li key={cat.slug} className="hidden md:block group">
+                    <li key={cat.slug} className="hidden md:block  group">
                       <Link
                         href={cat.slug}
                         className={

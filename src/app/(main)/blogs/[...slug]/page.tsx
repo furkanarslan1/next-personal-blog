@@ -20,11 +20,20 @@ export default async function BlogDetailPage({
   const categorySlug = slugArray[0];
   const blogSlug = slugArray[1];
 
-  const blog = await prisma.post.findUnique({ where: { slug: blogSlug } });
+  const blog = await prisma.post.findUnique({
+    where: { slug: blogSlug },
+    include: {
+      _count: {
+        select: { comments: true },
+      },
+    },
+  });
 
   if (!blog) {
     notFound();
   }
+
+  const commentCount = blog._count.comments;
 
   const createdDate = new Date(blog.createdAt).toLocaleDateString("tr-TR", {
     year: "numeric",
@@ -98,7 +107,8 @@ export default async function BlogDetailPage({
           <h2>Similar blogs</h2>
           <div>{<HorizontalSlider sliderItem={categoryByBlogs} />}</div>
         </section>
-        )
+        {/* ******COMMENTS */}
+        <section className="px-6 mb-12"></section>)
       </div>
     </div>
   );
