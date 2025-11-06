@@ -25,6 +25,11 @@ export default function BlogCommentForm({
       setMessage(res.message);
       if (res.success) {
         setContent("");
+        if (res.message.includes("successfully")) {
+          setTimeout(() => {
+            setMessage("");
+          }, 3000);
+        }
         router.refresh();
       }
     });
