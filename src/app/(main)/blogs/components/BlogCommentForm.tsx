@@ -67,7 +67,7 @@ export default function BlogCommentForm({
         <button
           type="submit"
           disabled={isPending}
-          className="bg-orange-500 cursor-pointer text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition disabled:opacity-50"
+          className="bg-orange-500 w-full md:w-fit cursor-pointer text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition disabled:opacity-50"
         >
           {isPending ? "Sending..." : "Post Comment"}
         </button>

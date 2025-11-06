@@ -6,6 +6,8 @@ import { FaStar } from "react-icons/fa";
 import TrailerModal from "./components/TrailerModal";
 import MovieCommentForm from "../components/MovieCommentForm";
 import { auth } from "@/auth";
+import MovieComments from "../components/MovieComments";
+import { getCommentByMovieIdAction } from "@/actions/comments";
 
 interface MovieDetailProps {
   params: {
@@ -32,6 +34,7 @@ export default async function MoviesPage({ params }: MovieDetailProps) {
   }
 
   const session = await auth();
+  const comments = await getCommentByMovieIdAction(movie.id);
 
   return (
     <div
@@ -88,6 +91,9 @@ export default async function MoviesPage({ params }: MovieDetailProps) {
                   movieId={movie.id}
                   isAuthenticated={!!session?.user}
                 />
+              </section>
+              <section>
+                <MovieComments comments={comments} />
               </section>
             </div>
           </div>

@@ -98,7 +98,7 @@ export async function addMovieComment(movieId: string, content: string) {
   if (existingComment) {
     return {
       success: false,
-      message: "You have already commented on this post.",
+      message: "You have already commented on this **movie**.",
     };
   }
 

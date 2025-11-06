@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-
+import { FaPlay } from "react-icons/fa";
 import {
   Dialog,
   DialogContent,
@@ -42,8 +42,8 @@ export default function TrailerModal({
     <div>
       <Dialog>
         <DialogTrigger asChild>
-          <button className="mt-4 md:mt-24  bg-orange-500 text-white rounded-md font-bold px-4 py-2 cursor-pointer  hover:bg-orange-700 transition-all duration-300 ">
-            Watch Trailer
+          <button className="mt-4 md:mt-24  bg-orange-500 text-white rounded-md font-bold px-4 py-2 cursor-pointer  flex items-center gap-2 hover:bg-orange-700 transition-all duration-300 ">
+            <FaPlay /> <p>Watch Trailer</p>
           </button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[1000px] p-0 border-none bg-transparent">

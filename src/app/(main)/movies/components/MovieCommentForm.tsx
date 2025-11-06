@@ -18,7 +18,8 @@ export default function MovieCommentForm({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!content.trim()) {
+    if (!content.trim()) return;
+    if (content.trim()) {
       startTransition(async () => {
         const res = await addMovieComment(movieId, content.trim());
         setMessage(res.message);
@@ -66,7 +67,7 @@ export default function MovieCommentForm({
         <button
           type="submit"
           disabled={isPending}
-          className="bg-orange-500 cursor-pointer text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition disabled:opacity-50"
+          className="bg-orange-500 w-full md:w-fit cursor-pointer text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition disabled:opacity-50"
         >
           {isPending ? "Sending..." : "Post Comment"}
         </button>
