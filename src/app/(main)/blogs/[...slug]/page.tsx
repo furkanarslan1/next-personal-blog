@@ -6,6 +6,8 @@ import { notFound } from "next/navigation";
 import React from "react";
 import BlogCommentForm from "../components/BlogCommentForm";
 import { auth } from "@/auth";
+import BlogComments from "../components/BlogComments";
+import { getCommentByPostIdAction } from "@/actions/comments";
 
 export default async function BlogDetailPage({
   params,
@@ -52,6 +54,7 @@ export default async function BlogDetailPage({
       : [];
 
   const categoryByBlogs = await getBlogsByCategoryAction(categorySlug);
+  const comments = await getCommentByPostIdAction(blog.id);
 
   const session = await auth();
 
@@ -109,11 +112,13 @@ export default async function BlogDetailPage({
           <h2>Similar blogs</h2>
           <div>{<HorizontalSlider sliderItem={categoryByBlogs} />}</div>
         </section>
-        {/* ******COMMENTS */}
+        ){/* ******COMMENTS */}
         <section className="px-6 mb-12">
           <BlogCommentForm postId={blog.id} isAuthenticated={!!session?.user} />
         </section>
-        )
+        <section>
+          <BlogComments comments={comments} />
+        </section>
       </div>
     </div>
   );

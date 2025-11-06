@@ -48,8 +48,29 @@ export async function addPostComment(postId: string, content: string) {
       revalidatePath(`/blogs/${category.slug}/${post.slug}`);
     }
   } else {
-    // Kategori yoksa genel blog sayfasını yenileyelim
     revalidatePath(`/blogs/${post.slug}`);
   }
   return { success: true, message: "Comment added successfully." };
+}
+
+export async function getCommentByPostIdAction(postId: string) {
+  try {
+    const comments = await prisma.comment.findMany({
+      where: { postId },
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+            image: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+    return comments;
+  } catch (error) {
+    console.error("Failed to fetch comments:", error);
+    return [];
+  }
 }

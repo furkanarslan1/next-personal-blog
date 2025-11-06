@@ -32,13 +32,24 @@ export default function BlogCommentForm({
 
   if (!isAuthenticated) {
     return (
-      <p className="text-gray-600 text-sm mt-6">
-        Please
-        <Link href="/login" className="text-orange-500 underline font-bold">
-          log in
-        </Link>
-        to leave a comment.
-      </p>
+      <div className="">
+        <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="Write your comment..."
+          className="w-full border text-slate-300 border-slate-300 rounded-lg p-2 focus:outline-none focus:border-2 focus:border-orange-500 min-h-[80px] placeholder:text-slate-300"
+        />
+        <p className="text-slate-100 bg-orange-500 w-fit px-4 py-2 rounded-md text-sm mt-2 ">
+          Please
+          <Link
+            href="/login"
+            className="text-white underline font-extrabold px-1"
+          >
+            <span className="  rounded-md py-1 "> log in</span>
+          </Link>
+          to leave a comment.
+        </p>
+      </div>
     );
   }
 

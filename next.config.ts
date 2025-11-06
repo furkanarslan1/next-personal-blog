@@ -7,7 +7,13 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "res.cloudinary.com", // 👈 Cloudinary domaini eklendi
+        hostname: "res.cloudinary.com", //  Cloudinary domaini eklendi
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com", // Google profil resimleri
+        port: "",
+        pathname: "/**", // Bu host altındaki tüm yollara izin ver
       },
     ],
   },
