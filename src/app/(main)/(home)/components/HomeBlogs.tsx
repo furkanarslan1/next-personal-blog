@@ -18,7 +18,7 @@ export default async function HomeBlogs({
     );
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-6 gap-6  p-4 md:py-4 md:px-0 bg-transparent bg-contain bg-center max-w-7xl mx-auto">
+    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-6 gap-4 px-4 md:py-4 md:px-0 bg-transparent bg-contain bg-center max-w-7xl mx-auto overflow-hidden">
       {blogs.map((blog) => (
         // <div key={blog.id} className="border rounded-xl p-4 shadow-sm">
         //   <h2 className="font-semibold text-lg">{blog.title}</h2>
@@ -29,7 +29,7 @@ export default async function HomeBlogs({
           href={`/blogs/${blog.category?.slug || "general"}/${blog.slug}`}
           className="flex flex-col justify-end gap-2 rounded-md   "
         >
-          <div className="relative h-64 w-48 rounded-md ">
+          <div className="relative h-64  rounded-md ">
             <Image
               src={blog.imageUrl || "/personal-blog-hero.jpg"}
               alt={blog.title || "post image"}

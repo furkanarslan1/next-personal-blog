@@ -61,7 +61,7 @@ export default function HorizontalSlider({
                 />
               </div>
 
-              <span className="absolute top-2 right-4 bg-orange-500 text-white rounded-2xl text-sm px-2">
+              <span className="absolute top-2 right-12 md:right-1/2 bg-orange-500 text-white rounded-2xl text-sm px-2">
                 {slider.category?.name || "General"}
               </span>
 

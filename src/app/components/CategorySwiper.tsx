@@ -1,7 +1,7 @@
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { FreeMode, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import { useState } from "react";
@@ -36,17 +36,20 @@ export default function CategorySwiper({
         </button>
       </div>
       <Swiper
-        spaceBetween={10}
-        modules={[Navigation]}
+        spaceBetween={8}
+        modules={[Navigation, FreeMode]}
         slidesPerView={"auto"}
+        // slidesPerView={categories.length}
         freeMode={true}
+        grabCursor={true}
+        touchRatio={1.2}
         className="w-full py-2 "
         navigation={{
           prevEl: ".categorySwiper-button-prev",
           nextEl: ".categorySwiper-button-next",
         }}
       >
-        <SwiperSlide>
+        <SwiperSlide className="!w-auto">
           <button
             onClick={() => {
               setActive(null);
@@ -61,7 +64,7 @@ export default function CategorySwiper({
         </SwiperSlide>
 
         {categories.map((cat) => (
-          <SwiperSlide key={cat.id}>
+          <SwiperSlide key={cat.id} className="!w-auto">
             <button
               onClick={() => {
                 setActive(cat.slug);

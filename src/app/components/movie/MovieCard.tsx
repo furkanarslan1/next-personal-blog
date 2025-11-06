@@ -146,7 +146,7 @@ export default function MovieCard({
                 </div>
               </div> */}
 
-              <div className=" relative  h-80 w-52 rounded-xl overflow-hidden group cursor-pointer ">
+              <div className=" relative  h-72 w-42 md:w-52  rounded-xl overflow-hidden group cursor-pointer ">
                 <Image
                   src={movie.posterUrl || "/personal-blog-hero.jpg"}
                   alt={movie.title || "post image"}
@@ -162,7 +162,7 @@ export default function MovieCard({
                 </div>
               </div>
 
-              <div className="p-4 text-slate-00 w-full transition-all duration-300 ">
+              <div className="p-4 text-slate-800 w-full transition-all duration-300 ">
                 <div className="flex items-center justify-between w-48">
                   <h3 className="font-bold ">
                     {movie.title && movie.title.length > 20

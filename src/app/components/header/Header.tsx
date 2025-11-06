@@ -50,7 +50,7 @@ export default function Header({ session, categories }: HeaderProps) {
                   {categories?.map((cat) => (
                     <li key={cat.slug} className="hidden md:block  group">
                       <Link
-                        href={cat.slug}
+                        href={`/blogs?category=${cat.slug} `}
                         className={
                           "pb-1 transition-colors hover:text-orange-500  relative "
                         }

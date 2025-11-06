@@ -43,7 +43,7 @@ export default function RandomMovieContent({
   return (
     // <div className="bg-[url('/random_movie_pattern.jpg')] h-full bg-contain bg-center md:rounded-md">
     <div className=" h-full  md:rounded-md">
-      <div className="flex flex-col items-center p-4 bg-transparent backdrop-blur-lg  text-white max-w-sm mx-auto shadow-2xl">
+      <div className="flex flex-col items-center p-4 bg-transparent   text-white max-w-sm mx-auto shadow-2xl">
         <h2 className="text-xl font-bold mb-4 text-center text-slate-800">
           Random Movie Discover
         </h2>
