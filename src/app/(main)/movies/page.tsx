@@ -26,6 +26,7 @@ async function getMovies(): Promise<allMoviesType[]> {
         status: true,
         genres: true,
         slug: true,
+        _count: { select: { likes: true } },
       },
       orderBy: { createdAt: "desc" },
     });

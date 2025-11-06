@@ -22,7 +22,7 @@ export default function GenreSlider({
   onGenreClick,
 }: GenreSliderProps) {
   return (
-    <div className="relative md:px-12">
+    <div className="relative md:px-12 bg-black rounded-md p-2">
       <div className="hidden md:flex absolute top-1/2 -translate-y-1/2 left-2 z-10">
         <button className="genres-button-prev bg-orange-500 hover:bg-white p-2 rounded-full shadow-md transition cursor-pointer z-10">
           <IoIosArrowBack className="w-5 h-5 text-gray-800" />

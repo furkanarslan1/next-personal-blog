@@ -11,7 +11,7 @@ export default async function ReadingStats({ year }: { year?: number }) {
   if (!stats) {
     return (
       <div className="bg-gray-800 p-6 rounded-xl shadow-2xl text-white max-w-lg mx-auto">
-        <h2 className="text-2xl font-bold mb-4 text-slate-800">
+        <h2 className="text-2xl font-bold mb-4 text-white relative z-10">
           Reading Goals ({currentYear})
         </h2>
         <p className="text-center text-gray-400">
@@ -23,12 +23,13 @@ export default async function ReadingStats({ year }: { year?: number }) {
 
   return (
     <div
-      className={` bg-[url('/reading_bg.jpg')] bg-contain p-6  shadow-2xl text-white max-w-7xl mx-auto md:rounded-md `}
+      className={` bg-[url('/reading_bg.jpg')] bg-contain p-6  shadow-2xl text-white max-w-7xl mx-auto md:rounded-md relative`}
     >
-      <h2 className="text-3xl font-extrabold mb-6 text-slate-800 border-b-2 border-slate-800 pb-2 text-center ">
+      <div className="absolute inset-0 bg-black/50 "></div>
+      <h2 className="text-3xl font-extrabold mb-6 text-slate-100 border-b-2 border-slate-800 pb-2 text-center relative z-10 ">
         Reading Goals and Progress ({currentYear})
       </h2>
-      <div className="max-w-3xl mx-auto bg-white/30 backdrop-blur-md p-4 rounded-md">
+      <div className="max-w-3xl mx-auto bg-white/30 backdrop-blur-md p-4 rounded-md relative z-10">
         {/* İlerleme Çubukları */}
         <div className="flex justify-around items-start mb-16  gap-12">
           <ProgressCircle
@@ -42,7 +43,7 @@ export default async function ReadingStats({ year }: { year?: number }) {
         </div>
 
         {/* Detailed Statistics Table */}
-        <div className="mt-6 ">
+        <div className="mt-6 relative z-10">
           <h3 className="text-sm md:text-xl text-slate-800 font-semibold mb-3 border-b border-gray-600 pb-1 ">
             Details
           </h3>

@@ -8,6 +8,8 @@ import { FaStar } from "react-icons/fa";
 import Image from "next/image";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Link from "next/link";
+import { IoIosThumbsUp } from "react-icons/io";
+import { FaRegComment } from "react-icons/fa";
 
 interface MovieType {
   id: string;
@@ -17,6 +19,10 @@ interface MovieType {
   status: "WATCHED" | "PLAN_TO_WATCH";
   genres: string[];
   slug: string;
+  _count?: {
+    likes: number;
+    comments: number;
+  };
 }
 
 interface MovieCardProps {
@@ -104,7 +110,8 @@ export default function MovieCard({
                   : "uncategorized"
               }/${movie.slug}`}
             >
-              <div className=" relative  h-80 w-full rounded-xl overflow-hidden group cursor-pointer ">
+              {/* <div className=" relative  h-80 w-full rounded-xl overflow-hidden group cursor-pointer "> */}
+              {/* <div className=" relative  h-80 w-52 rounded-xl overflow-hidden group cursor-pointer ">
                 <Image
                   src={movie.posterUrl || "/personal-blog-hero.jpg"}
                   alt={movie.title || "post image"}
@@ -120,10 +127,57 @@ export default function MovieCard({
                         ? movie.title.slice(0, 20)
                         : movie.title}
                     </h3>
+
                     <div className="flex items-center gap-1 text-yellow-300">
                       <p>{movie.rating}</p>
                       <FaStar />
                     </div>
+                  </div>
+                  <div className="flex items-center  gap-4 text-slate-300 text-sm">
+                    <span className="flex items-center gap-1">
+                      <IoIosThumbsUp className="text-orange-400" />
+                      {movie._count?.likes || 0}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <FaRegComment className="text-orange-400" />
+                      {movie._count?.comments || 0}
+                    </span>
+                  </div>
+                </div>
+              </div> */}
+
+              <div className=" relative  h-80 w-52 rounded-xl overflow-hidden group cursor-pointer ">
+                <Image
+                  src={movie.posterUrl || "/personal-blog-hero.jpg"}
+                  alt={movie.title || "post image"}
+                  fill
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-600"
+                />
+                <span className=" group-hover:absolute bottom-0 left-0 h-full w-full bg-gradient-to-t from-black/60 to-transparent"></span>
+                <div className="absolute right-5 bottom-3">
+                  <div className="flex items-center gap-1 text-yellow-400">
+                    <p>{movie.rating}</p>
+                    <FaStar />
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-4 text-slate-00 w-full transition-all duration-300 ">
+                <div className="flex items-center justify-between w-48">
+                  <h3 className="font-bold ">
+                    {movie.title && movie.title.length > 20
+                      ? movie.title.slice(0, 20)
+                      : movie.title}
+                  </h3>
+                  <div className="flex items-center  gap-4 text-slate-800 text-sm">
+                    <span className="flex items-center gap-1">
+                      <IoIosThumbsUp className="text-orange-500" />
+                      {movie._count?.likes || 0}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <FaRegComment className="text-orange-500" />
+                      {movie._count?.comments || 0}
+                    </span>
                   </div>
                 </div>
               </div>

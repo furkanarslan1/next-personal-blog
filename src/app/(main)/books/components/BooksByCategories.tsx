@@ -11,6 +11,10 @@ interface allBooksType {
   status: "READ" | "READING" | "PLAN_TO_READ";
   genres: string[];
   slug: string;
+  _count?: {
+    likes: number;
+    comments: number;
+  };
 }
 
 interface BooksByCategoryProps {
@@ -39,9 +43,10 @@ export default function BooksByCategories({
       />
 
       {selectedGenre && (
-        <div className="pt-4">
+        <div className="pt-4 px-4">
           <h6 className="text-xl font-bold mb-4 text-white">
-            Books in: <span className="text-orange-500">{selectedGenre}</span>
+            <span className="text-slate-800">Books in: </span>{" "}
+            <span className="text-orange-500">{selectedGenre}</span>
           </h6>
 
           {filteredBooks.length > 0 ? (

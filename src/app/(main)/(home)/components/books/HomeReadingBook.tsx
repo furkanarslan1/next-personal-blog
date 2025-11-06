@@ -16,6 +16,7 @@ export default async function HomeReadingBook() {
       coverImageUrl: true,
       slug: true,
       genres: true,
+      description: true,
     },
   });
 
@@ -34,12 +35,14 @@ export default async function HomeReadingBook() {
     );
   }
   return (
-    <div className="bg-[url('/blog_bg.jpg')] bg-contain bg-center  p-4 max-w-7xl mx-auto  md:rounded-md">
-      <h3 className="text-xl font-bold text-white mb-4 ">My Current Read</h3>
-      <div className="flex items-center justify-center">
+    <div className=" p-4 max-w-7xl mx-auto  md:rounded-md">
+      <h3 className="text-xl font-extrabold text-slate-800 mb-4 text-center md:text-start">
+        My Current Read
+      </h3>
+      <div className="flex flex-col md:flex-row items-center md:items-start gap-4 ">
         <Link
           href={`/books/${primaryGenreSlug}/${readingBook.slug}`}
-          className="flex flex-col items-center"
+          className="flex flex-col items-center hover:scale-105 transition-all duration-500"
         >
           <div className="relative h-52 md:h-72 w-54">
             <Image
@@ -49,20 +52,30 @@ export default async function HomeReadingBook() {
               fill
             />
           </div>
-          <div className="text-slate-300 space-y-2 mt-1 flex flex-col items-center">
+          <div className="text-slate-800 space-y-2 mt-1 flex flex-col items-center">
             <h1 className="font-bold">{readingBook.title}</h1>
             <div>
               <p className="text-sm">
-                <span className="text-orange-500 font-bold">Author: </span>
+                <span className="text-orange-600 font-bold">Author: </span>
                 {readingBook.authorName}
               </p>
               <p className="text-sm">
-                <span className="text-orange-500 font-bold">Genre: </span>
+                <span className="text-orange-600 font-bold">Genre: </span>
                 {primaryGenreSlug}
               </p>
             </div>
           </div>
         </Link>
+        <div className="hidden md:block">
+          <p className="text-slate-800 font-bold">Description:</p>
+          <p className="text-sm md:text-lg">
+            {readingBook.description
+              ? readingBook.description.length > 1200
+                ? readingBook.description.slice(0, 1200) + "..."
+                : readingBook.description
+              : "No description provided."}
+          </p>
+        </div>
       </div>
     </div>
   );

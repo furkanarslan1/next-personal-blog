@@ -14,7 +14,7 @@ interface allMoviesType {
 
 type FilterPrefix = "watched" | "plan";
 const NEON_TITLE_CLASS =
-  "text-orange-500 font-extrabold text-2xl md:text-3xl drop-shadow-[0_0_8px_rgba(251,146,60,0.8)] transition duration-300";
+  "text-slate-800 font-extrabold text-2xl md:text-3xl drop-shadow-[0_0_8px_rgba(251,146,60,0.8)] transition duration-300";
 
 async function getMovies(): Promise<allMoviesType[]> {
   try {
@@ -41,7 +41,8 @@ async function getMovies(): Promise<allMoviesType[]> {
 export default async function HomeMovies() {
   const movies = await getMovies();
   return (
-    <div className="bg-[url('/cinema_bg_4.jpg')] bg-contain md:rounded-md p-4 max-w-7xl mx-auto">
+    // <div className="bg-[url('/cinema_bg_4.jpg')] bg-contain md:rounded-md p-4 max-w-7xl mx-auto">
+    <div className=" md:rounded-md p-4 max-w-7xl mx-auto">
       <section className="space-y-12">
         <div>
           <h5 className={`mb-4 ${NEON_TITLE_CLASS}`}>I Watched Movies</h5>

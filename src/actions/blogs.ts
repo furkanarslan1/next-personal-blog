@@ -212,7 +212,15 @@ export async function getBlogsByCategoryAction(categorySlug?: string) {
       where: whereClause,
       orderBy: { createdAt: "desc" },
       take: 10,
-      include: { category: true },
+      include: {
+        category: true,
+        _count: {
+          select: {
+            likes: true,
+            comments: true,
+          },
+        },
+      },
     });
     return blogs;
   } catch (error) {
@@ -233,7 +241,15 @@ export async function getBlogsPageByCategoryAction(categorySlug?: string) {
       where: whereClause,
       orderBy: { createdAt: "desc" },
       take: 20,
-      include: { category: true },
+      include: {
+        category: true,
+        _count: {
+          select: {
+            likes: true,
+            comments: true,
+          },
+        },
+      },
     });
     return blogs;
   } catch (error) {

@@ -13,6 +13,10 @@ interface allBooksType {
   status: "READ" | "READING" | "PLAN_TO_READ";
   genres: string[];
   slug: string;
+  _count?: {
+    likes: number;
+    comments: number;
+  };
 }
 
 async function getBooks(): Promise<allBooksType[]> {
@@ -26,6 +30,12 @@ async function getBooks(): Promise<allBooksType[]> {
         status: true,
         genres: true,
         myRating: true,
+        _count: {
+          select: {
+            likes: true,
+            comments: true,
+          },
+        },
       },
       orderBy: { createdAt: "desc" },
     });
@@ -41,11 +51,11 @@ export default async function BooksPage() {
   const books = await getBooks();
   const uniqueGenres = bookCategories;
   return (
-    <div>
+    <div className="pb-8 ">
       <div className="bg-slate-800 h-16 "></div>
-      <div className="">
+      <div className="max-w-7xl mx-auto">
         <ReadingStats />
-        <div>
+        <div className="py-4">
           <h3 className="text-3xl px-4  font-bold text-slate-800 ">
             I READ BOOK
           </h3>

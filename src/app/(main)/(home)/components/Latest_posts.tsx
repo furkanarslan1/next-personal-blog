@@ -14,6 +14,12 @@ async function getLatestPost(): Promise<HorizontalSliderItem[]> {
         category: {
           select: { name: true, slug: true },
         },
+        _count: {
+          select: {
+            likes: true,
+            comments: true,
+          },
+        },
       },
       take: 10,
       orderBy: { createdAt: "desc" },

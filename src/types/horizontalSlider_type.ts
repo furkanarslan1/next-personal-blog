@@ -8,6 +8,10 @@ export interface HorizontalSliderItem {
     name: string;
     slug: string;
   } | null;
+  _count?: {
+    likes: number;
+    comments: number;
+  };
 }
 export interface HorizontalSliderProps {
   sliderItem: HorizontalSliderItem[];

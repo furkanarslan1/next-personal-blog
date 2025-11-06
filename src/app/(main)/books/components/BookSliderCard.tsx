@@ -4,7 +4,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import { FaStar } from "react-icons/fa";
+import { IoIosThumbsUp } from "react-icons/io";
+import { FaRegComment } from "react-icons/fa";
 import Image from "next/image";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Link from "next/link";
@@ -17,6 +18,10 @@ interface allBooksType {
   status: "READ" | "READING" | "PLAN_TO_READ";
   genres: string[];
   slug: string;
+  _count?: {
+    likes: number;
+    comments: number;
+  };
 }
 
 interface BooksSliderCardProps {
@@ -105,7 +110,7 @@ export default function BookSliderCard({
                   : "uncategorized"
               }/${book.slug}`}
             >
-              <div className="flex flex-col gap-2 items-center">
+              <div className="flex flex-col gap-2 items-center  py-4">
                 <div className=" relative  h-30 w-full rounded-xl overflow-hidden group cursor-pointer ">
                   <Image
                     src={book.coverImageUrl || "/personal-blog-hero.jpg"}
@@ -115,13 +120,23 @@ export default function BookSliderCard({
                   />
                 </div>
 
-                <div className="">
+                <div className="flex flex-col items-center">
                   <div className="flex flex-col items-center justify-between">
                     <h3 className="font-bold ">
                       {book.title && book.title.length > 20
                         ? book.title.slice(0, 20)
                         : book.title}
                     </h3>
+                  </div>
+                  <div className="flex items-center gap-4 text-slate-800 text-sm">
+                    <span className="flex items-center gap-1">
+                      <IoIosThumbsUp className="text-orange-400" />
+                      {book._count?.likes || 0}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <FaRegComment className="text-orange-400" />
+                      {book._count?.comments || 0}
+                    </span>
                   </div>
                 </div>
               </div>
