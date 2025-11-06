@@ -4,6 +4,8 @@ import { prisma } from "@lib/prisma";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import React from "react";
+import BlogCommentForm from "../components/BlogCommentForm";
+import { auth } from "@/auth";
 
 export default async function BlogDetailPage({
   params,
@@ -33,8 +35,6 @@ export default async function BlogDetailPage({
     notFound();
   }
 
-  const commentCount = blog._count.comments;
-
   const createdDate = new Date(blog.createdAt).toLocaleDateString("tr-TR", {
     year: "numeric",
     month: "long",
@@ -52,6 +52,8 @@ export default async function BlogDetailPage({
       : [];
 
   const categoryByBlogs = await getBlogsByCategoryAction(categorySlug);
+
+  const session = await auth();
 
   return (
     <div className="bg-[url('/blog_bg.jpg')] bg-contain bg-center min-h-screen relative">
@@ -108,7 +110,10 @@ export default async function BlogDetailPage({
           <div>{<HorizontalSlider sliderItem={categoryByBlogs} />}</div>
         </section>
         {/* ******COMMENTS */}
-        <section className="px-6 mb-12"></section>)
+        <section className="px-6 mb-12">
+          <BlogCommentForm postId={blog.id} isAuthenticated={!!session?.user} />
+        </section>
+        )
       </div>
     </div>
   );
