@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import Header from "../components/header/Header";
 import React from "react";
 import { prisma } from "@lib/prisma";
+import MobileNavbar from "../components/MobileNavbar";
 
 interface CategoriesType {
   slug: string;
@@ -33,8 +34,11 @@ export default async function MainLayout({
       <header className="absolute top-0 left-0 w-full z-30">
         <Header session={session} categories={categories} />
       </header>
-      <main>{children}</main>
+      <main className="">{children}</main>
       <footer></footer>
+      <div className="md:hidden">
+        <MobileNavbar />
+      </div>
     </>
   );
 }
