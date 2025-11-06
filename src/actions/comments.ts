@@ -131,3 +131,60 @@ export async function getCommentByMovieIdAction(movieId: string) {
     return [];
   }
 }
+
+//  *************************** BOOK COMMENTS **********************************************************************
+
+export async function addBookComment(bookId: string, content: string) {
+  const session = await auth();
+  if (!session || !session.user) {
+    return { success: false, message: "You need to log in." };
+  }
+
+  const userId = session.user.id;
+
+  const movie = await prisma.book.findUnique({ where: { id: bookId } });
+
+  if (!movie) {
+    return { success: false, message: "Book post not found." };
+  }
+
+  const existingComment = await prisma.comment.findFirst({
+    where: { bookId, authorId: userId },
+  });
+
+  if (existingComment) {
+    return {
+      success: false,
+      message: "You have already commented on this **book**.",
+    };
+  }
+
+  await prisma.comment.create({
+    data: { content, bookId, authorId: userId },
+  });
+
+  revalidatePath(`/book/${movie.genres[0]}/${movie.slug}`);
+  return { success: true, message: "Comment added successfully." };
+}
+
+export async function getCommentByBookIdAction(bookId: string) {
+  try {
+    const comments = await prisma.comment.findMany({
+      where: { bookId },
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+            image: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+    return comments;
+  } catch (error) {
+    console.error("Failed to fetch comments:", error);
+    return [];
+  }
+}
