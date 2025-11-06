@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import React from "react";
 import { FaStar } from "react-icons/fa";
 import TrailerModal from "./components/TrailerModal";
+import MovieCommentForm from "../components/MovieCommentForm";
+import { auth } from "@/auth";
 
 interface MovieDetailProps {
   params: {
@@ -28,6 +30,8 @@ export default async function MoviesPage({ params }: MovieDetailProps) {
   if (!movie) {
     notFound();
   }
+
+  const session = await auth();
 
   return (
     <div
@@ -79,6 +83,12 @@ export default async function MoviesPage({ params }: MovieDetailProps) {
                 movieTitle={movie.title}
                 trailerUrl={movie.trailerUrl}
               />
+              <section>
+                <MovieCommentForm
+                  movieId={movie.id}
+                  isAuthenticated={!!session?.user}
+                />
+              </section>
             </div>
           </div>
         </div>
