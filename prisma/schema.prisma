@@ -187,6 +187,8 @@ model Like {
   createdAt DateTime @default(now())
 
   @@unique([postId, userId])
+  @@unique([bookId, userId])
+@@unique([movieId, userId])
 }
 
 // Yorumlar

@@ -7,6 +7,7 @@ import BookCommentForm from "../components/BookCommentForm";
 import BookComments from "../components/BookComments";
 import { FaStar } from "react-icons/fa";
 import Image from "next/image";
+import LikeButton from "@/app/components/LikeButton";
 
 interface BookDetailProps {
   params: {
@@ -25,7 +26,19 @@ export default async function BookDetailPage({ params }: BookDetailProps) {
   const categorySlug = slugArray[0];
   const bookSlug = slugArray[1];
 
-  const book = await prisma.book.findUnique({ where: { slug: bookSlug } });
+  const book = await prisma.book.findUnique({
+    where: { slug: bookSlug },
+    include: {
+      _count: {
+        select: { comments: true, likes: true },
+      },
+      likes: {
+        select: {
+          userId: true,
+        },
+      },
+    },
+  });
 
   if (!book) {
     notFound();
@@ -33,13 +46,15 @@ export default async function BookDetailPage({ params }: BookDetailProps) {
 
   const session = await auth();
   const comments = await getCommentByBookIdAction(book.id);
+  const userId = session?.user?.id;
+  const isLiked = book.likes.some((like) => like.userId === userId);
 
   return (
     <div className="bg-[url('/blog_bg.jpg')] min-h-screen">
       <div className="pt-16">
         <div className="p-8 text-white z-10 relative">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-            <div className="relative h-96 w-full md:h-96 md:w-96 rounded-md">
+            <div className="relative h-96 w-full md:h-96 md:w-[2300px] rounded-md">
               <Image
                 src={book.coverImageUrl || "/personal-blog-hero.jpg"}
                 alt={book.title}
@@ -47,9 +62,9 @@ export default async function BookDetailPage({ params }: BookDetailProps) {
                 className="object-contain object-center rounded-md"
               />
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 ">
               <div className="space-y-2">
-                <h1 className="text-6xl  font-bold text-orange-500 mb-8 text-center md:text-start">
+                <h1 className="text-4xl md:text-6xl  font-bold text-orange-500 mb-8 text-center md:text-start">
                   {book.title}
                 </h1>
                 <p className="text-slate-300 text-sm flex flex-col md:flex-row items-start md:items-center gap-2">
@@ -98,6 +113,16 @@ export default async function BookDetailPage({ params }: BookDetailProps) {
                   </span>
                   {book.description}
                 </p>
+                <div>
+                  <LikeButton
+                    type="book"
+                    id={book.id}
+                    path={`/blogs/${categorySlug}/${book.slug}`}
+                    initialLiked={isLiked}
+                    initialLikeCount={book._count.likes}
+                    isAuthenticated={!!session?.user}
+                  />
+                </div>
 
                 <section className="mt-12">
                   <BookCommentForm

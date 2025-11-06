@@ -18,7 +18,7 @@ export default function MovieComments({
 }) {
   if (comments.length === 0) {
     return (
-      <p className="text-slate-400 bg-slate-800/40 p-8 rounded-lg  mt-6 text-sm italic">
+      <p className="text-slate-400 bg-slate-800/40 p-8 rounded-lg  mt-6 pb-8 text-sm italic">
         No comments yet. Be the first to comment!
       </p>
     );

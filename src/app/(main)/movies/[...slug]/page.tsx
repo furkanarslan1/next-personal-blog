@@ -8,6 +8,7 @@ import MovieCommentForm from "../components/MovieCommentForm";
 import { auth } from "@/auth";
 import MovieComments from "../components/MovieComments";
 import { getCommentByMovieIdAction } from "@/actions/comments";
+import LikeButton from "@/app/components/LikeButton";
 
 interface MovieDetailProps {
   params: {
@@ -27,7 +28,19 @@ export default async function MoviesPage({ params }: MovieDetailProps) {
   const categorySlug = slugArray[0];
   const movieSlug = slugArray[1];
 
-  const movie = await prisma.movie.findUnique({ where: { slug: movieSlug } });
+  const movie = await prisma.movie.findUnique({
+    where: { slug: movieSlug },
+    include: {
+      _count: {
+        select: { comments: true, likes: true },
+      },
+      likes: {
+        select: {
+          userId: true,
+        },
+      },
+    },
+  });
 
   if (!movie) {
     notFound();
@@ -35,6 +48,8 @@ export default async function MoviesPage({ params }: MovieDetailProps) {
 
   const session = await auth();
   const comments = await getCommentByMovieIdAction(movie.id);
+  const userId = session?.user?.id;
+  const isLiked = movie.likes.some((like) => like.userId === userId);
 
   return (
     <div
@@ -82,6 +97,16 @@ export default async function MoviesPage({ params }: MovieDetailProps) {
                 <span className="text-orange-500 font-bold">Description: </span>
                 {movie.description}
               </p>
+              <div>
+                <LikeButton
+                  type="movie"
+                  id={movie.id}
+                  path={`/blogs/${categorySlug}/${movie.slug}`}
+                  initialLiked={isLiked}
+                  initialLikeCount={movie._count.likes}
+                  isAuthenticated={!!session?.user}
+                />
+              </div>
               <TrailerModal
                 movieTitle={movie.title}
                 trailerUrl={movie.trailerUrl}

@@ -8,6 +8,8 @@ import BlogCommentForm from "../components/BlogCommentForm";
 import { auth } from "@/auth";
 import BlogComments from "../components/BlogComments";
 import { getCommentByPostIdAction } from "@/actions/comments";
+import { toggleLikeAction } from "@/actions/like";
+import LikeButton from "@/app/components/LikeButton";
 
 export default async function BlogDetailPage({
   params,
@@ -28,7 +30,12 @@ export default async function BlogDetailPage({
     where: { slug: blogSlug },
     include: {
       _count: {
-        select: { comments: true },
+        select: { comments: true, likes: true },
+      },
+      likes: {
+        select: {
+          userId: true,
+        },
       },
     },
   });
@@ -57,6 +64,8 @@ export default async function BlogDetailPage({
   const comments = await getCommentByPostIdAction(blog.id);
 
   const session = await auth();
+  const userId = session?.user?.id;
+  const isLiked = blog.likes.some((like) => like.userId === userId);
 
   return (
     <div className="bg-[url('/blog_bg.jpg')] bg-contain bg-center min-h-screen relative">
@@ -105,14 +114,25 @@ export default async function BlogDetailPage({
                 </span>
               ))}
             </div>
+            <div>
+              <LikeButton
+                type="post"
+                id={blog.id}
+                path={`/blogs/${categorySlug}/${blog.slug}`}
+                initialLiked={isLiked}
+                initialLikeCount={blog._count.likes}
+                isAuthenticated={!!session?.user}
+              />
+            </div>
           </div>
         </section>
-        {categoryByBlogs.length > 0} && (
-        <section className="px-6">
-          <h2>Similar blogs</h2>
-          <div>{<HorizontalSlider sliderItem={categoryByBlogs} />}</div>
-        </section>
-        ){/* ******COMMENTS */}
+        {categoryByBlogs.length > 0 && (
+          <section className="px-6 mb-6">
+            <h2 className="text-slate-300 py-4 text-2xl">Similar blogs</h2>
+            <div>{<HorizontalSlider sliderItem={categoryByBlogs} />}</div>
+          </section>
+        )}
+        {/* ******COMMENTS */}
         <section className="px-6 mb-12">
           <BlogCommentForm postId={blog.id} isAuthenticated={!!session?.user} />
         </section>
