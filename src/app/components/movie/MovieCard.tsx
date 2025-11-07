@@ -109,6 +109,7 @@ export default function MovieCard({
                   ? movie.genres[0].toLowerCase()
                   : "uncategorized"
               }/${movie.slug}`}
+              className="flex flex-col items-center"
             >
               {/* <div className=" relative  h-80 w-full rounded-xl overflow-hidden group cursor-pointer "> */}
               {/* <div className=" relative  h-80 w-52 rounded-xl overflow-hidden group cursor-pointer ">
@@ -162,14 +163,14 @@ export default function MovieCard({
                 </div>
               </div>
 
-              <div className="p-4 text-slate-800 w-full transition-all duration-300 ">
-                <div className="flex items-center justify-between w-48">
+              <div className="p-4 text-orange-500 w-full transition-all duration-300 ">
+                <div className="flex items-center justify-between w-48 ">
                   <h3 className="font-bold ">
                     {movie.title && movie.title.length > 20
                       ? movie.title.slice(0, 20)
                       : movie.title}
                   </h3>
-                  <div className="flex items-center  gap-4 text-slate-800 text-sm">
+                  <div className="flex items-center  gap-4 text-orange-500 text-sm">
                     <span className="flex items-center gap-1">
                       <IoIosThumbsUp className="text-orange-500" />
                       {movie._count?.likes || 0}

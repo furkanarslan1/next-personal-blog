@@ -19,30 +19,65 @@ export default async function BlogItems({
     );
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6  p-6 bg-[url('/blog_pattern_2.jpg')] bg-contain bg-center">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6  p-6 bg-[url('/blog_pattern_2.jpg')] bg-contain bg-center">
       {blogs.map((blog) => (
+        // <Link
+        //   key={blog.id}
+        //   href={`/blogs/${blog.category?.slug || "general"}/${blog.slug}`}
+        //   className="relative h-56 flex flex-col justify-end gap-2 border-4 border-orange-500 rounded-md bg-slate-800 text-white"
+        // >
+        //   <Image
+        //     src={blog.imageUrl || "/personal-blog-hero.jpg"}
+        //     alt={blog.title || "post image"}
+        //     fill
+        //     className="object-cover object-top "
+        //   />
+        //   {/* <span className="absolute top-2 right-4 bg-orange-500 text-white rounded-2xl text-sm px-2">
+        //     {blog.category?.name || "General"}
+        //   </span> */}
+
+        //   <div className=" bg-black/60 text-orange-500 z-20 p-4 flex items-center justify-between">
+        //     <h3 className="font-bold text-sm">
+        //       {blog.title && blog.title.length > 20
+        //         ? blog.title.slice(0, 20)
+        //         : blog.title}
+        //     </h3>
+        //     <div className="flex items-center gap-4 text-slate-300 text-sm">
+        //       <span className="flex items-center gap-1">
+        //         <IoIosThumbsUp className="text-orange-400" />
+        //         {blog._count?.likes || 0}
+        //       </span>
+        //       <span className="flex items-center gap-1">
+        //         <FaRegComment className="text-orange-400" />
+        //         {blog._count?.comments || 0}
+        //       </span>
+        //     </div>
+        //   </div>
+        // </Link>
         <Link
           key={blog.id}
           href={`/blogs/${blog.category?.slug || "general"}/${blog.slug}`}
-          className="relative h-56 flex flex-col justify-end gap-2 border-4 border-orange-500 rounded-md bg-slate-800 text-white"
+          className="flex flex-col justify-end gap-2 rounded-md   "
         >
-          <Image
-            src={blog.imageUrl || "/personal-blog-hero.jpg"}
-            alt={blog.title || "post image"}
-            fill
-            className="object-cover object-top "
-          />
+          <div className="relative h-64  rounded-md ">
+            <Image
+              src={blog.imageUrl || "/personal-blog-hero.jpg"}
+              alt={blog.title || "post image"}
+              fill
+              className="object-cover object-top  rounded-md"
+            />
+          </div>
           {/* <span className="absolute top-2 right-4 bg-orange-500 text-white rounded-2xl text-sm px-2">
             {blog.category?.name || "General"}
           </span> */}
 
-          <div className=" bg-black/60 text-orange-500 z-20 p-4 flex items-center justify-between">
+          <div className="  text-slate-800 z-20  flex items-center justify-between">
             <h3 className="font-bold text-sm">
               {blog.title && blog.title.length > 20
                 ? blog.title.slice(0, 20)
                 : blog.title}
             </h3>
-            <div className="flex items-center gap-4 text-slate-300 text-sm">
+            <div className="flex items-center gap-4 text-slate-800 text-sm">
               <span className="flex items-center gap-1">
                 <IoIosThumbsUp className="text-orange-400" />
                 {blog._count?.likes || 0}

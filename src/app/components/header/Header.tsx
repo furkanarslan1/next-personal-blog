@@ -36,10 +36,10 @@ export default function Header({ session, categories }: HeaderProps) {
 
           <div className="relative group">
             <div className="flex flex-col items-center  gap-4">
-              <Link href="/categories" className="flex items-center gap-2  ">
+              <Link href="/categories" className="flex items-center gap-2   ">
                 <RiGridFill className="text-orange-500 text-4xl" size={34} />
-                <div className="flex items-center gap-2">
-                  <p>Categories</p>{" "}
+                <div className="md:flex items-center gap-2 hidden">
+                  <p>Categories</p>
                   <span>
                     <TiArrowSortedDown />
                   </span>
