@@ -14,8 +14,8 @@ export default async function AdminLayout({
     return redirect("/");
   }
   return (
-    <div className="flex flex-col md:flex-row h-screen">
-      <aside className="p-4 bg-orange-500">
+    <div className="flex flex-col  h-screen">
+      <aside className="p-4 bg-black ">
         <AdminSidebar />
       </aside>
       <main className="flex-1 ">{children}</main>

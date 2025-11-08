@@ -16,7 +16,7 @@ async function getCategories(): Promise<Category[]> {
 export default async function CategoriesPage() {
   const categories = await getCategories();
   return (
-    <div className=" bg-slate-800 text-white p-4 min-h-full text-sm">
+    <div className=" bg-black min-h-screen text-white p-4 min-h-full text-sm">
       <div className="flex flex-col items-center gap-6">
         <h1 className="text-center border-b-4 border-orange-500 text-2xl font-bold pb-2 mb-12">
           Categories

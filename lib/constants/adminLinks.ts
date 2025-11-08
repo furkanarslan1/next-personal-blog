@@ -16,14 +16,10 @@ export const adminLinks: adminLinksType[] = [
 
   {
     name: "Movies",
-    href: "/admin/movies",
+    href: "/admin/myMovies",
   },
   {
     name: "Books",
     href: "/admin/books",
-  },
-  {
-    name: "Comments",
-    href: "/admin/comments",
   },
 ];

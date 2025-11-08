@@ -46,7 +46,7 @@ export default function MovieSection({
     if (loading || !hasMore) return;
 
     setLoading(true);
-    // @ts-ignore
+
     const result = await getPaginatedMovies({
       skip: skip,
       take: PAGE_SIZE,

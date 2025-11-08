@@ -17,6 +17,24 @@ export default function MyMovies() {
         >
           Delete a movie
         </Link>
+        <Link
+          href="/admin/myMovies/edit"
+          className="p-4 bg-orange-500  rounded-md hover:bg-white transition-all duration-300 cursor-pointer font-bold hover:text-orange-500"
+        >
+          Edit a movie
+        </Link>
+        <Link
+          href="/admin/myMovies/movieofweek"
+          className="p-4 bg-orange-500  rounded-md hover:bg-white transition-all duration-300 cursor-pointer font-bold hover:text-orange-500"
+        >
+          Movie of week
+        </Link>
+        <Link
+          href="/admin/myMovies/updateStatus"
+          className="p-4 bg-orange-500  rounded-md hover:bg-white transition-all duration-300 cursor-pointer font-bold hover:text-orange-500"
+        >
+          Update Movie Status
+        </Link>
       </div>
     </div>
   );

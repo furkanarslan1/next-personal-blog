@@ -38,7 +38,7 @@ export default function DeleteUserButton({ id }: DeleteUserProps) {
         onClick={handleDelete}
         disabled={isDeleting}
         title="Delete blog"
-        className="hover:scale-110 transition-all cursor-pointer duration-300 text-slate-800 hover:text-white "
+        className="hover:scale-110 transition-all cursor-pointer duration-300 text-white hover:text-orange-500 "
       >
         {isDeleting ? "..." : <FaTrashCan className="text-2xl" />}
       </button>
