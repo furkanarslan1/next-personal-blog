@@ -13,7 +13,7 @@ interface FooterProps {
 }
 export default function Footer({ categories }: FooterProps) {
   return (
-    <div className="p-6 bg-slate-800 pb-24 md:pb-6">
+    <div className="p-6 bg-slate-800 pb-24 md:pb-6 pt-">
       <div className="flex flex-col md:flex-row items-center md:items-start  gap-4 justify-around">
         <div className="flex flex-col items-center gap-2 ">
           <Link href="/" className="flex items-center gap-2 ">

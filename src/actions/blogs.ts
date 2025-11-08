@@ -200,18 +200,47 @@ export async function deleteBlogAction(blogId: string): Promise<FormState> {
   }
 }
 
+const BLOGS_PER_PAGE = 10;
+
+type BlogPostWithCategoryAndCounts = Prisma.PostGetPayload<{
+  include: {
+    category: true;
+    _count: {
+      select: {
+        likes: true;
+        comments: true;
+      };
+    };
+  };
+}>;
+
+interface PaginatedBlogsResult {
+  blogs: BlogPostWithCategoryAndCounts[];
+  totalPages: number;
+}
+
 // **************************** GET BLOG HOME PAGE  **********************************************************************************************************
 
-export async function getBlogsByCategoryAction(categorySlug?: string) {
+export async function getBlogsByCategoryAction(
+  categorySlug?: string,
+  page: number = 1
+): Promise<PaginatedBlogsResult> {
   try {
     const whereClause = categorySlug
-      ? { category: { slug: categorySlug } }
-      : {};
+      ? { category: { slug: categorySlug }, isPublished: true }
+      : { isPublished: true };
+
+    const totalCount = await prisma.post.count({ where: whereClause });
+
+    const totalPages = Math.ceil(totalCount / BLOGS_PER_PAGE);
+
+    const skipCount = (page - 1) * BLOGS_PER_PAGE;
 
     const blogs = await prisma.post.findMany({
       where: whereClause,
       orderBy: { createdAt: "desc" },
-      take: 10,
+      skip: skipCount,
+      take: BLOGS_PER_PAGE,
       include: {
         category: true,
         _count: {
@@ -222,38 +251,38 @@ export async function getBlogsByCategoryAction(categorySlug?: string) {
         },
       },
     });
-    return blogs;
+    return { blogs, totalPages };
   } catch (error) {
     console.error("Blog fetch error:", error);
-    return [];
+    return { blogs: [], totalPages: 0 };
   }
 }
 
 // **************************** GET BLOG  PAGE  **********************************************************************************************************
 
-export async function getBlogsPageByCategoryAction(categorySlug?: string) {
-  try {
-    const whereClause = categorySlug
-      ? { category: { slug: categorySlug } }
-      : {};
+// export async function getBlogsPageByCategoryAction(categorySlug?: string) {
+//   try {
+//     const whereClause = categorySlug
+//       ? { category: { slug: categorySlug } }
+//       : {};
 
-    const blogs = await prisma.post.findMany({
-      where: whereClause,
-      orderBy: { createdAt: "desc" },
-      take: 20,
-      include: {
-        category: true,
-        _count: {
-          select: {
-            likes: true,
-            comments: true,
-          },
-        },
-      },
-    });
-    return blogs;
-  } catch (error) {
-    console.error("Blog fetch error:", error);
-    return [];
-  }
-}
+//     const blogs = await prisma.post.findMany({
+//       where: whereClause,
+//       orderBy: { createdAt: "desc" },
+//       take: 20,
+//       include: {
+//         category: true,
+//         _count: {
+//           select: {
+//             likes: true,
+//             comments: true,
+//           },
+//         },
+//       },
+//     });
+//     return blogs;
+//   } catch (error) {
+//     console.error("Blog fetch error:", error);
+//     return [];
+//   }
+// }

@@ -60,7 +60,9 @@ export default async function BlogDetailPage({
       ? blog.keywords
       : [];
 
-  const categoryByBlogs = await getBlogsByCategoryAction(categorySlug);
+  const { blogs: categoryByBlogs } = await getBlogsByCategoryAction(
+    categorySlug
+  );
   const comments = await getCommentByPostIdAction(blog.id);
 
   const session = await auth();

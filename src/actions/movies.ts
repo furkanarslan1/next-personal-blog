@@ -4,7 +4,6 @@ import { auth } from "@/auth";
 import { movieFormSchema } from "@/schemas/movieFormSchema";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 import slugify from "slugify";
 

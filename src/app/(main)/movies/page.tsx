@@ -15,28 +15,28 @@ interface allMoviesType {
   slug: string;
 }
 
-async function getMovies(): Promise<allMoviesType[]> {
-  try {
-    const allMovies = await prisma.movie.findMany({
-      select: {
-        id: true,
-        title: true,
-        posterUrl: true,
-        rating: true,
-        status: true,
-        genres: true,
-        slug: true,
-        _count: { select: { likes: true } },
-      },
-      orderBy: { createdAt: "desc" },
-    });
+// async function getMovies(): Promise<allMoviesType[]> {
+//   try {
+//     const allMovies = await prisma.movie.findMany({
+//       select: {
+//         id: true,
+//         title: true,
+//         posterUrl: true,
+//         rating: true,
+//         status: true,
+//         genres: true,
+//         slug: true,
+//         _count: { select: { likes: true } },
+//       },
+//       orderBy: { createdAt: "desc" },
+//     });
 
-    return allMovies;
-  } catch (error) {
-    console.error("Failed to fetch movies:", error);
-    return [];
-  }
-}
+//     return allMovies;
+//   } catch (error) {
+//     console.error("Failed to fetch movies:", error);
+//     return [];
+//   }
+// }
 
 async function getWeeklyMovie() {
   const weeklyMovieSetting = await prisma.setting.findUnique({
@@ -57,16 +57,50 @@ async function getWeeklyMovie() {
 
   return weeklyMovie;
 }
+const PAGE_SIZE = 12;
+export default async function Movies({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const page = searchParams.page ? parseInt(searchParams.page as string) : 1;
+  const currentPage = Math.max(1, page);
 
-export default async function Movies() {
+  const rawCategory = searchParams.category;
+  const selectedCategory = Array.isArray(rawCategory)
+    ? rawCategory[0] || undefined
+    : rawCategory || undefined;
+
+  const whereClause = selectedCategory
+    ? { genres: { has: selectedCategory } }
+    : {};
+
+  const totalMoviesCount = await prisma.movie.count({ where: whereClause });
+  const totalPages = Math.ceil(totalMoviesCount / PAGE_SIZE);
+
   const NEON_TITLE_CLASS =
     "text-orange-500 font-extrabold text-2xl md:text-3xl drop-shadow-[0_0_8px_rgba(251,146,60,0.8)] transition duration-300";
-  const movies = await getMovies();
+  const movies = await prisma.movie.findMany({
+    where: whereClause,
+    select: {
+      id: true,
+      title: true,
+      posterUrl: true,
+      rating: true,
+      status: true,
+      genres: true,
+      slug: true,
+      _count: { select: { likes: true, comments: true } },
+    },
+    orderBy: { createdAt: "desc" },
+    take: PAGE_SIZE,
+    skip: (currentPage - 1) * PAGE_SIZE,
+  });
   const weeklyMovieData = await getWeeklyMovie();
 
   const uniqueGenres = movieCategories;
   return (
-    <div className="bg-black p-4">
+    <div className="bg-black min-h-screen p-4">
       <Trailer movie={weeklyMovieData} />
       <section className="space-y-12">
         <div>
@@ -84,8 +118,13 @@ export default async function Movies() {
 
         <div>
           <h5 className={`mb-4 ${NEON_TITLE_CLASS}`}>Movies by Genre</h5>
-
-          <MoviesByCategory movies={movies} uniqueGenres={uniqueGenres} />
+          <MoviesByCategory
+            movies={movies}
+            uniqueGenres={uniqueGenres}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            selectedCategory={selectedCategory}
+          />
         </div>
       </section>
     </div>

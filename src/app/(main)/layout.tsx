@@ -35,7 +35,7 @@ export default async function MainLayout({
       <header className="absolute top-0 left-0 w-full z-30">
         <Header session={session} categories={categories} />
       </header>
-      <main className="">{children}</main>
+      <main className="pb-12">{children}</main>
       <footer>
         <Footer categories={categories} />
       </footer>

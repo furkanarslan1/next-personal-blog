@@ -7,13 +7,20 @@ import Image from "next/image";
 export default async function BlogsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string }>;
+  searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const categories = await prisma.category.findMany({
     orderBy: { name: "asc" },
   });
-  const { category } = await searchParams;
-  const selectedCategory = category || null;
+
+  const rawCategory = searchParams.category;
+  const selectedCategory = Array.isArray(rawCategory)
+    ? rawCategory[0] || null
+    : rawCategory || null;
+
+  const page = searchParams.page ? parseInt(searchParams.page as string) : 1;
+  const currentPage = Math.max(1, page);
+
   return (
     <div>
       <div className=" h-56 md:h-96 relative flex items-center justify-center p-4">
@@ -30,7 +37,10 @@ export default async function BlogsPage({
       </div>
       <div>
         <BlogsCategoryClient categories={categories} />
-        <BlogItems categorySlug={selectedCategory || undefined} />
+        <BlogItems
+          categorySlug={selectedCategory || undefined}
+          currentPage={currentPage}
+        />
       </div>
     </div>
   );
