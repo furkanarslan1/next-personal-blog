@@ -4,6 +4,7 @@ import Header from "../components/header/Header";
 import React from "react";
 import { prisma } from "@lib/prisma";
 import MobileNavbar from "../components/MobileNavbar";
+import Footer from "../components/Footer";
 
 interface CategoriesType {
   slug: string;
@@ -35,7 +36,9 @@ export default async function MainLayout({
         <Header session={session} categories={categories} />
       </header>
       <main className="">{children}</main>
-      <footer></footer>
+      <footer>
+        <Footer categories={categories} />
+      </footer>
       <div className="md:hidden">
         <MobileNavbar />
       </div>

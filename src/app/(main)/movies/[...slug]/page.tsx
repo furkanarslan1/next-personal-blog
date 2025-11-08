@@ -52,12 +52,14 @@ export default async function MoviesPage({ params }: MovieDetailProps) {
   const isLiked = movie.likes.some((like) => like.userId === userId);
 
   return (
-    <div
-      className="p-4 min-h-screen relative bg-cover  bg-center"
-      style={{
-        backgroundImage: `url('${movie.posterUrl}')`,
-      }}
-    >
+    <div className="p-4 min-h-screen relative ">
+      <Image
+        src={movie.posterUrl || "/personal_blog_hero.webp"}
+        alt="book_detail_image"
+        fill
+        className="object-cover object-center"
+        priority
+      />
       <span className="absolute inset-0 bg-black/80 z-0"></span>
       <div className="mt-16 p-6 text-white z-10 relative">
         <div className="flex flex-col md:flex-row items-center md:items-start gap-6">

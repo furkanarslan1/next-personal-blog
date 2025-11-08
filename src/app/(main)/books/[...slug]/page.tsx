@@ -56,6 +56,7 @@ export default async function BookDetailPage({ params }: BookDetailProps) {
         alt="book_detail_image"
         fill
         className="object-cover object-center"
+        priority
       />
       <div className="pt-16">
         <div className="p-8 text-white z-10 relative">
