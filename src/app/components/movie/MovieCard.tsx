@@ -164,7 +164,7 @@ export default function MovieCard({
               </div>
 
               <div className="p-4 text-orange-500 w-full transition-all duration-300 ">
-                <div className="flex items-center justify-between w-48 ">
+                <div className="flex items-center justify-center gap-6 w-full ">
                   <h3 className="font-bold ">
                     {movie.title && movie.title.length > 20
                       ? movie.title.slice(0, 20)
