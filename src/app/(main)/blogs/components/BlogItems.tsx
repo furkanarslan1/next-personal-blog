@@ -36,7 +36,7 @@ export default async function BlogItems({
 
   const createPageLink = (page: number) => {
     const basePath = "/blogs";
-    let queryParts = [];
+    const queryParts = [];
 
     if (categorySlug) {
       queryParts.push(`category=${categorySlug}`);

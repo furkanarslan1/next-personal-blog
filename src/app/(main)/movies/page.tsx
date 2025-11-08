@@ -61,15 +61,26 @@ const PAGE_SIZE = 12;
 export default async function Movies({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const page = searchParams.page ? parseInt(searchParams.page as string) : 1;
+  const resolvedSearchParams = await searchParams;
+  const page = resolvedSearchParams.page
+    ? parseInt(resolvedSearchParams.page as string)
+    : 1;
   const currentPage = Math.max(1, page);
 
-  const rawCategory = searchParams.category;
-  const selectedCategory = Array.isArray(rawCategory)
+  const rawCategory = resolvedSearchParams.category;
+  const DEFAULT_CATEGORY = "Action";
+
+  const urlCategory = Array.isArray(rawCategory)
     ? rawCategory[0] || undefined
     : rawCategory || undefined;
+
+  const selectedCategory = urlCategory ?? DEFAULT_CATEGORY;
+
+  // const selectedCategory = Array.isArray(rawCategory)
+  //   ? rawCategory[0] || undefined
+  //   : rawCategory || undefined;
 
   const whereClause = selectedCategory
     ? { genres: { has: selectedCategory } }
@@ -100,7 +111,7 @@ export default async function Movies({
 
   const uniqueGenres = movieCategories;
   return (
-    <div className="bg-black min-h-screen p-4">
+    <div className="bg-black min-h-full pb-12 p-4">
       <Trailer movie={weeklyMovieData} />
       <section className="space-y-12">
         <div>

@@ -438,3 +438,55 @@ export async function getRandomMovieData(): Promise<RandomMovieData | null> {
 
 //   redirect(`/movies/${slugs.categorySlug}/${slugs.movieSlug}`);
 // }
+
+// ************************** GET MOVIES ********************************************************
+
+interface allMoviesType {
+  id: string;
+  title: string;
+  posterUrl: string | null;
+  rating: number | null;
+  status: "WATCHED" | "PLAN_TO_WATCH";
+  genres: string[];
+  slug: string;
+}
+
+const PAGE_SIZE = 12;
+
+interface GetMoviesParams {
+  skip: number;
+  take: number;
+  statusFilter?: "WATCHED" | "PLAN_TO_WATCH";
+}
+
+export async function getPaginatedMovies({
+  skip = 0,
+  take = PAGE_SIZE,
+  statusFilter,
+}: GetMoviesParams): Promise<{ movies: allMoviesType[]; hasMore: boolean }> {
+  try {
+    const allMovies = await prisma.movie.findMany({
+      where: statusFilter ? { status: statusFilter } : {},
+      select: {
+        id: true,
+        title: true,
+        posterUrl: true,
+        rating: true,
+        status: true,
+        genres: true,
+        slug: true,
+      },
+      orderBy: { createdAt: "desc" },
+      skip: skip,
+      take: take + 1,
+    });
+
+    const hasMore = allMovies.length > take;
+    const movies = allMovies.slice(0, take);
+
+    return { movies, hasMore };
+  } catch (error) {
+    console.error("Failed to fetch paginated movies:", error);
+    return { movies: [], hasMore: false };
+  }
+}

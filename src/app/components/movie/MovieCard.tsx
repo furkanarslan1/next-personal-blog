@@ -29,12 +29,18 @@ interface MovieCardProps {
   movies: MovieType[];
   filter?: "WATCHED" | "PLAN_TO_WATCH" | "ALL" | string;
   navPrefix: string;
+  onReachEnd?: () => void;
+  hasMore?: boolean;
+  loading?: boolean;
 }
 
 export default function MovieCard({
   movies,
   filter = "ALL",
   navPrefix,
+  onReachEnd,
+  hasMore,
+  loading,
 }: MovieCardProps) {
   const normalizedFilter = filter.toLowerCase();
   const nextElClass = `swiper-button-next-${navPrefix}`;
@@ -97,6 +103,11 @@ export default function MovieCard({
         slidesPerView={"auto"} //It allows multiple cards to be visible at the same time.
         grabCursor={true} //for mouse effect
         className="overflow-hidden"
+        onReachEnd={() => {
+          if (onReachEnd && hasMore && !loading) {
+            onReachEnd();
+          }
+        }}
       >
         {filteredMovies?.map((movie) => (
           <SwiperSlide
@@ -185,6 +196,13 @@ export default function MovieCard({
             </Link>
           </SwiperSlide>
         ))}
+        {loading && (
+          <SwiperSlide className="!w-[240px] sm:!w-[280px] md:!w-[320px] h-56 flex items-center justify-center">
+            <div className="text-orange-500 font-bold p-8 bg-gray-900 rounded-lg h-full w-full flex items-center justify-center">
+              Loading...
+            </div>
+          </SwiperSlide>
+        )}
       </Swiper>
     </div>
   );
