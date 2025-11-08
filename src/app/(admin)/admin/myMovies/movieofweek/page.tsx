@@ -35,7 +35,7 @@ export default async function Movieofweek() {
             <h2 className="font-bold">{movie.title}</h2>
             <div className="relative h-56 w-full">
               <Image
-                src={movie.posterUrl || "/personal-blog-hero.jpg"}
+                src={movie.posterUrl || "/personal-blog-hero.webp"}
                 alt={movie.title}
                 fill
               />

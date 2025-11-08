@@ -54,7 +54,7 @@ export default function HorizontalSlider({
             >
               <div className="relative h-56">
                 <Image
-                  src={slider.imageUrl || "/personal-blog-hero.jpg"}
+                  src={slider.imageUrl || "/personal-blog-hero.webp"}
                   alt={slider.title || "post image"}
                   fill
                   className="object-contain object-top "

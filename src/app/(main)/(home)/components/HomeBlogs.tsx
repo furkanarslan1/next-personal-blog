@@ -31,7 +31,7 @@ export default async function HomeBlogs({
         >
           <div className="relative h-64  rounded-md ">
             <Image
-              src={blog.imageUrl || "/personal-blog-hero.jpg"}
+              src={blog.imageUrl || "/personal-blog-hero.webp"}
               alt={blog.title || "post image"}
               fill
               className="object-cover object-top  rounded-md"

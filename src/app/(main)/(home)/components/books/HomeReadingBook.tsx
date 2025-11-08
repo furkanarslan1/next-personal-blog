@@ -26,7 +26,7 @@ export default async function HomeReadingBook() {
 
   if (!readingBook) {
     return (
-      <div className="bg-[url('/blog_bg.jpg')] bg-contain bg-center p-6 text-center text-white/80 h-64 flex flex-col justify-center items-start rounded-lg shadow-lg max-w-7xl mx-auto">
+      <div className="bg-[url('/blog_bg.webp')] bg-contain bg-center p-6 text-center text-white/80 h-64 flex flex-col justify-center items-start rounded-lg shadow-lg max-w-7xl mx-auto">
         <p className="text-xl text-white font-semibold mb-2">
           Currently Reading
         </p>
@@ -46,7 +46,7 @@ export default async function HomeReadingBook() {
         >
           <div className="relative h-52 md:h-72 w-54">
             <Image
-              src={readingBook.coverImageUrl || "/personal-hero-blog.jpg"}
+              src={readingBook.coverImageUrl || "/personal-hero-blog.webp"}
               alt={readingBook.title}
               className="object-contain object-center"
               fill

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import Image from "next/image";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,8 +27,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[url('/bg_new.jpg')] bg-contain `}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[url('/bg_new.webp')] bg-contain `}
       >
+        <Image
+          src="/bg_new.webp"
+          alt="Web Site background"
+          fill
+          priority
+          sizes="100vw"
+          className="fixed inset-0 object-cover w-full h-full -z-10"
+        />
         <main>
           {children}
           <Toaster position="bottom-right" />

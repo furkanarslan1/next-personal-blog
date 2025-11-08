@@ -4,10 +4,18 @@ import React from "react";
 import { FaArrowCircleRight } from "react-icons/fa";
 import { socialLinks } from "@lib/constants/social";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function Hero() {
   return (
-    <div className="relative bg-[url('/personal-blog-hero.jpg')] bg-cover bg-center  h-[400px] md:h-[550px] lg:h-[700px] p-4">
+    <div className="relative   h-[400px] md:h-[550px] lg:h-[700px] p-4">
+      <Image
+        src="/personal-blog-hero.webp"
+        alt="hero_image"
+        fill
+        priority
+        className="object-cover object-center"
+      />
       <span className="absolute top-0 left-0 h-28 w-full bg-gradient-to-t from-transparent to-black"></span>
       <div className="absolute right-8 top-1/2 -translate-y-1/2 md:px-12 ">
         <div className="flex flex-col gap-4  text-2xl md:text-6xl ">

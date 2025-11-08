@@ -19,7 +19,7 @@ export default async function BlogItems({
     );
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6  p-6 bg-[url('/blog_pattern_2.jpg')] bg-contain bg-center">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6  p-6 bg-[url('/blog_pattern_2.webp')] bg-contain bg-center">
       {blogs.map((blog) => (
         // <Link
         //   key={blog.id}
@@ -27,7 +27,7 @@ export default async function BlogItems({
         //   className="relative h-56 flex flex-col justify-end gap-2 border-4 border-orange-500 rounded-md bg-slate-800 text-white"
         // >
         //   <Image
-        //     src={blog.imageUrl || "/personal-blog-hero.jpg"}
+        //     src={blog.imageUrl || "/personal-blog-hero.webp"}
         //     alt={blog.title || "post image"}
         //     fill
         //     className="object-cover object-top "
@@ -61,7 +61,7 @@ export default async function BlogItems({
         >
           <div className="relative h-64  rounded-md ">
             <Image
-              src={blog.imageUrl || "/personal-blog-hero.jpg"}
+              src={blog.imageUrl || "/personal-blog-hero.webp"}
               alt={blog.title || "post image"}
               fill
               className="object-cover object-top  rounded-md"

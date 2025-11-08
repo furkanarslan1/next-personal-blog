@@ -50,13 +50,19 @@ export default async function BookDetailPage({ params }: BookDetailProps) {
   const isLiked = book.likes.some((like) => like.userId === userId);
 
   return (
-    <div className="bg-[url('/blog_bg.jpg')] min-h-screen">
+    <div className="relative min-h-screen">
+      <Image
+        src="/blog_bg.webp"
+        alt="book_detail_image"
+        fill
+        className="object-cover object-center"
+      />
       <div className="pt-16">
         <div className="p-8 text-white z-10 relative">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
             <div className="relative h-96 w-full md:h-96 md:w-[2300px] rounded-md">
               <Image
-                src={book.coverImageUrl || "/personal-blog-hero.jpg"}
+                src={book.coverImageUrl || "/personal-blog-hero.webp"}
                 alt={book.title}
                 fill
                 className="object-contain object-center rounded-md"

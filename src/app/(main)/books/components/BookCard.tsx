@@ -38,7 +38,7 @@ export default function BookCard({ books }: BooksByCategoryProps) {
           >
             <div className="relative h-56 flex flex-col justify-end   bg-transparent text-white">
               <Image
-                src={book.coverImageUrl || "/personal-blog-hero.jpg"}
+                src={book.coverImageUrl || "/personal-blog-hero.webp"}
                 alt={book.title || "post image"}
                 fill
                 className="object-cover object-top p-4 "

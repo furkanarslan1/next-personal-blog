@@ -41,7 +41,7 @@ async function getMovies(): Promise<allMoviesType[]> {
 export default async function HomeMovies() {
   const movies = await getMovies();
   return (
-    // <div className="bg-[url('/cinema_bg_4.jpg')] bg-contain md:rounded-md p-4 max-w-7xl mx-auto">
+    // <div className="bg-[url('/cinema_bg_4.webp')] bg-contain md:rounded-md p-4 max-w-7xl mx-auto">
     <div className=" md:rounded-md p-4 max-w-7xl mx-auto">
       <section className="space-y-12">
         <div>

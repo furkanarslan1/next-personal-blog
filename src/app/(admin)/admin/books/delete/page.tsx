@@ -36,7 +36,7 @@ export default async function DeleteBookPage() {
             <h2 className="font-bold">{book.title}</h2>
             <div className="relative h-56 w-56">
               <Image
-                src={book.coverImageUrl || "/personal-blog-hero.jpg"}
+                src={book.coverImageUrl || "/personal-blog-hero.webp"}
                 alt={book.title}
                 fill
               />

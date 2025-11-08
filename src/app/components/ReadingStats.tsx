@@ -1,6 +1,7 @@
 import { getYearlyReadingStats } from "@/actions/books";
 import React from "react";
 import { ProgressCircle } from "./ProgressCircle";
+import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
@@ -23,8 +24,14 @@ export default async function ReadingStats({ year }: { year?: number }) {
 
   return (
     <div
-      className={` bg-[url('/reading_bg.jpg')] bg-contain p-6  shadow-2xl text-white max-w-7xl mx-auto md:rounded-md relative`}
+      className={`  p-6  shadow-2xl text-white max-w-7xl mx-auto md:rounded-md relative`}
     >
+      <Image
+        src="/reading_bg.webp"
+        alt="reading_states_image"
+        fill
+        className="object-cover object-center   "
+      />
       <div className="absolute inset-0 bg-black/50 "></div>
       <h2 className="text-3xl font-extrabold mb-6 text-slate-100 border-b-2 border-slate-800 pb-2 text-center relative z-10 ">
         Reading Goals and Progress ({currentYear})

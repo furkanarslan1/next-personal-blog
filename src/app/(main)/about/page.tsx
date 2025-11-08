@@ -5,7 +5,13 @@ import HomeBanner from "../(home)/components/HomeBanner";
 export default function About() {
   return (
     <div className="h-min-screen">
-      <div className="relative bg-[url('/who_bg.jpg')] bg-cover bg-center  h-[400px] md:h-[550px] lg:h-[700px] p-4">
+      <div className="relative  h-[400px] md:h-[550px] lg:h-[700px] p-4">
+        <Image
+          src="/who_bg.webp"
+          alt="about_detail_image"
+          fill
+          className="object-cover object-center"
+        />
         <span className="absolute inset-0 h-full w-full bg-gradient-to-t from-transparent to-black/80"></span>
         <h1 className="text-center font-bold text-slate-300 text-xl md:text-4xl pt-16 relative ">
           Welcome My Personal Web Site
@@ -24,7 +30,7 @@ export default function About() {
         <div className="flex flex-col md:flex-row md:items-start items-center gap-4 mt-6 ">
           <div className="relative md:h-96 h-56 w-full md:w-full ">
             <Image
-              src="/who_bg_3.jpg"
+              src="/who_bg_3.webp"
               alt="who_i_am_page_bg_2"
               className="object-cover object-center rounded-2xl "
               fill
@@ -57,7 +63,7 @@ export default function About() {
           </div>
           <div className="relative md:h-96 h-56 w-full order-1 md:order-2">
             <Image
-              src="/who_bg_2.jpg"
+              src="/who_bg_2.webp"
               alt="who_i_am_page_bg_2"
               className="object-cover object-center rounded-2xl"
               fill
@@ -67,7 +73,7 @@ export default function About() {
         <div className="flex flex-col md:flex-row md:items-start items-center gap-4 mt-6 ">
           <div className="relative md:h-96 h-56 w-full rounded-full">
             <Image
-              src="/who_bg_5.jpg"
+              src="/who_bg_5.webp"
               alt="who_i_am_page_bg_4"
               className="object-cover object-top rounded-2xl"
               fill

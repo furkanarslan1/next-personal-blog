@@ -113,7 +113,7 @@ export default function BookSliderCard({
               <div className="flex flex-col gap-2 items-center  py-4">
                 <div className=" relative  h-30 w-full rounded-xl overflow-hidden group cursor-pointer ">
                   <Image
-                    src={book.coverImageUrl || "/personal-blog-hero.jpg"}
+                    src={book.coverImageUrl || "/personal-blog-hero.webp"}
                     alt={book.title || "post image"}
                     fill
                     className="object-contain object-center group-hover:scale-105 transition-transform duration-600"

@@ -41,7 +41,7 @@ export default function RandomMovieContent({
 
   const detailUrl = `/movies/${currentMovie.categorySlug}/${currentMovie.movieSlug}`;
   return (
-    // <div className="bg-[url('/random_movie_pattern.jpg')] h-full bg-contain bg-center md:rounded-md">
+    // <div className="bg-[url('/random_movie_pattern.webp')] h-full bg-contain bg-center md:rounded-md">
     <div className=" h-full  md:rounded-md">
       <div className="flex flex-col items-center p-4 bg-transparent   text-white max-w-sm mx-auto shadow-2xl">
         <h2 className="text-xl font-bold mb-4 text-center text-slate-800">
@@ -51,7 +51,7 @@ export default function RandomMovieContent({
         <Link href={detailUrl} className="   flex flex-col items-center">
           <div className="relative w-40 h-60 mb-3 mx-auto shadow-xl rounded-lg overflow-hidden border-2 border-orange-500">
             <Image
-              src={currentMovie.posterUrl || "/default-movie-cover.jpg"}
+              src={currentMovie.posterUrl || "/default-movie-cover.webp"}
               alt={currentMovie.title}
               fill
               className="object-cover"

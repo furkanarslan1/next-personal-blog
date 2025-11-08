@@ -63,7 +63,7 @@ export default async function MoviesPage({ params }: MovieDetailProps) {
         <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
           <div className="relative h-96 w-full md:h-96 md:w-96">
             <Image
-              src={movie.posterUrl || "/personal-blog-hero.jpg"}
+              src={movie.posterUrl || "/personal-blog-hero.webp"}
               alt={movie.title}
               fill
               className="object-cover object-center"

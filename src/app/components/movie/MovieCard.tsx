@@ -114,7 +114,7 @@ export default function MovieCard({
               {/* <div className=" relative  h-80 w-full rounded-xl overflow-hidden group cursor-pointer "> */}
               {/* <div className=" relative  h-80 w-52 rounded-xl overflow-hidden group cursor-pointer ">
                 <Image
-                  src={movie.posterUrl || "/personal-blog-hero.jpg"}
+                  src={movie.posterUrl || "/personal-blog-hero.webp"}
                   alt={movie.title || "post image"}
                   fill
                   className="object-cover object-center group-hover:scale-105 transition-transform duration-600"
@@ -149,7 +149,7 @@ export default function MovieCard({
 
               <div className=" relative  h-72 w-42 md:w-52  rounded-xl overflow-hidden group cursor-pointer ">
                 <Image
-                  src={movie.posterUrl || "/personal-blog-hero.jpg"}
+                  src={movie.posterUrl || "/personal-blog-hero.webp"}
                   alt={movie.title || "post image"}
                   fill
                   className="object-cover object-center group-hover:scale-105 transition-transform duration-600"

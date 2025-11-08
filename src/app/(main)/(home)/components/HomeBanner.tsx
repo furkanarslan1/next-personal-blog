@@ -1,10 +1,17 @@
 import { socialLinks } from "@lib/constants/social";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 export default function HomeBanner() {
   return (
-    <div className=" relative h-[500px] bg-[url('/home_banner.jpg')] bg-cover bg-center max-w-7xl mx-auto md:rounded-md overflow-hidden">
+    <div className=" relative h-[500px]  max-w-7xl mx-auto md:rounded-md overflow-hidden">
+      <Image
+        src="/home_banner.webp"
+        alt="homebanner_iamge"
+        fill
+        className="object-cover object-center"
+      />
       <span className="absolute inset-0 bg-black/40 z-0"></span>
       <div className="relative z-10 p-4">
         <div className="flex flex-col items-center md:items-start gap-10">

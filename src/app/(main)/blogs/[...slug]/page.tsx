@@ -8,7 +8,7 @@ import BlogCommentForm from "../components/BlogCommentForm";
 import { auth } from "@/auth";
 import BlogComments from "../components/BlogComments";
 import { getCommentByPostIdAction } from "@/actions/comments";
-import { toggleLikeAction } from "@/actions/like";
+
 import LikeButton from "@/app/components/LikeButton";
 
 export default async function BlogDetailPage({
@@ -68,13 +68,19 @@ export default async function BlogDetailPage({
   const isLiked = blog.likes.some((like) => like.userId === userId);
 
   return (
-    <div className="bg-[url('/blog_bg.jpg')] bg-contain bg-center min-h-screen relative">
+    <div className="min-h-screen relative">
+      <Image
+        src="/blog_bg.webp"
+        alt="blog_detail_image"
+        fill
+        className="object-cover object-center"
+      />
       <span className="absolute top-0 left-0 h-16 bg-gradient-to-b from-black/80 to-black/10 "></span>
       <div className="pt-16 max-w-6xl mx-auto relative">
         <section className="flex flex-col items-center gap-6 p-6">
           <div className="relative  w-full h-96">
             <Image
-              src={blog.imageUrl || "/personal-blog-hero.jpg"}
+              src={blog.imageUrl || "/personal-blog-hero.webp"}
               alt={blog.title}
               className="object-cover object-center rounded-md"
               fill
