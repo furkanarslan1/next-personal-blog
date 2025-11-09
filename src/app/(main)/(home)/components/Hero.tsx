@@ -19,20 +19,25 @@ export default function Hero() {
       <span className="absolute top-0 left-0 h-28 w-full bg-gradient-to-t from-transparent to-black"></span>
       <div className="absolute right-8 top-1/2 -translate-y-1/2 md:px-12 ">
         <div className="flex flex-col gap-4  text-2xl md:text-6xl ">
-          <Link
+          {/* <Link
             href="/contact"
             className="border-4 border-orange-500 rounded-tl-2xl rounded-br-2xl rounded-tr-2xl w-fit p-4 hover:bg-orange-500  transition-all duration-400"
           >
-            <motion.div
-              initial={{ opacity: 0, x: 50 }} // başlangıç konumu
-              animate={{ opacity: 1, x: 0 }} // hedef konum
-              transition={{ duration: 0.8, ease: "easeOut" }} // geçiş ayarları
-              className="flex items-center gap-6"
-            >
+            <div className="flex items-center gap-6">
               <h3 className=" text-white">Contact Me</h3>
               <FaArrowCircleRight className="text-white text-md" />
-            </motion.div>
-          </Link>
+            </div>
+          </Link> */}
+          <a
+            href="mailto:furkanarslandev@gmail.com?subject=Hello%20Furkan&body=Hi%20Furkan,%20I%20found%20your%20blog%20and..."
+            className="border-4 border-orange-500 rounded-tl-2xl rounded-br-2xl rounded-tr-2xl w-fit p-4 hover:bg-orange-500  transition-all duration-400"
+          >
+            <div className="flex items-center gap-6">
+              <h3 className="text-white">Contact Me</h3>
+              <FaArrowCircleRight className="text-white text-md" />
+            </div>
+          </a>
+
           <Link
             href="/about"
             className="border-4 border-orange-500 rounded-tl-2xl rounded-bl-2xl rounded-tr-2xl w-fit p-4 hover:bg-orange-500  transition-all duration-400"

@@ -19,7 +19,7 @@ export default function About() {
 
         <div className="text-white  text-4xl absolute top-1/2 -translate-y-1/2">
           <h4 className="text-orange-500 font-extrabold text-2xl md:text-4xl">
-            Hi! I&apos;m Marry
+            Hi! I&apos;m Sarah
           </h4>
           <p className="text-slate-300 font-bold text-sm md:text-2xl mt-4">
             Are you ready to start getting to know me?

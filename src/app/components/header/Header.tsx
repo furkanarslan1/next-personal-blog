@@ -122,20 +122,6 @@ export default function Header({ session, categories }: HeaderProps) {
                 Who am I
               </Link>
             </li>
-            <li>
-              <Link
-                href="/contact"
-                className={clsx(
-                  "hover:text-orange-500 transition-colors duration-300 ",
-                  {
-                    "border-b-2 border-orange-500 text-orange-500":
-                      pathname === "/contact",
-                  }
-                )}
-              >
-                Contact Me
-              </Link>
-            </li>
           </ul>
         </div>
       </section>
@@ -152,19 +138,16 @@ export default function Header({ session, categories }: HeaderProps) {
           )}
           {session ? (
             <div className="flex items-center gap-4">
-              <Link
+              {/* <Link
                 href={`/account/${session.user?.id}`}
                 className="bg-white/10 px-4 py-3 rounded-md text-sm"
               >
-                {/* {session.user.name.length > 10
-                  ? session.user.name.slice(0, 10) + "..."
-                  : session.user.name} */}
                 {session?.user?.name
                   ? session.user.name.length > 10
                     ? session.user.name.slice(0, 10) + "..."
                     : session.user.name
                   : "User"}
-              </Link>
+              </Link> */}
               <button
                 onClick={() => signOut()}
                 className="px-4 py-2 bg-orange-500 rounded-md hover:bg-white/20 transition-all duration-300 cursor-pointer"
