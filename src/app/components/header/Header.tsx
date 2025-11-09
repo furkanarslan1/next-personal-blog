@@ -115,7 +115,7 @@ export default function Header({ session, categories }: HeaderProps) {
                   "hover:text-orange-500 transition-colors duration-300",
                   {
                     "border-b-2 border-orange-500 text-orange-500":
-                      pathname === "/movies",
+                      pathname === "/about",
                   }
                 )}
               >
@@ -129,7 +129,7 @@ export default function Header({ session, categories }: HeaderProps) {
                   "hover:text-orange-500 transition-colors duration-300 ",
                   {
                     "border-b-2 border-orange-500 text-orange-500":
-                      pathname === "/movies",
+                      pathname === "/contact",
                   }
                 )}
               >

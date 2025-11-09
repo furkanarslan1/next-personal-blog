@@ -4,6 +4,7 @@ import { prisma } from "@lib/prisma";
 import MovieCard from "@/app/components/movie/MovieCard";
 import MoviesByCategory from "./components/MoviesByCategory";
 import { movieCategories } from "@lib/constants/movieCategories";
+import MovieSection from "@/app/components/movie/MovieSection";
 
 interface allMoviesType {
   id: string;
@@ -44,37 +45,66 @@ interface allMoviesType {
 
 const PAGE_SIZE = 12;
 
-const watchedMovies = await prisma.movie.findMany({
-  where: { status: "WATCHED" },
-  select: {
-    id: true,
-    title: true,
-    posterUrl: true,
-    rating: true,
-    status: true,
-    genres: true,
-    slug: true,
-    _count: { select: { likes: true, comments: true } },
-  },
-  orderBy: { createdAt: "desc" },
-  take: PAGE_SIZE,
-});
+// const watchedMovies = await prisma.movie.findMany({
+//   where: { status: "WATCHED" },
+//   select: {
+//     id: true,
+//     title: true,
+//     posterUrl: true,
+//     rating: true,
+//     status: true,
+//     genres: true,
+//     slug: true,
+//     _count: { select: { likes: true, comments: true } },
+//   },
+//   orderBy: { createdAt: "desc" },
+//   take: PAGE_SIZE,
+// });
 
-const planToWatchMovies = await prisma.movie.findMany({
-  where: { status: "PLAN_TO_WATCH" },
-  select: {
-    id: true,
-    title: true,
-    posterUrl: true,
-    rating: true,
-    status: true,
-    genres: true,
-    slug: true,
-    _count: { select: { likes: true, comments: true } },
-  },
-  orderBy: { createdAt: "desc" },
-  take: PAGE_SIZE,
-});
+// const planToWatchMovies = await prisma.movie.findMany({
+//   where: { status: "PLAN_TO_WATCH" },
+//   select: {
+//     id: true,
+//     title: true,
+//     posterUrl: true,
+//     rating: true,
+//     status: true,
+//     genres: true,
+//     slug: true,
+//     _count: { select: { likes: true, comments: true } },
+//   },
+//   orderBy: { createdAt: "desc" },
+//   take: PAGE_SIZE,
+// });
+
+async function getInitialMovies(
+  statusFilter: "WATCHED" | "PLAN_TO_WATCH"
+): Promise<{ movies: allMoviesType[]; hasMore: boolean }> {
+  try {
+    const allMovies = await prisma.movie.findMany({
+      where: { status: statusFilter },
+      select: {
+        id: true,
+        title: true,
+        posterUrl: true,
+        rating: true,
+        status: true,
+        genres: true,
+        slug: true,
+      },
+      orderBy: { createdAt: "desc" },
+      take: PAGE_SIZE + 1,
+    });
+
+    const hasMore = allMovies.length > PAGE_SIZE;
+    const movies = allMovies.slice(0, PAGE_SIZE);
+
+    return { movies, hasMore };
+  } catch (error) {
+    console.error("Failed to fetch initial movies:", error);
+    return { movies: [], hasMore: false };
+  }
+}
 
 async function getWeeklyMovie() {
   const weeklyMovieSetting = await prisma.setting.findUnique({
@@ -101,6 +131,10 @@ export default async function Movies({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const [watchedData, planToWatchData] = await Promise.all([
+    getInitialMovies("WATCHED"),
+    getInitialMovies("PLAN_TO_WATCH"),
+  ]);
   const resolvedSearchParams = await searchParams;
   const page = resolvedSearchParams.page
     ? parseInt(resolvedSearchParams.page as string)
@@ -152,18 +186,29 @@ export default async function Movies({
     <div className="bg-black min-h-full pb-12 p-4">
       <Trailer movie={weeklyMovieData} />
       <section className="space-y-12">
-        <div>
+        {/* <div>
           <h5 className={`mb-4 ${NEON_TITLE_CLASS}`}>I Watched Movies</h5>
           <MovieCard movies={watchedMovies} filter="ALL" navPrefix="watched" />
         </div>
         <div>
           <h5 className={`mb-4 ${NEON_TITLE_CLASS}`}>Movies to Watch</h5>
           <MovieCard movies={planToWatchMovies} filter="ALL" navPrefix="plan" />
-        </div>
-        <div>
-          <h5 className={`mb-4 ${NEON_TITLE_CLASS}`}>Actions</h5>
-          <MovieCard movies={movies} filter="action" navPrefix="plan" />
-        </div>
+        </div> */}
+        <section className="space-y-12">
+          <MovieSection
+            initialMovies={watchedData.movies}
+            filterStatus="WATCHED"
+            title="I Watched Movies"
+            navPrefix="watched"
+          />
+
+          <MovieSection
+            initialMovies={planToWatchData.movies}
+            filterStatus="PLAN_TO_WATCH"
+            title="Movies to Watch"
+            navPrefix="plan"
+          />
+        </section>
 
         <div>
           <h5 className={`mb-4 ${NEON_TITLE_CLASS}`}>Movies by Genre</h5>

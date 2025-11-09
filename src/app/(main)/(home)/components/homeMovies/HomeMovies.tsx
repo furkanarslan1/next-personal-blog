@@ -1,6 +1,6 @@
 import { prisma } from "@lib/prisma";
 import React from "react";
-import MovieCard from "@/app/components/movie/MovieCard";
+
 import MovieSection from "@/app/components/movie/MovieSection";
 
 interface allMoviesType {
@@ -13,7 +13,6 @@ interface allMoviesType {
   slug: string;
 }
 
-type FilterPrefix = "watched" | "plan";
 const NEON_TITLE_CLASS =
   "text-slate-800 font-extrabold text-2xl md:text-3xl drop-shadow-[0_0_8px_rgba(251,146,60,0.8)] transition duration-300";
 
@@ -57,7 +56,7 @@ async function getInitialMovies(
         slug: true,
       },
       orderBy: { createdAt: "desc" },
-      take: PAGE_SIZE + 1, // Bir fazla çekerek hasMore kontrolü
+      take: PAGE_SIZE + 1,
     });
 
     const hasMore = allMovies.length > PAGE_SIZE;
