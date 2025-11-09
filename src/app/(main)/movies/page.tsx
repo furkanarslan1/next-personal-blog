@@ -13,6 +13,10 @@ interface allMoviesType {
   status: "WATCHED" | "PLAN_TO_WATCH";
   genres: string[];
   slug: string;
+  _count?: {
+    likes: number;
+    comments: number;
+  };
 }
 
 // async function getMovies(): Promise<allMoviesType[]> {
@@ -38,6 +42,40 @@ interface allMoviesType {
 //   }
 // }
 
+const PAGE_SIZE = 12;
+
+const watchedMovies = await prisma.movie.findMany({
+  where: { status: "WATCHED" },
+  select: {
+    id: true,
+    title: true,
+    posterUrl: true,
+    rating: true,
+    status: true,
+    genres: true,
+    slug: true,
+    _count: { select: { likes: true, comments: true } },
+  },
+  orderBy: { createdAt: "desc" },
+  take: PAGE_SIZE,
+});
+
+const planToWatchMovies = await prisma.movie.findMany({
+  where: { status: "PLAN_TO_WATCH" },
+  select: {
+    id: true,
+    title: true,
+    posterUrl: true,
+    rating: true,
+    status: true,
+    genres: true,
+    slug: true,
+    _count: { select: { likes: true, comments: true } },
+  },
+  orderBy: { createdAt: "desc" },
+  take: PAGE_SIZE,
+});
+
 async function getWeeklyMovie() {
   const weeklyMovieSetting = await prisma.setting.findUnique({
     where: { key: "weekly_movie_id" },
@@ -57,7 +95,7 @@ async function getWeeklyMovie() {
 
   return weeklyMovie;
 }
-const PAGE_SIZE = 12;
+
 export default async function Movies({
   searchParams,
 }: {
@@ -116,11 +154,11 @@ export default async function Movies({
       <section className="space-y-12">
         <div>
           <h5 className={`mb-4 ${NEON_TITLE_CLASS}`}>I Watched Movies</h5>
-          <MovieCard movies={movies} filter="WATCHED" navPrefix="watched" />
+          <MovieCard movies={watchedMovies} filter="ALL" navPrefix="watched" />
         </div>
         <div>
           <h5 className={`mb-4 ${NEON_TITLE_CLASS}`}>Movies to Watch</h5>
-          <MovieCard movies={movies} filter="PLAN_TO_WATCH" navPrefix="plan" />
+          <MovieCard movies={planToWatchMovies} filter="ALL" navPrefix="plan" />
         </div>
         <div>
           <h5 className={`mb-4 ${NEON_TITLE_CLASS}`}>Actions</h5>
